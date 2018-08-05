@@ -1,15 +1,22 @@
 body{
-	
+background-color: rgb(71,78,93);	
 }
-body .logo{
-	background-image: url(../images/technology.jpg);
-	color: blue;
+.logo{
+	<!--background-image: url(../images/Mark_IV_logo.png);-->
+	background-color: white;
 	text-align: center;
 	text-shadow: 3px 2px lightblue;
 	font-family: "Times New Roman", Times, serif;
 	font-size: 100px; 
 	height: 200px;
 	 
+}
+header{
+	background-color: white;
+}
+img{
+	align-content: center;
+	width: 50%;
 }
 body .search{
 	float: right;
@@ -20,6 +27,7 @@ body .search{
 body .navbar-header .project{
 	color: orange;
 }
+
 @media only screen and (max-width: 800px){
 	body .search{
 		margin-top: 0px;
