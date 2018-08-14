@@ -40,6 +40,8 @@
 		<div class="right">
 	
 		</div>	
+		
+		
 		<?php
 			
 			echo "This is where all our php goes!!!";
