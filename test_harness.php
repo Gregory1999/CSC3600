@@ -41,7 +41,7 @@
 	
 		</div>	
 		<?php
-			
+			# I have used php to call modules but in the final application JS Ajax async calls will be used to call modules and receive and display results- 
 			echo "This is where all our php goes!!!";
 			
 			
