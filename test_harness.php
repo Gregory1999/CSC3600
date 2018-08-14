@@ -39,10 +39,14 @@
 		</div>
 		<div class="right">
 	
-		</div>	
+		</div>
+	
+		<div class="container">
+	
+			
+			
 		<?php
 			# I have used php to call modules but in the final application JS Ajax async calls will be used to call modules and receive and display results- 
-			echo "This is where all our php goes!!!";
 			
 			
 			#if db does not exist create the db
@@ -52,47 +56,54 @@
 			else {
 				$db = new SQLite3('site.db');
 			}
-			
 				
-			
-			
 			#check for for directory path, if one does not exist then ask for user to select
-			"SELECT path FROM root_directory";
+			$query = "SELECT path, last_scan FROM root_directory";
 			$result= $db->query($query);
 			$row = $result->fetchArray(SQLITE3_ASSOC);
 			$root_path= $row["path"];
+			$last_scan = $row["last_scan"];
 			
 			#get root directory
 			if (!$root_path){
 				#this will contain the code to set root path
-				print "<H1> No root path</ H1>";
-				
-			#hard code root directory for testing- to be deleted
-			$query="INSERT INTO root_directory(path) VALUES ( './Test_Images' ) ";
-			$db->query($query);		
-				
+			
+				#initially sets the last scan time to force initial scan
+				$date = new DateTime('1970-01-01');
+							
+				#hard code root directory for testing- to be deleted
+				$query="INSERT INTO root_directory(path, last_scan) VALUES ( './Test_Images', '" . $date->format('d-m-Y H:i:s') . "' ) ";
+				$db->query($query);				
+			
+			
 			}
-			
-			
-			
-			
 			
 			#display sorted images
 			else {
-				print "<H1> Root path is: " . $root_path . " </ H1>";
 				
 				# scan file system script
-				include_once "./file_scanner.php";
+				include_once "./scripts/file_scanner.php";
 			
 			
 				#display images
+				
+				$query = "SELECT photo_path FROM photo";
+				$result= $db->query($query);
+				while( $row = $result->fetchArray(SQLITE3_ASSOC)) {
+					$photo_path= $row["photo_path"];
+					echo "<img src='$photo_path' class='img-thumbnail' >";
+				
+				}
+				
+				
+				
 			}
-			
 
 			
 			
-			
 		?>
+		
+		</div>
 	</div>
 
 
