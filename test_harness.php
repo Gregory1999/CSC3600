@@ -42,50 +42,45 @@
 		</div>
 	
 		<div class="container">
-	
+		<div class="jumbotron">
 			
 			
 		<?php
-			# I have used php to call modules but in the final application JS Ajax async calls will be used to call modules and receive and display results- 
+			//I have used php to call modules but in the final application JS Ajax async calls will be used to call modules and receive and display results- 
+			include_once "./scripts/db_setup.php";
 			
-			
-			#if db does not exist create the db
-			if (!file_exists('site.db')){
-				include_once "./scripts/db_setup.php";
-			}
-			else {
-				$db = new SQLite3('site.db');
-			}
 				
-			#check for for directory path, if one does not exist then ask for user to select
+			//check for for directory path, if one does not exist then ask for user to select
 			$query = "SELECT path, last_scan FROM root_directory";
 			$result= $db->query($query);
 			$row = $result->fetchArray(SQLITE3_ASSOC);
 			$root_path= $row["path"];
 			$last_scan = $row["last_scan"];
 			
-			#get root directory
+			//get root directory
 			if (!$root_path){
 				#this will contain the code to set root path
 			
-				#initially sets the last scan time to force initial scan
+				//initially sets the last scan time to force initial scan
 				$date = new DateTime('1970-01-01');
 							
-				#hard code root directory for testing- to be deleted
+				//hard code root directory for testing- to be deleted
 				$query="INSERT INTO root_directory(path, last_scan) VALUES ( './Test_Images', '" . $date->format('d-m-Y H:i:s') . "' ) ";
 				$db->query($query);				
 			
 			
 			}
 			
-			#display sorted images
+			//display sorted images
 			else {
 				
-				# scan file system script
+				// scan file system script
 				include_once "./scripts/file_scanner.php";
 			
 			
-				#display images
+				//display images
+				
+				//SELECT * FROM Table ORDER BY date(dateColumn) DESC Limit 1
 				
 				$query = "SELECT photo_path FROM photo";
 				$result= $db->query($query);
@@ -103,6 +98,7 @@
 			
 		?>
 		
+		</div>
 		</div>
 	</div>
 
