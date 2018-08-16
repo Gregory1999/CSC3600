@@ -13,7 +13,7 @@
 		$db->exec('CREATE TABLE photo
 				(photo_path STRING PRIMARY Key,
 				 date_created DATETIME,
-				 date_modified DATETIME)');
+				 deleted BOOLEAN)');
 
 
 	}
