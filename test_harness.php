@@ -79,10 +79,7 @@
 			
 			
 				//display images
-				
-				//SELECT * FROM Table ORDER BY date(dateColumn) DESC Limit 1
-				
-				$query = "SELECT photo_path FROM photo";
+				$query = "SELECT photo_path, date_created FROM photo ORDER BY date_created DESC";
 				$result= $db->query($query);
 				while( $row = $result->fetchArray(SQLITE3_ASSOC)) {
 					$photo_path= $row["photo_path"];
