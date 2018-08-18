@@ -43,7 +43,15 @@
 		
 		
 		<div class="container">
-		<div class="jumbotron" id="photos"></div>
+		<div class="jumbotron" id="photos">
+			<div class="preload">
+				
+				<div class="loader-frame">
+				</div>
+			
+			</div>
+		
+		</div>
 		</div>
 	</div>
 
