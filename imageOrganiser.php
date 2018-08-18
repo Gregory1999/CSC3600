@@ -56,44 +56,76 @@
 	</div>
 
 	<script>
-		
+
+
+
 
 		
 	var photos= document.getElementById('photos');
-	var script= "get_images.php";		
+	var script= "get_images.php";	
+	var script2= "get_directory.php";			
  	var xmlhr1 = new XMLHttpRequest();
 
 		
 	// This function will be used if the director is not set	-currently just loads photos from hard coded location
 	function loadDirectory() {
-		var xmlhr = new XMLHttpRequest();
-		xmlhr.onreadystatechange = function() {
+		var xmlhr1 = new XMLHttpRequest();
+		xmlhr1.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
-				photos.innerHTML =this.responseText;
+				
+				var response = this.response;
+				var output = "";
+				
+				
+				
+				for (var i = 0; i < response.imageArray.length; i++)  {
+					output += '<img src = "' + response.imageArray[i] + '"  class="img-thumbnail" /> \n';
+					
+				}
+				
+				photos.innerHTML= output;
 			}
 		};
-		xmlhr.open("GET", script, true);
-		xmlhr.send();
+		xmlhr1.open("GET", script, true);
+		xmlhr1.responseType = "json";
+		xmlhr1.send();
 	}
 			
 		
 		
-	//set up the function to insert the photos
+	//This will load all of the photos from the chosen directory
 	xmlhr1.onreadystatechange = function() {
 		if ((this.readyState == 4) && (this.status == 200)) {
-			photos.innerHTML =this.responseText;
-				
+
+			
+			var response = this.response;
+			
 			//call function to load directory
-			if (this.responseText == "no_directory" ) {
+			
+			if (response.root == 'NULL' ) {
 					
 					loadDirectory();
 					 
 			}	
+			else {
+				
+				var output = "";
+				
+				
+				
+				for (var i = 0; i < response.imageArray.length; i++)  {
+					output += '<img src = "' + response.imageArray[i] + '" class="img-thumbnail" /> \n';
+					
+				}
+				
+				photos.innerHTML= output;
+			}
 				
 		}
 	};
 		
 	xmlhr1.open("GET", script, true);
+	xmlhr1.responseType = "json";
 	xmlhr1.send();
  		 		
  	</script>	
