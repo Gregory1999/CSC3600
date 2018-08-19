@@ -3,47 +3,44 @@
 
 			//this is just here to test the load screen
 			//sleep(5);
-			
+
 			
 			$json = "{";
 			
+			//this script sets up the db
 			include_once "scripts/db_setup.php";
-
-			//check for for directory path, if one does not exist then ask for user to select
-			$query = "SELECT path, last_scan FROM root_directory";
-			$result= $db->query($query);
-			$row = $result->fetchArray(SQLITE3_ASSOC);
-			$root_path= $row["path"];
-			$last_scan = $row["last_scan"];
 			
-			//get root directory
-			if (!$root_path){
-				#this will contain the code to set root path
-			
+			//if root directory is supplied then add to db
+			if(array_key_exists('root', $_GET)) {
+				$root_path= $_GET['root'];
+				
 				//initially sets the last scan time to force initial scan
-				$date = new DateTime('1970-01-01');
+				$last_scan = new DateTime('1970-01-01');
 				
-				//retrieve the directory
-				
-				
-							
-				//hard code root directory for testing- to be deleted
-				$query="INSERT INTO root_directory(path, last_scan) VALUES ( './Test_Images', '" . $date->format('d-m-Y H:i:s') . "' ) ";
+				//insert the root path into the db
+				$query="INSERT INTO root_directory(path, last_scan) VALUES ( '" . $root_path . "', '" . $last_scan->format('d-m-Y H:i:s') . "' ) ";
 				$db->query($query);	
-				
-				$json .= '"root":"NULL"';		
-			
-			// 
-			//print "no_directory";
-			
-
-			
 			}
 			
-			//display sorted images
+			
+			//retrieve the root path from the db
+			else {
+				$query = "SELECT path, last_scan FROM root_directory";
+				$result= $db->query($query);
+				$row = $result->fetchArray(SQLITE3_ASSOC);
+				$root_path= $row["path"];
+				$last_scan = $row["last_scan"];
+			}
+			
+			//root not set- add or is not a valid directory
+			if (!$root_path){
+				$json .= '"root":"NULL"';		
+			}
+			
+			//send back the images using JSON format
 			else {
 				
-				// scan file system script
+				// scan file system 
 				include_once "scripts/file_scanner.php";
 			
 				$json .= '"root":" ' . $root_path . '" ,"' . imageArray . '" : [';
@@ -67,14 +64,5 @@
 			//add json header and send the data
     		header("Content_type: text/json");
     		print $json;
-				
-
-
-
-
-
-
-
-
 
 ?>
