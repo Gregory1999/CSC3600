@@ -25,8 +25,8 @@
       	<li><a href="#">Advanced Search</a></li>      		
 	    </ul>
 	    <div class="search">
-	    		<input class="userInput" type="text" placeholder="Search.." name="search">
-      		<button type="button" class="btn btn-default btn-sm">
+	    		<input id="simple_search_input" class="userInput" type="text" placeholder="Search.." name="search">
+      		<button id= "simple_search_btn"type="button" class="btn btn-default btn-sm">
           		<span class="glyphicon glyphicon-search"></span>
         		</button>
 	    </div>
@@ -57,13 +57,40 @@
 
 		
 	var photos= document.getElementById('photos');
-	var script= "get_images.php";	
-				
+	var simple_search_btn = document.getElementById('simple_search_btn');
+	var script= "get_images.php";				
  	var xmlhr1 = new XMLHttpRequest();
+ 	
+ 	simple_search_btn.addEventListener("click", sendSearch);
 	
 	//display the spinner while the photos load
 	loadSpinner(); 
+	
+
+	function sendSearch() {
 		
+			var simple_search_txt = document.getElementById('simple_search_input').value;
+			var xmlhr1 = new XMLHttpRequest();
+			var script1 = "scripts/search.php";
+
+			xmlhr1.onreadystatechange = function() {			
+				if ((this.readyState == 4) && (this.status == 200)) {
+					var response = this.response;
+					var output = "";
+					for (var i = 0; i < response.imageArray.length; i++)  {
+						output += '<img src = "' + response.imageArray[i] + '" class="img-thumbnail" /> \n';
+
+					photos.innerHTML= output;
+					}
+				}
+			}
+			xmlhr1.open("GET",script1+'?simple='+ simple_search_txt);
+			xmlhr1.responseType = "json";
+			loadSpinner();
+			xmlhr1.send();
+	
+	}
+
 	// This function will be used if the root directory is not set	-currently just loads photos from hard coded location
 	function loadDirectory() {
 		var xmlhr1 = new XMLHttpRequest();
@@ -113,8 +140,7 @@
 	
 
 	// sends the directory root
-	function sendRoot() {
-		
+	function sendRoot() {		
 		var xmlhr1 = new XMLHttpRequest();
 		var root =  document.getElementById('root').value;
 		
