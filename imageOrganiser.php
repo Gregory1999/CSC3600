@@ -114,13 +114,14 @@
 
 	// sends the directory root
 	function sendRoot() {
-		loadSpinner();
+		
 		var xmlhr1 = new XMLHttpRequest();
 		var root =  document.getElementById('root').value;
 		
 		xmlhr1.addEventListener("load", loadPhotos);	
     	xmlhr1.open("GET",script+'?root='+ root);
    	xmlhr1.responseType = "json";
+   	loadSpinner();
    	xmlhr1.send();
 	}
 
