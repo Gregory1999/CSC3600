@@ -73,7 +73,7 @@
 				var response = this.response;
 				
 				//should be a better way to get the path- this is just temporary, so that I can build the back-end
-				var output = '<div><label>Full Directory Path: <input type="text" id = "root" defaultValue= "Test_Images" name="root_path" required="required" size="40"/></label> <button id = "root_button" type="button" >Load Root Directory </button></fdiv>';				
+				var output = '<div><label>Full Directory Path: <input type="text" id = "root" value= "Test_Images" name="root_path" required="required" size="40"/></label> <button id = "root_button" type="button" >Load Root Directory </button></fdiv>';				
 				photos.innerHTML= output;
 				// when button is pressed, send the directory
 				var root_button = document.getElementById('root_button');
