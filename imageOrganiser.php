@@ -44,12 +44,7 @@
 		
 		<div class="container">
 		<div class="jumbotron" id="photos">
-			<div class="preload">
-				
-				<div class="loader-frame">
-				</div>
 			
-			</div>
 		
 		</div>
 		</div>
@@ -63,70 +58,76 @@
 		
 	var photos= document.getElementById('photos');
 	var script= "get_images.php";	
-	var script2= "get_directory.php";			
+				
  	var xmlhr1 = new XMLHttpRequest();
-
+	
+	//display the spinner while the photos load
+	loadSpinner(); 
 		
-	// This function will be used if the director is not set	-currently just loads photos from hard coded location
+	// This function will be used if the root directory is not set	-currently just loads photos from hard coded location
 	function loadDirectory() {
 		var xmlhr1 = new XMLHttpRequest();
 		xmlhr1.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
-				
+				var xmlhr1 = new XMLHttpRequest();
 				var response = this.response;
-				var output = "";
 				
-				
-				
-				for (var i = 0; i < response.imageArray.length; i++)  {
-					output += '<img src = "' + response.imageArray[i] + '"  class="img-thumbnail" /> \n';
-					
-				}
-				
+				//should be a better way to get the path- this is just temporary, so that I can build the back-end
+				var output = '<div><label>Full Directory Path: <input type="text" id = "root" defaultValue= "Test_Images" name="root_path" required="required" size="40"/></label> <button id = "root_button" type="button" >Load Root Directory </button></fdiv>';				
 				photos.innerHTML= output;
+				// when button is pressed, send the directory
+				var root_button = document.getElementById('root_button');
+				root_button.addEventListener("click", sendRoot);
 			}
 		};
 		xmlhr1.open("GET", script, true);
 		xmlhr1.responseType = "json";
 		xmlhr1.send();
-	}
-			
-		
-		
-	//This will load all of the photos from the chosen directory
-	xmlhr1.onreadystatechange = function() {
-		if ((this.readyState == 4) && (this.status == 200)) {
+	}	
+	xmlhr1.addEventListener("load", loadPhotos);	
 
-			
+	xmlhr1.open("GET", script, true);
+	xmlhr1.responseType = "json";
+	xmlhr1.send();
+	
+		//This will load all of the photos from the chosen directory
+	function loadPhotos() {
+		if ((this.readyState == 4) && (this.status == 200)) {
 			var response = this.response;
 			
 			//call function to load directory
 			
-			if (response.root == 'NULL' ) {
-					
-					loadDirectory();
-					 
+			if (response.root == 'NULL' ) {			
+					loadDirectory();			 
 			}	
-			else {
-				
+			else {			
 				var output = "";
-				
-				
-				
 				for (var i = 0; i < response.imageArray.length; i++)  {
 					output += '<img src = "' + response.imageArray[i] + '" class="img-thumbnail" /> \n';
-					
 				}
-				
 				photos.innerHTML= output;
 			}
 				
 		}
-	};
+	}
+	
+
+	// sends the directory root
+	function sendRoot() {
+		var xmlhr1 = new XMLHttpRequest();
+		var root =  document.getElementById('root').value;
 		
-	xmlhr1.open("GET", script, true);
-	xmlhr1.responseType = "json";
-	xmlhr1.send();
+		xmlhr1.addEventListener("load", loadPhotos);	
+    	xmlhr1.open("GET",script+'?root='+ root);
+   	xmlhr1.responseType = "json";
+   	xmlhr1.send();
+	}
+
+	
+	// this function will display the loading spinner 	
+ 	function loadSpinner() {
+ 		photos.innerHTML = "<div class='preload'> <div class='loader-frame'> </div></div>";
+ 	}
  		 		
  	</script>	
  	
