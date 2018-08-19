@@ -8,10 +8,9 @@
 	$query="UPDATE photo SET deleted= 'TRUE'";
 	$db->query($query);
 		
-	
-	
-	//create an array of images- will need to add jpg 	
-	$images = glob($root_path . "/*.{jpg,jpeg}", GLOB_BRACE);
+	//create an array of files ending in either jpg or jpeg
+	$pattern =  $root_path . "/*.{jpg,jpeg}"; 
+	$images= glob_recursive($pattern, GLOB_BRACE);
 
 	foreach($images as $image)
 	{
@@ -37,8 +36,6 @@
 			if (!empty($exif['DateTimeOriginal'])) {
    			$exif_date = $exif['DateTimeOriginal'];
    			
-   			echo "$exif_date<br />\n";
-   			
    			
 			}
 			else{
@@ -60,9 +57,7 @@
 			
 			$query="INSERT or IGNORE INTO photo(photo_path, date_created) VALUES ( '$image', '$exif_date') ";
 			$db->query($query);
-			
-        	
-        	
+				 	
    	}
    	//mark file as not deleted
    	$query="UPDATE photo SET deleted = 'FALSE' WHERE photo_path = '$image'";
@@ -78,5 +73,16 @@
 	$last_scan = date("d F Y H:i:s.");
 	$query="UPDATE root_directory SET last_scan= '$last_scan' WHERE path= '$root_path'";
 	$db->query($query);	
+	
+	
+	//recursively searches directories to find all files matching the supplied pattern
+function glob_recursive($pattern, $flags = 0){
+     $images = glob($pattern, $flags);
+     foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR|GLOB_NOSORT) as $directory)
+     {
+       $images = array_merge($images, glob_recursive($directory . '/' . basename($pattern), $flags));
+     }
+     return $images;
+ }
 
 ?>
