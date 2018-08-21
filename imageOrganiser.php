@@ -63,8 +63,7 @@
  	//calls the search function when the search button is clicked
  	simple_search_btn.addEventListener("click", sendSearch);
 	
-	//display the spinner while the photos load
-	loadSpinner(); 
+	allPhotos();
 	
 	//This function is called when the search button is pressed
 	//The function will display all images that match the search string
@@ -111,11 +110,7 @@
 		xmlhr1.responseType = "json";
 		xmlhr1.send();
 	}	
-	xmlhr1.addEventListener("load", loadPhotos);	
-
-	xmlhr1.open("GET", script, true);
-	xmlhr1.responseType = "json";
-	xmlhr1.send();
+	
 	
 	//This will load all of the photos from the chosen directory
 	//The function will retrieve the images paths and set event listeners to each image
@@ -157,8 +152,22 @@
 	//this function is called when an image is clicked
 	//the function will retrieve all metadata then display the image with its metadata
 	function imageClicked() {
-		var output = '<img src = "' + this.src + '" class = "img-fluid" id = "' + this.src + '" /> <button id = "home_button" type="button" >Show all Photos </button>' 
+		var output = '<img src = "' + this.src + '" class = "img-fluid" id = "' + this.src + '" /> <div id = "metadata"></div> <button id = "home_button" type="button" >Show all Photos </button>' 
 		photos.innerHTML= output ;
+		// show all photos is button is pressed
+		var home = document.getElementById('home_button');
+		home.addEventListener("click", allPhotos);
+		//retrieve and add metadata
+	}
+	
+	
+	//used to display all photos in the root directory
+	function allPhotos() {
+		xmlhr1.addEventListener("load", loadPhotos);	
+		loadSpinner(); 
+		xmlhr1.open("GET", script, true);
+		xmlhr1.responseType = "json";
+		xmlhr1.send();
 	}
 	
 	//this function will send the directory root
