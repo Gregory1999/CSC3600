@@ -1,5 +1,6 @@
 <?php
 //this file will send all images on request
+//path to images will be sent in JSON format
 
 			//this is just here to test the load screen
 			//sleep(5);
@@ -21,8 +22,7 @@
 				$query="INSERT INTO root_directory(path, last_scan) VALUES ( '" . $root_path . "', '" . $last_scan->format('d-m-Y H:i:s') . "' ) ";
 				$db->query($query);	
 			}
-			
-			
+
 			//retrieve the root path from the db
 			else {
 				$query = "SELECT path, last_scan FROM root_directory";
@@ -43,22 +43,16 @@
 				// scan file system 
 				include_once "scripts/file_scanner.php";
 			
-				$json .= '"root":" ' . $root_path . '" ,"' . imageArray . '" : [';
+				$json .= '"root":" ' . $root_path . '" ,"imageArray" : [';
 								//display images
 				$query = "SELECT photo_path, date_created FROM photo ORDER BY date_created DESC";
 				$result= $db->query($query);
 				
 				while( $row = $result->fetchArray(SQLITE3_ASSOC)) {
 					$photo_path= $row["photo_path"];
-					$json .= ' "' . $photo_path . '",';
-					
-					
-					//print "<img src='$photo_path' class='img-thumbnail' >";
-				
+					$json .= ' "' . $photo_path . '",';	
 				}
 				$json = rtrim($json,",") . "]";
-				
-				
 			}
 			$json .=  "}";
 			//add json header and send the data
