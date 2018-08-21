@@ -63,6 +63,7 @@
  	//calls the search function when the search button is clicked
  	simple_search_btn.addEventListener("click", sendSearch);
 	
+	//uses ajax to load all photos
 	allPhotos();
 	
 	//This function is called when the search button is pressed
@@ -71,18 +72,8 @@
 			var simple_search_txt = document.getElementById('simple_search_input').value;
 			var xmlhr1 = new XMLHttpRequest();
 			var script1 = "scripts/search.php";
+			xmlhr1.addEventListener("load", loadPhotos);
 
-			xmlhr1.onreadystatechange = function() {			
-				if ((this.readyState == 4) && (this.status == 200)) {
-					var response = this.response;
-					var output = "";
-					for (var i = 0; i < response.imageArray.length; i++)  {
-						output += '<div class = "thumbnail"> <img src = "' + response.imageArray[i] + '" /> </div> \n';
-
-					photos.innerHTML= output;
-					}
-				}
-			}
 			xmlhr1.open("GET",script1+'?simple='+ simple_search_txt);
 			xmlhr1.responseType = "json";
 			loadSpinner();
