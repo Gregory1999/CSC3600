@@ -4,14 +4,10 @@
   		<title>Web -based Image Organiser</title>
   		<meta charset="utf-8">
   		<meta name="viewport" content="width=device-width, initial-scale=1">
-  		
-  		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
-  		<!--link rel="stylesheet" href="css/bootstrap.min.css">-->
-
-
+  		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   		<link rel="stylesheet" href="css/stylesheet.css">
-  		<script src="js/bootstrap.min.js"></script>
   		<script src="js/jquery.min.js"></script>
+  		<script src="js/bootstrap.min.js"></script>
 	</head>
 	<body>
 	<header>
@@ -30,7 +26,7 @@
 	    <div class="search">
 	    		<input id="simple_search_input" class="userInput" type="text" placeholder="Search.." name="search">
       		<button id= "simple_search_btn"type="button" class="btn btn-default btn-sm">
-          		<span class="glyphicon glyphicon-search"></span>
+          		<span class="glyphicon glyphicon-search"></span>Search
         		</button>
 	    </div>
 	  </div>
@@ -100,7 +96,7 @@
 		xmlhr1.open("GET", script, true);
 		xmlhr1.responseType = "json";
 		xmlhr1.send();
-	}	
+	}
 	
 	
 	//This will load all of the photos from the chosen directory
