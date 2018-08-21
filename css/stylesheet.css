@@ -1,9 +1,10 @@
-.preload{
-
+.row.display-flex {
+  display: flex;
+  flex-wrap: wrap;
 }
-
-.logo{
-
+.row.display-flex > [class*='col-'] {
+  display: flex;
+  flex-direction: column;
 }
 
 .loader-frame{
@@ -32,13 +33,14 @@ body{
 background-color: rgb(71,78,93);	
 }
 .logo{
-	<!--background-image: url(../images/Mark_IV_logo.png);-->
 	background-color: white;
 	text-align: center;
 	text-shadow: 3px 2px lightblue;
 	font-family: "Times New Roman", Times, serif;
 	font-size: 100px; 
 	height: 200px;
+	
+	
 	 
 }
 header{
