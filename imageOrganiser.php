@@ -4,8 +4,11 @@
   		<title>Web -based Image Organiser</title>
   		<meta charset="utf-8">
   		<meta name="viewport" content="width=device-width, initial-scale=1">
+  		
+  		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
   		<!--link rel="stylesheet" href="css/bootstrap.min.css">-->
-  		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
   		<link rel="stylesheet" href="css/stylesheet.css">
   		<script src="js/bootstrap.min.js"></script>
   		<script src="js/jquery.min.js"></script>
@@ -51,10 +54,6 @@
 	</div>
 
 	<script>
-
-
-
-
 		
 	var photos= document.getElementById('photos');
 	var simple_search_btn = document.getElementById('simple_search_btn');
@@ -78,7 +77,7 @@
 					var response = this.response;
 					var output = "";
 					for (var i = 0; i < response.imageArray.length; i++)  {
-						output += '<img src = "' + response.imageArray[i] + '" class="img-thumbnail" /> \n';
+						output += '<div class = "thumbnail"> <img src = "' + response.imageArray[i] + '" /> </div> \n';
 
 					photos.innerHTML= output;
 					}
@@ -128,10 +127,11 @@
 					loadDirectory();			 
 			}	
 			else {			
-				var output = "";
+				var output = "<div class= 'row' >";
 				for (var i = 0; i < response.imageArray.length; i++)  {
-					output += '<img src = "' + response.imageArray[i] + '" class="img-thumbnail" /> \n';
+					output += '<div class="col-xs-4"> <div class = "thumbnail"> <img src = "' + response.imageArray[i] + '" /> </div>  </div>\n';
 				}
+				output += "</ div>";
 				photos.innerHTML= output;
 			}
 				
