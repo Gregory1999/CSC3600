@@ -127,9 +127,9 @@
 					loadDirectory();			 
 			}	
 			else {			
-				var output = "<div class= 'row' >";
+				var output = "<div class= 'row display-flex' >";
 				for (var i = 0; i < response.imageArray.length; i++)  {
-					output += '<div class="col-xs-4"> <div class = "thumbnail"> <img src = "' + response.imageArray[i] + '" /> </div>  </div>\n';
+					output += '<div class="col-xs-4 thumbnail">  <img src = "' + response.imageArray[i] + '" class = "img-fluid" />  </div>\n';
 				}
 				output += "</ div>";
 				photos.innerHTML= output;
