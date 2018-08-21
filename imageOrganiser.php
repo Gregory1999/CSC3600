@@ -152,12 +152,34 @@
 	//this function is called when an image is clicked
 	//the function will retrieve all metadata then display the image with its metadata
 	function imageClicked() {
-		var output = '<img src = "' + this.src + '" class = "img-fluid" id = "' + this.src + '" /> <div id = "metadata"></div> <button id = "home_button" type="button" >Show all Photos </button>' 
+		var script = "scripts/get_meta.php";
+		var imagePath = this.src;
+		var imageRelPath = this.id;
+		var output = '<img src = "' + imagePath + '" class = "img-fluid" id = "' + imagePath + '" /> <div id = "metadata"></div> <button id = "home_button" type="button" >Show all Photos </button>' 
 		photos.innerHTML= output ;
 		// show all photos is button is pressed
 		var home = document.getElementById('home_button');
 		home.addEventListener("click", allPhotos);
+		
 		//retrieve and add metadata
+		var xmlhr1 = new XMLHttpRequest();
+		xmlhr1.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				var metadata = document.getElementById('metadata');
+				
+				//currently only displays date taken- will extend
+				var response = this.response.Date_Taken;
+				
+				//format the metadata
+				//output the metadata
+				var output = "<label>Date Taken:  </label>" + response;				
+				metadata.innerHTML= output;
+			}
+		};
+		xmlhr1.open("GET", script+'?path='+imageRelPath, true);
+		xmlhr1.responseType = "json";
+		xmlhr1.send();
+		
 	}
 	
 	
