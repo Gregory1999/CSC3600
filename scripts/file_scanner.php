@@ -75,7 +75,7 @@
 	$db->query($query);	
 	
 	
-	//recursively searches directories to find all files matching the supplied pattern
+//recursively searches directories to find all files matching the supplied pattern
 function glob_recursive($pattern, $flags = 0){
      $images = glob($pattern, $flags);
      foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR|GLOB_NOSORT) as $directory)
