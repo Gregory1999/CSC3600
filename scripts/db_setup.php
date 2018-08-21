@@ -20,12 +20,6 @@
 	//if file exists point to database
 	else {
 		$db = new SQLite3('site.db');
-	}
-	
-	
-	
-				 
-
-				
+	}				
 
 ?>
