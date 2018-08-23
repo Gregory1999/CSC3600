@@ -41,7 +41,7 @@
 			else{
 				//no photo date data 
 				
-				//$exif_date= '';
+				$exif_date= '';
 				
 				//read in the image data
 				//$image_data = imagecreatefromjpeg($image);
