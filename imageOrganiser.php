@@ -154,12 +154,15 @@
 			if (this.readyState == 4 && this.status == 200) {
 				var metadata = document.getElementById('metadata');
 				
-				//currently only displays date taken- will extend
-				var response = this.response.Date_Taken;
+				//outputs JSON object (metadata) currently only displays date taken
+				var output ="";
+				var response = this.response;
+				for (var key in response) {
+				    if (response.hasOwnProperty(key) && response[key] != "") {
+				    	output += "<label>" + key + ":  </label>" + response[key];
+				    }
+				}
 				
-				//format the metadata
-				//output the metadata
-				var output = "<label>Date Taken:  </label>" + response;				
 				metadata.innerHTML= output;
 			}
 		};
