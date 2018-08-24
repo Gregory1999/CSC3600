@@ -14,6 +14,15 @@
 				(photo_path STRING PRIMARY Key,
 				 date_created DATETIME,
 				 deleted BOOLEAN)');
+				 
+		//table for holding photo description	
+		$db->exec('CREATE TABLE photo_description
+				(photo_path STRING PRIMARY Key,
+				 title STRING,
+				 subject STRING,
+				 rating INTEGER
+				 tags STRING
+				 comments STRING)');
 
 
 	}
