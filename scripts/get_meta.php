@@ -8,26 +8,25 @@
 	include_once "scripts/file_scanner.php";
 	$photoPath = $_GET['path'];
 	$json = "{";
+	// array of field to not output
 	
 	
-	//will add to this as we build the database
-	//array of all the metadata name-value elements that is to be displayed
+	//will create an array of tables to output then loop over
 	
 	
 	//Will extend-just getting  the date the photo was taken-- will be able to do this row-by-row in a loop
-	$query = "SELECT date_created FROM photo WHERE photo_path = '$photoPath'";
+	//$query = "SELECT date_created FROM photo WHERE photo_path = '$photoPath'";
+	$query = "SELECT * FROM photo WHERE photo_path = '$photoPath'";
 	$result= $db->query($query);
 	$row = $result->fetchArray(SQLITE3_ASSOC);
 	
-	//$json .= ' "Date_Taken" : "' .  $row["date_created"] ';
-	//$json .= ' "Date_Taken" : "Test"';
-	$json .= ' "Date_Taken" : "' . $row["date_created"] . '"';
+	//output the whole table
+	foreach($row as $key => $value){
+		
+		$json .= ' "' . $key . '" : "' . $value . '",';
+	}
+	$json = rtrim($json,",") . "}";
 	
-	
-	//$json = rtrim($json,",") . "]";
-	
-	//$json .= '"root":"NULL"';	
-	$json .=  "}";
 	//add json header and send the data
  	header("Content_type: text/json");
  	print $json;
