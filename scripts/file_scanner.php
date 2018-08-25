@@ -25,7 +25,7 @@
 
 	foreach($images as $image)
 	{
-  		$imagePath = $root_path . $image;
+  		$imagePath = $root_path . ltrim($image, ".");
   		//	if modified since last scan then update db data
   		$modified_date=date("d F Y H:i:s.", filemtime($image));
   		
