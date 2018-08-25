@@ -14,8 +14,12 @@
 			//if root directory is supplied then add to db
 			if(array_key_exists('root', $_GET)) {
 				
-				//need to store this as the absolute path
+				//store this as the absolute path
+				//$root_path= realpath($_GET['root']);
 				$root_path= realpath($_GET['root']);
+				$servRoot=$_SERVER["DOCUMENT_ROOT"];
+				$root_path = str_replace($servRoot, "", str_replace('\\', '/', $root_path));
+				//$root_path= $_GET['root'];
 				
 				//initially sets the last scan time to force initial scan
 				$last_scan = new DateTime('1970-01-01');
@@ -44,18 +48,23 @@
 				// scan file system 
 				include_once "scripts/file_scanner.php";
 			
-				$json .= '"root":" ' . $root_path . '" ,"imageArray" : [';
-								//display images
+				$json .= '"root": ' . json_encode($root_path) . ' ,"imageArray" : [';
+				//display images
 				$query = "SELECT photo_path, date_created FROM photo ORDER BY date_created DESC";
 				$result= $db->query($query);
 				
+				//$servRoot=$_SERVER["DOCUMENT_ROOT"];
+				
 				while( $row = $result->fetchArray(SQLITE3_ASSOC)) {
-					$photo_path= $row["photo_path"];
-					$json .= ' "' . $photo_path . '",';	
+					//$photo_path= json_encode(str_replace($servRoot, "", str_replace('\\', '/', $row["photo_path"])));
+					//$photo_path= json_encode($servRoot);
+					$photo_path= json_encode( ltrim($row["photo_path"], "."));
+					$json .= $photo_path . ',';	
 				}
 				$json = rtrim($json,",") . "]";
 			}
 			$json .=  "}";
+			
 			//add json header and send the data
     		header("Content_type: text/json");
     		print $json;

@@ -13,19 +13,24 @@
 	//mark all entries in the photo table to delete- this flag is used to identify if a photo has been deleted	
 	$query="UPDATE photo SET deleted= 'TRUE'";
 	$db->query($query);
-		
+	//got to the photo directory
+	chdir($_SERVER['DOCUMENT_ROOT'] . $root_path);
+	
 	//create an array of files ending in either jpg or jpeg
-	$pattern =  $root_path . "/*.{jpg,jpeg}"; 
+	//$pattern =  $root_path . "./*.{jpg,jpeg}";
+	
+	$pattern = "./*.{jpg,jpeg}";
 	$images= glob_recursive($pattern, GLOB_BRACE);
+	
 
 	foreach($images as $image)
 	{
-  			
+  		$imagePath = $root_path . $image;
   		//	if modified since last scan then update db data
   		$modified_date=date("d F Y H:i:s.", filemtime($image));
   		
   		//check if a new photo has been added to directory but is not in db
-  		$query = "SELECT COUNT(*) as numRows FROM photo WHERE photo_path='$image'";
+  		$query = "SELECT COUNT(*) as numRows FROM photo WHERE photo_path='$imagePath'";
   		$result = $db->query($query);
   		$row = $result->fetchArray(SQLITE3_ASSOC);
   		$numRows = $row['numRows'];
@@ -51,12 +56,12 @@
 				
 			}
 			
-			$query="INSERT or IGNORE INTO photo(photo_path, date_created) VALUES ( '$image', '$exif_date') ";
+			$query="INSERT or IGNORE INTO photo(photo_path, date_created) VALUES ( '$imagePath', '$exif_date') ";
 			$db->query($query);
 				 	
    	}
    	//mark file as not deleted
-   	$query="UPDATE photo SET deleted = 'FALSE' WHERE photo_path = '$image'";
+   	$query="UPDATE photo SET deleted = 'FALSE' WHERE photo_path = '$imagePath'";
 		$db->query($query);	
 		
 	}

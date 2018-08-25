@@ -8,15 +8,17 @@
 	// scan file system 
 	require_once("file_scanner.php");
 	
-	//get the path of the image
+	
+	
 	$photoPath = $_GET['path'];
+	
 	$json = "{";
 	
 	// array of field to not output
 	
 	
 	//array of tables to output
-	$tableArray= ['photo', 'photo_description'];
+	$tableArray= ['photo'];
 	
 	//output each
 	foreach($tableArray as $tableName){
@@ -24,10 +26,11 @@
 		$result= $db->query($query);
 		$row = $result->fetchArray(SQLITE3_ASSOC);
 		
+		
 		//output the whole table
 		foreach($row as $key => $value){
 			
-			$json .= ' "' . $key . '" : "' . $value . '",';
+			$json .= json_encode($key) . ' : ' . json_encode($value) . ',';
 		}
 	}
 	$json = rtrim($json,",") . "}";
