@@ -6,8 +6,9 @@
 	$json = "{";
 	
 	// scan file system 
-	include_once "scripts/file_scanner.php";
 	$db = new SQLite3('../site.db');
+	require_once "file_scanner.php";
+
 	
 	$simple_search= $_GET['simple'];
 	
