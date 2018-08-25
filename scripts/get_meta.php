@@ -8,14 +8,11 @@
 	// scan file system 
 	require_once("file_scanner.php");
 	
-	
-	
 	$photoPath = $_GET['path'];
 	
 	$json = "{";
 	
 	// array of field to not output
-	
 	
 	//array of tables to output
 	$tableArray= ['photo'];
@@ -25,7 +22,6 @@
 		$query = "SELECT * FROM $tableName WHERE photo_path = '$photoPath'";
 		$result= $db->query($query);
 		$row = $result->fetchArray(SQLITE3_ASSOC);
-		
 		
 		//output the whole table
 		foreach($row as $key => $value){

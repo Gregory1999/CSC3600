@@ -18,7 +18,6 @@
 	
 	//create an array of files ending in either jpg or jpeg
 	//$pattern =  $root_path . "./*.{jpg,jpeg}";
-	
 	$pattern = "./*.{jpg,jpeg}";
 	$images= glob_recursive($pattern, GLOB_BRACE);
 	
@@ -37,32 +36,25 @@
   		
   		//update db if photo modified or not in db add to database
 		if (strtotime($modified_date) > strtotime($last_scan) || $numRows == 0){
-  			
-			
 			//read in metadaa
 			$exif = exif_read_data($image);
 			
-        	
-       	// get the time that the photo was taken
+			// get the time that the photo was taken
 			if (!empty($exif['DateTimeOriginal'])) {
-   			$exif_date = $exif['DateTimeOriginal'];
-   			
-   			
+				$exif_date = $exif['DateTimeOriginal'];
 			}
 			else{
-				//no photo date data 
-				
-				$exif_date= '';	
-				
+				//no photo date data 	
+				$exif_date= '';		
 			}
 			
 			$query="INSERT or IGNORE INTO photo(photo_path, date_created) VALUES ( '$imagePath', '$exif_date') ";
 			$db->query($query);
 				 	
-   	}
-   	//mark file as not deleted
-   	$query="UPDATE photo SET deleted = 'FALSE' WHERE photo_path = '$imagePath'";
-		$db->query($query);	
+		}
+		//mark file as not deleted
+		$query="UPDATE photo SET deleted = 'FALSE' WHERE photo_path = '$imagePath'";
+			$db->query($query);	
 		
 	}
 	//remove deleted files from the db
