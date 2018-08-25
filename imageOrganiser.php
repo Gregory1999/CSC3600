@@ -12,7 +12,7 @@
 	<body>
 	<header>
 	<div>
-		<img src="images/Mark_IV_logo.png" alt="">
+		<img src="images/Mark_IV_logo.png" alt="" style="width:180px;height:80px;">
 	</div>
 	<nav class="navbar navbar-inverse">
   		<div class="container-fluid">
