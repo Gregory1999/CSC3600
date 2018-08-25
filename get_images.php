@@ -58,7 +58,7 @@
 				while( $row = $result->fetchArray(SQLITE3_ASSOC)) {
 					//$photo_path= json_encode(str_replace($servRoot, "", str_replace('\\', '/', $row["photo_path"])));
 					//$photo_path= json_encode($servRoot);
-					$photo_path= json_encode( ltrim($row["photo_path"], "."));
+					$photo_path= json_encode($row["photo_path"]);
 					$json .= $photo_path . ',';	
 				}
 				$json = rtrim($json,",") . "]";
