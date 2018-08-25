@@ -8,22 +8,23 @@
 	include_once "scripts/file_scanner.php";
 	$photoPath = $_GET['path'];
 	$json = "{";
+	
 	// array of field to not output
 	
 	
-	//will create an array of tables to output then loop over
+	//array of tables to output then loop over
+	$tableArray= ['photo', 'photo_description'];
 	
-	
-	//Will extend-just getting  the date the photo was taken-- will be able to do this row-by-row in a loop
-	//$query = "SELECT date_created FROM photo WHERE photo_path = '$photoPath'";
-	$query = "SELECT * FROM photo WHERE photo_path = '$photoPath'";
-	$result= $db->query($query);
-	$row = $result->fetchArray(SQLITE3_ASSOC);
-	
-	//output the whole table
-	foreach($row as $key => $value){
+	foreach($tableArray as $tableName){
+		$query = "SELECT * FROM $tableName WHERE photo_path = '$photoPath'";
+		$result= $db->query($query);
+		$row = $result->fetchArray(SQLITE3_ASSOC);
 		
-		$json .= ' "' . $key . '" : "' . $value . '",';
+		//output the whole table
+		foreach($row as $key => $value){
+			
+			$json .= ' "' . $key . '" : "' . $value . '",';
+		}
 	}
 	$json = rtrim($json,",") . "}";
 	
