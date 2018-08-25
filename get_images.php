@@ -13,7 +13,9 @@
 			
 			//if root directory is supplied then add to db
 			if(array_key_exists('root', $_GET)) {
-				$root_path= $_GET['root'];
+				
+				//need to store this as the absolute path
+				$root_path= realpath($_GET['root']);
 				
 				//initially sets the last scan time to force initial scan
 				$last_scan = new DateTime('1970-01-01');
@@ -29,7 +31,6 @@
 				$result= $db->query($query);
 				$row = $result->fetchArray(SQLITE3_ASSOC);
 				$root_path= $row["path"];
-				$last_scan = $row["last_scan"];
 			}
 			
 			//root not set- add or is not a valid directory

@@ -3,6 +3,12 @@
 
 //This library will be required to update metadata images
 //	require_once "lib/pel-master/src/PelJpeg.php"
+
+	$query = "SELECT path, last_scan FROM root_directory";
+	$result= $db->query($query);
+	$row = $result->fetchArray(SQLITE3_ASSOC);
+	$root_path= $row["path"];
+	$last_scan = $row["last_scan"];
 	
 	//mark all entries in the photo table to delete- this flag is used to identify if a photo has been deleted	
 	$query="UPDATE photo SET deleted= 'TRUE'";
@@ -41,17 +47,7 @@
 			else{
 				//no photo date data 
 				
-				$exif_date= '';
-				
-				//read in the image data
-				//$image_data = imagecreatefromjpeg($image);
-				
-				//set the date to modified date
-				//$exif_date = $exif['FileDateTime'];
-				//echo "$exif_date<br />\n";
-				
-				//add the date to the file data
-				//$pelJpeg = new PelJpeg($image);		
+				$exif_date= '';	
 				
 			}
 			
@@ -78,7 +74,8 @@
 //recursively searches directories to find all files matching the supplied pattern
 function glob_recursive($pattern, $flags = 0){
      $images = glob($pattern, $flags);
-     foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR|GLOB_NOSORT) as $directory)
+     $directoryArray = glob(dirname($pattern) . '/*', GLOB_ONLYDIR|GLOB_NOSORT);
+     foreach ( $directoryArray as $directory)
      {
        $images = array_merge($images, glob_recursive($directory . '/' . basename($pattern), $flags));
      }

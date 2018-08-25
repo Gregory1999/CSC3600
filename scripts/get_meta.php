@@ -3,18 +3,22 @@
 	//the path will be passed to the script using the GET method
 	//the script will return a JSON formatted string
 
-	// scan file system 
+	//point to the database
 	$db = new SQLite3('../site.db');
-	include_once "scripts/file_scanner.php";
+	// scan file system 
+	require_once("file_scanner.php");
+	
+	//get the path of the image
 	$photoPath = $_GET['path'];
 	$json = "{";
 	
 	// array of field to not output
 	
 	
-	//array of tables to output then loop over
+	//array of tables to output
 	$tableArray= ['photo', 'photo_description'];
 	
+	//output each
 	foreach($tableArray as $tableName){
 		$query = "SELECT * FROM $tableName WHERE photo_path = '$photoPath'";
 		$result= $db->query($query);
