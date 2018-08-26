@@ -9,17 +9,19 @@
 	$row = $result->fetchArray(SQLITE3_ASSOC);
 	$root_path= $row["path"];
 	$last_scan = $row["last_scan"];
+	$scriptDir= getcwd();
 	
 	//mark all entries in the photo table to delete- this flag is used to identify if a photo has been deleted	
 	$query="UPDATE photo SET deleted= 'TRUE'";
 	$db->query($query);
-	//got to the photo directory
+	//go to the photo directory
 	chdir($_SERVER['DOCUMENT_ROOT'] . $root_path);
 	
 	//create an array of files ending in either jpg or jpeg
 	//$pattern =  $root_path . "./*.{jpg,jpeg}";
 	$pattern = "./*.{jpg,jpeg}";
 	$images= glob_recursive($pattern, GLOB_BRACE);
+	
 	
 	foreach($images as $image)
 	{
@@ -35,13 +37,13 @@
   		
   		//update db if photo modified or not in db add to database
 		if (strtotime($modified_date) > strtotime($last_scan) || $numRows == 0){
+			
 			//read in metadaa
-			require "metadata_reader.php";
-							 	
+			include "metadata_reader.php";  				 	
 		}
 		//mark file as not deleted
 		$query="UPDATE photo SET deleted = 'FALSE' WHERE photo_path = '$imagePath'";
-			$db->query($query);	
+		$db->query($query);	
 		
 	}
 	//remove deleted files from the db

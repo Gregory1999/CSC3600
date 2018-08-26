@@ -3,6 +3,7 @@
 <body>
 
 <?php
+$image = "Test_Images/dog.jpg";
     ini_set('display_errors', 1);
     ini_set('exif.encode_unicode', 'UTF-8');  // To see WINXP values
     error_reporting(-1);        
@@ -26,8 +27,10 @@
     }
 	
 	$test = $exif['IFD0']['Comments'];
-	echo substr(mb_convert_encoding($test . " " ,"auto","byte2le"), 0 ,-1);
-	echo  $exif['EXIF']['DateTimeOriginal'];
+	echo "substr(mb_convert_encoding($test,'auto','byte2le'), 0 ,-1) <br>\n";
+	echo  $exif['EXIF']['DateTimeOriginal'] . "<br>\n";
+	echo date("d F Y H:i:s.", filemtime($image)) . "<br>\n";
+	echo date("d F Y H:i:s."). "<br>\n";
 ?>
 
 </body>

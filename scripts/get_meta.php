@@ -6,7 +6,7 @@
 	//point to the database
 	$db = new SQLite3('../site.db');
 	// scan file system 
-	require_once("file_scanner.php");
+	require("file_scanner.php");
 	
 	$photoPath = $_GET['path'];
 	

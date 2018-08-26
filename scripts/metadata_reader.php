@@ -2,11 +2,9 @@
 //this script is only called from the file_scanner.php script
 //it is used to group all the metadata extraction code
 	ini_set('exif.encode_unicode', 'UTF-8');
-	$exif = exif_read_data($image, 'ANY_TAG', true);
-	
-	//$exif_ifd0 = read_exif_data($image ,'IFD0' ,0);       
-    //$exif_exif = read_exif_data($image ,'EXIF' ,0);	
-	  
+	$exif = exif_read_data($image, 'ANY_TAG', true);	
+
+  
 	// get the time that the photo was taken
 	if (!empty($exif['EXIF']['DateTimeOriginal'])) {
 		//$exif_date = $exif_exif['DateTimeOriginal'];
@@ -40,11 +38,10 @@
 	}
 	
 	
-	$query="INSERT or IGNORE INTO photo(photo_path, date_created) VALUES ( '$imagePath', '$exif_date') ";
+	$query="INSERT OR REPLACE INTO photo(photo_path, date_created) VALUES ( '$imagePath', '$exif_date') ";
 	$db->query($query);
-	$query="INSERT or IGNORE INTO photo_description(photo_path, title, comments) VALUES ( '$imagePath', '$exif_title','$exif_comments') ";
+	$query="INSERT  OR REPLACE INTO photo_description(photo_path, title, comments) VALUES ( '$imagePath', '$exif_title','$exif_comments') ";
 	$db->query($query);
+	//$echo $image
 	
-
-
 ?>
