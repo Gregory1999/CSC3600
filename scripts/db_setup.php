@@ -19,10 +19,14 @@
 		$db->exec('CREATE TABLE photo_description
 				(photo_path STRING PRIMARY Key,
 				 title STRING,
-				 subject STRING,
+				 comments STRING)'); 
+				 
+				 //,
+				 /*subject STRING,
 				 rating INTEGER
 				 tags STRING
 				 comments STRING)');
+				 */
 
 
 	}

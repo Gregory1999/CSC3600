@@ -21,7 +21,6 @@
 	$pattern = "./*.{jpg,jpeg}";
 	$images= glob_recursive($pattern, GLOB_BRACE);
 	
-
 	foreach($images as $image)
 	{
   		$imagePath = $root_path . ltrim($image, ".");
@@ -37,20 +36,8 @@
   		//update db if photo modified or not in db add to database
 		if (strtotime($modified_date) > strtotime($last_scan) || $numRows == 0){
 			//read in metadaa
-			$exif = exif_read_data($image);
-			
-			// get the time that the photo was taken
-			if (!empty($exif['DateTimeOriginal'])) {
-				$exif_date = $exif['DateTimeOriginal'];
-			}
-			else{
-				//no photo date data 	
-				$exif_date= '';		
-			}
-			
-			$query="INSERT or IGNORE INTO photo(photo_path, date_created) VALUES ( '$imagePath', '$exif_date') ";
-			$db->query($query);
-				 	
+			require "metadata_reader.php";
+							 	
 		}
 		//mark file as not deleted
 		$query="UPDATE photo SET deleted = 'FALSE' WHERE photo_path = '$imagePath'";
