@@ -172,7 +172,6 @@
 		
 	}
 	
-	
 	//used to display all photos in the root directory
 	function allPhotos() {
 		xmlhr1.addEventListener("load", loadPhotos);	
@@ -193,7 +192,6 @@
    	loadSpinner();
    	xmlhr1.send();
 	}
-
 	
 	// this function will display the loading spinner 	
  	function loadSpinner() {

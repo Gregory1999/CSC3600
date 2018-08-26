@@ -18,14 +18,14 @@
 	chdir($_SERVER['DOCUMENT_ROOT'] . $root_path);
 	
 	//create an array of files ending in either jpg or jpeg
-	//$pattern =  $root_path . "./*.{jpg,jpeg}";
-	$pattern = "./*.{jpg,jpeg}";
+	//$pattern =  realpath($root_path) . "/*.{jpg,jpeg}";
+	$pattern = '*.{jpg,jpeg}';
 	$images= glob_recursive($pattern, GLOB_BRACE);
-	
 	
 	foreach($images as $image)
 	{
-  		$imagePath = $root_path . ltrim($image, ".");
+		$imagePath = $root_path . "/" . $image;
+  		//$imagePath = $root_path . ltrim($image, ".");
   		//	if modified since last scan then update db data
   		$modified_date=date("d F Y H:i:s.", filemtime($image));
   		
@@ -63,7 +63,7 @@ function glob_recursive($pattern, $flags = 0){
      $directoryArray = glob(dirname($pattern) . '/*', GLOB_ONLYDIR|GLOB_NOSORT);
      foreach ( $directoryArray as $directory)
      {
-       $images = array_merge($images, glob_recursive($directory . '/' . basename($pattern), $flags));
+	   $images = array_merge($images, glob_recursive($directory . "/" . basename($pattern), $flags));
      }
      return $images;
  }
