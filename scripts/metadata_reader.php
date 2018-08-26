@@ -36,12 +36,22 @@
 		//no photo date data 	
 		$exif_comments= '';		
 	}
+	//get the tags/Keywords
+	if (!empty($exif['IFD0']['Keywords'])) {
+			//windows put in a heap of randome chars, so had to remove-- may improve this
+			$raw_keywords = $exif['IFD0']['Keywords'];
+			$exif_keywords = substr(mb_convert_encoding($raw_keywords,"auto","byte2le"), 0, -1);		
+	}
+	else{
+		//no photo date data 	
+		$exif_keywords = '';		
+	}
 	
 	
+	//insert or replace the db
 	$query="INSERT OR REPLACE INTO photo(photo_path, date_created) VALUES ( '$imagePath', '$exif_date') ";
 	$db->query($query);
-	$query="INSERT  OR REPLACE INTO photo_description(photo_path, title, comments) VALUES ( '$imagePath', '$exif_title','$exif_comments') ";
+	$query="INSERT  OR REPLACE INTO photo_description(photo_path, title, comments, tags) VALUES ( '$imagePath', '$exif_title','$exif_comments', '$exif_keywords') ";
 	$db->query($query);
-	//$echo $image
 	
 ?>
