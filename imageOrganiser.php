@@ -165,7 +165,7 @@
 				}
 				
 				
-				output += "<div><button id = 'meta_edit_button' type='button' >Edit Metadata </button></div> \n";
+				output += "<div><button id = 'meta_edit_button' type='button' >Save Metadata </button></div> \n";
 				metadata.innerHTML= output;
 			}
 		};
