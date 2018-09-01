@@ -18,7 +18,7 @@
 	// get the title tag
 	if (!empty($exif['IFD0']['Title'])) {
 			//windows put in a heap of randome chars
-			$exif_title= preg_replace("/[^A-Za-z0-9 ]/", '', $exif['IFD0']['Title']);	
+			$exif_title= preg_replace('/[[:^print:]]/', '', $exif['IFD0']['Title']);	
 	}
 	else{
 		//no photo date data 	
@@ -28,7 +28,7 @@
 	// get the Comments tag
 	if (!empty($exif['IFD0']['Comments'])) {
 			//windows put in a heap of randome chars, so  remove
-			$exif_comments= preg_replace("/[^A-Za-z0-9 ]/", '', $exif['IFD0']['Comments']);		
+			$exif_comments= preg_replace('/[[:^print:]]/', '', $exif['IFD0']['Comments']);		
 	}
 	else{
 		//no photo date data 	
@@ -37,7 +37,7 @@
 	//get the tags/Keywords
 	if (!empty($exif['IFD0']['Keywords'])) {
 			//windows put in a heap of randome chars, so remove
-			$exif_keywords= preg_replace("/[^A-Za-z0-9 ]/", '', $exif['IFD0']['Keywords']);				
+			$exif_keywords= preg_replace('/[[:^print:]]/', '', $exif['IFD0']['Keywords']);				
 	}
 	else{
 		//no photo date data 	
