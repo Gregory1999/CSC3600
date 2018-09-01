@@ -155,14 +155,17 @@
 				var metadata = document.getElementById('metadata');
 				
 				//outputs JSON object (metadata) currently only displays date taken
-				var output ="<ul> \n";
+				var output ="";
 				var response = this.response;
+				
 				for (var key in response) {
-				    if (response.hasOwnProperty(key) && response[key] != "") {
-				    	output += "<li> <label>" + key + ":  </label>" + response[key] + "</li> \n";
+				    if (response.hasOwnProperty(key)) {
+				    	output += "<div> <label>" + key + ": <input type='text' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "' required='required' size='40'/></label> </div> \n";
 				    }
 				}
-				output += "</ul> \n";
+				
+				
+				output += "<div><button id = 'meta_edit_button' type='button' >Edit Metadata </button></div> \n";
 				metadata.innerHTML= output;
 			}
 		};

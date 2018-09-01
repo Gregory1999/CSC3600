@@ -1,5 +1,5 @@
 <?php
-	//this script will output all metadata for an image
+	//this script will output all EDITABLE metadata for an image
 	//the path will be passed to the script using the GET method
 	//the script will return a JSON formatted string
 
@@ -15,7 +15,7 @@
 	// array of field to not output
 	
 	//array of tables to output
-	$tableArray= ['photo', 'photo_description'];
+	$tableArray= ['photo_description'];
 	
 	//output each
 	foreach($tableArray as $tableName){
@@ -25,8 +25,9 @@
 		
 		//output the whole table
 		foreach($row as $key => $value){
-			
-			$json .= json_encode($key) . ' : ' . json_encode($value) . ',';
+			if ($key != "photo_path"){
+				$json .= json_encode($key) . ' : ' . json_encode($value) . ',';
+			}
 		}
 	}
 	$json = rtrim($json,",") . "}";
