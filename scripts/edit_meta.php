@@ -63,7 +63,7 @@
 	//if title is to be edited
 	if (array_key_exists('title', $_GET)) {
 		$entry = $ifd0->getEntry(PelTag::XP_TITLE);
-		//if title doen not exists add 
+		//if title does not exists add 
 		if ($entry == null){
 			    $entry = new PelEntryAscii(PelTag::XP_TITLE, $_GET['title']);
 				$ifd0->addEntry($entry);
