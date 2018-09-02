@@ -8,9 +8,11 @@
 	//include the pel library
 	set_include_path('../scripts/pel-master' . PATH_SEPARATOR . get_include_path());
 	require_once "autoload.php";
+	use lsolesen\pel\PelDataWindow;
 	use lsolesen\pel\PelJpeg;
 	use lsolesen\pel\PelTag;
 	use lsolesen\pel\PelIfd;
+	use lsolesen\pel\PelEntryAscii;
 	
 	//create a new pel object that points to the file
 	$image = $_GET['path'];
@@ -40,19 +42,43 @@
 	//if comments to be edited
 	if (array_key_exists('comments', $_GET)) {
 		$entry = $ifd0->getEntry(PelTag::XP_COMMENT);
-		$entry->setValue($_GET['comments']);
+		//if comment doen not exists add 
+		if ($entry == null){
+			    $entry = new PelEntryAscii(PelTag::XP_COMMENT, $_GET['comments']);
+				$ifd0->addEntry($entry);
+		}
+		// if comment already exists then change
+		else{
+			$entry->setValue($_GET['comments']);
+		}
 	}
 	
-	//if comments to be edited
+	//if tags to be edited
 	if (array_key_exists('tags', $_GET)) {
 		$entry = $ifd0->getEntry(PelTag::XP_KEYWORDS);
-		$entry->setValue($_GET['tags']);
+		//if tag doen not exists add 
+		if ($entry == null){
+			    $entry = new PelEntryAscii(PelTag::XP_KEYWORDS, $_GET['tags']);
+				$ifd0->addEntry($entry);
+		}
+		// if comment already exists then change
+		else{
+			$entry->setValue($_GET['tags']);
+		}
 	}
 	
-	//if comments to be edited
+	//if title to be edited
 	if (array_key_exists('title', $_GET)) {
 		$entry = $ifd0->getEntry(PelTag::XP_TITLE);
-		$entry->setValue($_GET['title']);
+		//if title doen not exists add 
+		if ($entry == null){
+			    $entry = new PelEntryAscii(PelTag::XP_TITLE, $_GET['title']);
+				$ifd0->addEntry($entry);
+		}
+		// if comment already exists then change
+		else{
+			$entry->setValue($_GET['title']);
+		}
 	}
 	
 	//save data to the image
