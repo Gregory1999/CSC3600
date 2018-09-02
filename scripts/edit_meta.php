@@ -14,7 +14,6 @@
 	use lsolesen\pel\PelIfd;
 	use lsolesen\pel\PelEntryAscii;
 	
-	//create a new pel object that points to the file
 	$image = $_GET['path'];
 	
 	$db = new SQLite3('../site.db');
@@ -25,21 +24,15 @@
 	
 	//save cwd
 	$current_dir = getcwd();
-	//cd to root
-
+	//cd to root directory
 	chdir($_SERVER['DOCUMENT_ROOT'] . $root_path);
 	$image= str_replace($root_path, "" ,$image);
 	
-	//chdir($_SERVER['DOCUMENT_ROOT']);
-	
-	//remove root from path
-	
-	
+	//create a new pel object that points to the file
 	$jpeg = new PelJpeg($image);
-	
 	$ifd0 = $jpeg->getExif()->getTiff()->getIfd();
 	
-	//if comments to be edited
+	//if comments are to be edited
 	if (array_key_exists('comments', $_GET)) {
 		$entry = $ifd0->getEntry(PelTag::XP_COMMENT);
 		//if comment doen not exists add 
@@ -53,7 +46,7 @@
 		}
 	}
 	
-	//if tags to be edited
+	//if tags are to be edited
 	if (array_key_exists('tags', $_GET)) {
 		$entry = $ifd0->getEntry(PelTag::XP_KEYWORDS);
 		//if tag doen not exists add 
@@ -61,13 +54,13 @@
 			    $entry = new PelEntryAscii(PelTag::XP_KEYWORDS, $_GET['tags']);
 				$ifd0->addEntry($entry);
 		}
-		// if comment already exists then change
+		// if tag already exists then change
 		else{
 			$entry->setValue($_GET['tags']);
 		}
 	}
 	
-	//if title to be edited
+	//if title is to be edited
 	if (array_key_exists('title', $_GET)) {
 		$entry = $ifd0->getEntry(PelTag::XP_TITLE);
 		//if title doen not exists add 
@@ -80,12 +73,11 @@
 			$entry->setValue($_GET['title']);
 		}
 	}
-	
 	//save data to the image
 	$jpeg->saveFile($image);
-	
+	//change back to original directory before including the get_meta script
 	chdir($current_dir);
-	//return the image with new metadata
+	//return the new metadata
 	include("get_meta.php");
 	
 ?>
