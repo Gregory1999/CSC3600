@@ -13,7 +13,26 @@
 	use lsolesen\pel\PelIfd;
 	
 	//create a new pel object that points to the file
-	$image = $simple_search= $_GET['path'];
+	$image = $_GET['path'];
+	
+	$db = new SQLite3('../site.db');
+	$query = "SELECT path, last_scan FROM root_directory";
+				$result= $db->query($query);
+				$row = $result->fetchArray(SQLITE3_ASSOC);
+	$root_path= $row["path"] . '/';
+	
+	//save cwd
+	$current_dir = getcwd();
+	//cd to root
+
+	chdir($_SERVER['DOCUMENT_ROOT'] . $root_path);
+	$image= str_replace($root_path, "" ,$image);
+	
+	//chdir($_SERVER['DOCUMENT_ROOT']);
+	
+	//remove root from path
+	
+	
 	$jpeg = new PelJpeg($image);
 	
 	$ifd0 = $jpeg->getExif()->getTiff()->getIfd();
@@ -25,9 +44,9 @@
 	}
 	
 	//if comments to be edited
-	if (array_key_exists('tag', $_GET)) {
+	if (array_key_exists('tags', $_GET)) {
 		$entry = $ifd0->getEntry(PelTag::XP_KEYWORDS);
-		$entry->setValue($_GET['tag']);
+		$entry->setValue($_GET['tags']);
 	}
 	
 	//if comments to be edited
@@ -36,9 +55,11 @@
 		$entry->setValue($_GET['title']);
 	}
 	
-	
-	
 	//save data to the image
 	$jpeg->saveFile($image);
+	
+	chdir($current_dir);
+	//return the image with new metadata
+	include("get_meta.php");
 	
 ?>

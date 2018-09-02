@@ -74,17 +74,16 @@
 			xmlhr1.responseType = "json";
 			loadSpinner();
 			xmlhr1.send();
-	
 	}
 
 	// This function will be used if the root directory is not set
+	// It retrieves the root directory from the user
 	function loadDirectory() {
 		var xmlhr1 = new XMLHttpRequest();
 		xmlhr1.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
 				var xmlhr1 = new XMLHttpRequest();
 				var response = this.response;
-				
 				//should be a better way to get the path- this is just temporary, so that I can build the back-end
 				var output = '<div><label>Full Directory Path: <input type="text" id = "root" value= "Test_Images" name="root_path" required="required" size="40"/></label> <button id = "root_button" type="button" >Load Root Directory </button></div>';				
 				photos.innerHTML= output;
@@ -98,14 +97,14 @@
 		xmlhr1.send();
 	}
 	
-	
-	//This will load all of the photos from the chosen directory
-	//The function will retrieve the images paths and set event listeners to each image
-	//if the root has not been it will call the function to set the root path
+	//The is a xhr callback function
+	//It will load all of the photos from the chosen directory
+	//It will receive a JSON formated string containing the root directory and all the image paths
+	//The function will display the images and set event listeners to each image
+	//If the root has not been it will call the function to set the root path
 	function loadPhotos() {
 		if ((this.readyState == 4) && (this.status == 200)) {
 			var response = this.response;
-			
 			//if the root directory has not been loaded then call function to load directory
 			if (response.root == 'NULL' ) {			
 					loadDirectory();			 
@@ -148,32 +147,78 @@
 		var home = document.getElementById('home_button');
 		home.addEventListener("click", allPhotos);
 		
-		//retrieve and add metadata
+		//retrieve and add metadata and then display image
 		var xmlhr1 = new XMLHttpRequest();
-		xmlhr1.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				var metadata = document.getElementById('metadata');
-				
-				//outputs JSON object (metadata) currently only displays date taken
-				var output ="";
-				var response = this.response;
-				
-				for (var key in response) {
-				    if (response.hasOwnProperty(key)) {
-				    	output += "<div> <label>" + key + ": <input type='text' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "' required='required' size='40'/></label> </div> \n";
-				    }
-				}
-				
-				
-				output += "<div><button id = 'meta_edit_button' type='button' >Save Metadata </button></div> \n";
-				metadata.innerHTML= output;
-			}
-		};
+		xmlhr1.addEventListener("load", displayMeta);
 		xmlhr1.open("GET", script+'?path='+imageRelPath, true);
 		xmlhr1.responseType = "json";
 		xmlhr1.send();
 		
 	}
+	
+	// This is a xhr callback function
+	// It is used to format the returned editable metadata allowing the user to update it
+	// It will receive a JSON formatted string of metadata field-value pairs.
+	function displayMeta() {
+		if (this.readyState == 4 && this.status == 200) {
+			var metadata = document.getElementById('metadata');
+				
+			//outputs JSON object (metadata) currently only displays limited data
+			var output ="";
+			var response = this.response;
+			for (var key in response) {
+				//display the path as hidden element
+			    if (response.hasOwnProperty(key)) {
+					if ( key === 'photo_path' ){
+						output += "<input type='hidden' id = '" + key + "' value = '" + response[key]  + "'  /> ";
+					}
+					//display all other editable data as placeholders in input elements
+					else {
+						output += "<div> <label>" + key + ": <input type='text' id = '" + key + "' placeholder= '" + response[key]  + "' name='" + key + "'  size='40'/></label> </div> \n";
+					}
+				}
+			}
+				
+			output += "<div> <button id ='meta_edit_btn' type='button' >Save Metadata </button> </div> \n";
+			metadata.innerHTML = output;
+			//add event listner to the metadata save button
+			var save_btn = document.getElementById('meta_edit_btn');
+			save_btn.addEventListener("click", saveMeta);
+		}
+	}
+		
+		
+	//This function is used to save new metadata to the selected file
+	//it sets up a xhr funtion to upload and then display the new data
+	function saveMeta(){
+		
+			//store the value for each metadata field---------------------add more when db complete
+			var metaArray = [];
+			metaArray["title"] = document.getElementById('title').value;
+			metaArray["comments"] = document.getElementById('comments').value;
+			metaArray["tags"] = document.getElementById('tags').value;
+			//store the image path
+			var imagePath = document.getElementById('photo_path').value;
+			//script that will update metadata in image file 
+			
+			var script = 'scripts/edit_meta.php?path='+ imagePath ;
+			//add name-value pairs for all altered metadata to querry string
+			for (var key in metaArray) {
+				//if value is not empty add it to the querry string
+				if (metaArray[key] != '') {
+					script += '&' + key + '=' + metaArray[key];
+				}
+			}
+			
+			//xhr request that will update and reload the metadata
+			//								<--- may improve this to confirm with user, and provide feedback
+			var xmlhr1 = new XMLHttpRequest();
+			xmlhr1.addEventListener("load", displayMeta);
+			xmlhr1.open("GET",script);
+			xmlhr1.responseType = "json";
+			xmlhr1.send();
+	}
+
 	
 	//used to display all photos in the root directory
 	function allPhotos() {

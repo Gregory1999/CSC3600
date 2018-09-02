@@ -25,9 +25,7 @@
 		
 		//output the whole table
 		foreach($row as $key => $value){
-			if ($key != "photo_path"){
-				$json .= json_encode($key) . ' : ' . json_encode($value) . ',';
-			}
+			$json .= json_encode($key) . ' : ' . json_encode($value) . ',';
 		}
 	}
 	$json = rtrim($json,",") . "}";

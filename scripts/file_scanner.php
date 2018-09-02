@@ -58,14 +58,21 @@
 	
 	
 //recursively searches directories to find all files matching the supplied pattern
+//@param $pattern- the pattern to use to match files
+//@param $flags- the flags to use to with glob
+//@return- all matching files within directory and subdirectories
 function glob_recursive($pattern, $flags = 0){
-     $images = glob($pattern, $flags);
-     $directoryArray = glob(dirname($pattern) . '/*', GLOB_ONLYDIR|GLOB_NOSORT);
-     foreach ( $directoryArray as $directory)
-     {
-	   $images = array_merge($images, glob_recursive($directory . "/" . basename($pattern), $flags));
-     }
-     return $images;
- }
+	//find all images in the current directory
+	$images = glob($pattern, $flags);
+	//find all direct child directories in the current directory
+	$directoryArray = glob(dirname($pattern) . '/*', GLOB_ONLYDIR|GLOB_NOSORT);
+	//recursively call function for all child directories
+	foreach ($directoryArray as $directory){
+		//combine results
+		$images = array_merge($images, glob_recursive($directory . "/" . basename($pattern), $flags));
+	}
+	//return all images
+	return $images;
+}
 
 ?>
