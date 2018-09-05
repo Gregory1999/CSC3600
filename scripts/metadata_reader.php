@@ -1,6 +1,17 @@
 <?php
 //this script is only called from the file_scanner.php script
 //it is used to group all the metadata extraction code
+
+
+	//include the pel library----------------------------------------------------------------
+		set_include_path('../scripts/pel-master' . PATH_SEPARATOR . get_include_path());
+		require_once "autoload.php";
+		use lsolesen\pel\PelDataWindow;
+		use lsolesen\pel\PelJpeg;
+		use lsolesen\pel\PelTag;
+		use lsolesen\pel\PelIfd;
+		use lsolesen\pel\PelEntryAscii;
+
 	ini_set('exif.encode_unicode', 'UTF-8');
 	$exif = exif_read_data($image, 'ANY_TAG', true);	
 
@@ -46,8 +57,64 @@
 	
 	$image_thumbnail = exif_thumbnail($image);
 	
+	//creates a thumbnail image if one does not exist
 	if ($image_thumbnail === False) {
-		$image_thumbnail = "";
+		//This code was referenced from exif_thumbnail php man page
+		//viewed from <http://php.net/manual/en/function.exif-thumbnail.php>
+		//thrustvector at &#39;gee&#39;mail dot com ¶
+
+		$jpeg = new PelJpeg($image);
+		$exif = $jpeg->getExif();
+		$tiff = $exif->getTiff();
+		$ifd0 = $tiff->getIfd();       
+
+		$ifd1 = $ifd0->getNextIfd();
+		//if ifd1 doesnt exist then create it
+		if (!$ifd1) {
+			//create new ifd1 and point ifd0 to it
+			$ifd1 = new PelIfd(1);
+			$ifd0->setNextIfd($ifd1); 
+			$origImage = ImageCreateFromString($jpeg->getBytes()); 
+			$width=imagesx($origImage);
+			$height=imagesy($origImage);
+			
+			$widthMax = 150;
+			$heightMax = 100;
+
+			if ($width>$widthMax || $height>$heightMax) {
+				$thumb_w=$widthMax;
+				$thumb_h=$heightMax;
+				if ($thumb_w/$width*$height>$thumb_h)
+					$thumb_w=round($thumb_h*$width/$height); 
+				else
+					$thumb_h=round($thumb_w*$height/$width);
+			}
+			else { 
+				$thumb_w=$width;
+				$thumb_h=$height;
+			}
+
+				
+			$thumb=imagecreatetruecolor($thumb_w,$thumb_h);
+			imagecopyresampled($thumb,$origImage,
+									   0,0,0,0,$thumb_w,$thumb_h,$width,$height);
+
+
+			ob_start();       
+			ImageJpeg($thumb);   
+				
+			$window = new PelDataWindow(ob_get_clean());
+
+			if ($window) {   
+
+				$ifd1->setThumbnail($window); 
+				$outpath = $image; 
+				file_put_contents($outpath, $jpeg->getBytes()); 
+			}
+		}
+		
+		$image_thumbnail = exif_thumbnail($image);	
+		
 	}
 	
 	//insert or replace the db
