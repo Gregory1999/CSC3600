@@ -174,7 +174,12 @@
 					}
 					//display all other editable data as placeholders in input elements
 					else {
+						if ( key === 'rating' ){
+							//add code for star rating
+						}
+						else{
 						output += "<div> <label>" + key + ": <input type='text' id = '" + key + "' placeholder= '" + response[key]  + "' name='" + key + "'  size='40'/></label> </div> \n";
+						}
 					}
 				}
 			}
@@ -197,6 +202,8 @@
 			metaArray["title"] = document.getElementById('title').value;
 			metaArray["comments"] = document.getElementById('comments').value;
 			metaArray["tags"] = document.getElementById('tags').value;
+			metaArray["subject"] = document.getElementById('subject').value;
+			metaArray["rating"] = document.getElementById('rating').value;
 			//store the image path
 			var imagePath = document.getElementById('photo_path').value;
 			//script that will update metadata in image file 

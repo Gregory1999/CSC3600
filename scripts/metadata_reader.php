@@ -45,6 +45,16 @@
 		$exif_keywords = '';		
 	}
 	
+	// get the subject tag
+	if (!empty($exif['IFD0']['Subject'])) {
+			//windows put in a heap of randome chars, so  remove
+			$exif_subject= preg_replace('/[[:^print:]]/', '', $exif['IFD0']['Subject']);		
+	}
+	else{
+		//no photo date data 	
+		$exif_subject= '';		
+	}
+	
 	$image_thumbnail = exif_thumbnail($image);
 	
 	//creates a thumbnail image if one does not exist
@@ -110,7 +120,7 @@
 	//insert or replace the db
 	$query="INSERT OR REPLACE INTO photo_file(photo_path, date_created) VALUES ( '$imagePath', '$exif_date') ";
 	$db->query($query);
-	$query="INSERT  OR REPLACE INTO photo_description(photo_path, title, comments, tags) VALUES ( '$imagePath', '$exif_title','$exif_comments', '$exif_keywords') ";
+	$query="INSERT  OR REPLACE INTO photo_description(photo_path, title, comments, tags, subject) VALUES ( '$imagePath', '$exif_title','$exif_comments', '$exif_keywords', '$exif_subject') ";
 	$db->query($query);
 	
 	//insert the thumbnail image

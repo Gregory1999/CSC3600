@@ -74,6 +74,22 @@
 			$entry->setValue($_GET['title']);
 		}
 	}
+	
+	//if subject is to be edited
+	if (array_key_exists('subject', $_GET)) {
+		$entry = $ifd0->getEntry(PelTag::XP_SUBJECT);
+		//if title does not exists add 
+		if ($entry == null){
+			    $entry = new PelEntryAscii(PelTag::XP_SUBJECT, $_GET['subject']);
+				$ifd0->addEntry($entry);
+		}
+		// if comment already exists then change
+		else{
+			$entry->setValue($_GET['subject']);
+		}
+	}
+	
+	
 	//save data to the image
 	$jpeg->saveFile($image);
 	//change back to original directory before including the get_meta script
