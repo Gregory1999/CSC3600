@@ -1,0 +1,89 @@
+.row.display-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+.row.display-flex > [class*='col-'] {
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+.loader-frame{
+	width: 50px;
+	height: 50px;
+	border:	5px solid #ccc;
+	border-top-color: #ff6a00;
+	border-radius: 100%;
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+	animation: myrotate 2s linear infinite;
+}
+
+
+@keyframes myrotate{
+ from{transform: rotate(0deg)}
+ to{transform:	rotate(360deg)}
+}
+
+
+body{
+background-color: rgb(71,78,93);	
+}
+.logo{
+	background-color: white;
+	text-align: center;
+	text-shadow: 3px 2px lightblue;
+	font-family: "Times New Roman", Times, serif;
+	font-size: 100px; 
+	height: 200px;
+	
+	
+	 
+}
+header{
+	background-color: white;
+}
+img{
+	align-content: center;
+	width: 50%;
+}
+body .search{
+	float: right;
+	margin-top: 10px;
+	margin-bottom: -10px;
+}
+
+body .navbar-header .project{
+	color: orange;
+}
+body .navbar-project{
+	color: orange;
+	text-align: center;
+	font-size: 3em;
+	margin: auto;
+	display: inline-block;
+	
+/* 	margin-top: 0px;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    margin-left: 0px; */
+	
+}
+
+@media only screen and (max-width: 800px){
+	body .search{
+		margin-top: 0px;
+		margin-bottom: 0px;	
+	}	
+}
+@media only screen and (max-width: 600px){
+	body .logo{
+		font-size: 50px;
+		height: 100px;
+	}	
+}
