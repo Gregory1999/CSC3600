@@ -21,8 +21,8 @@
 	$last_scan = $row["last_scan"];
 	
 	
-	//mark all entries in the photo table to delete- this flag is used to identify if a photo has been deleted	
-	$query="UPDATE photo SET deleted= 'TRUE'";
+	//mark all entries in the photo_file table to delete- this flag is used to identify if a photo has been deleted	
+	$query="UPDATE photo_file SET deleted= 'TRUE'";
 	$db->query($query);
 	//go to the photo directory
 	chdir($_SERVER['DOCUMENT_ROOT'] . $root_path);
@@ -40,7 +40,7 @@
   		$modified_date=date("d F Y H:i:s.", filemtime($image));
   		
   		//check if a new photo has been added to directory but is not in db
-  		$query = "SELECT COUNT(*) as numRows FROM photo WHERE photo_path='$imagePath'";
+  		$query = "SELECT COUNT(*) as numRows FROM photo_file WHERE photo_path='$imagePath'";
   		$result = $db->query($query);
   		$row = $result->fetchArray(SQLITE3_ASSOC);
   		$numRows = $row['numRows'];
@@ -52,12 +52,12 @@
 			include "metadata_reader.php";  				 	
 		}
 		//mark file as not deleted
-		$query="UPDATE photo SET deleted = 'FALSE' WHERE photo_path = '$imagePath'";
+		$query="UPDATE photo_file SET deleted = 'FALSE' WHERE photo_path = '$imagePath'";
 		$db->query($query);	
 		
 	}
 	//remove deleted files from the db
-	$query="DELETE FROM photo WHERE deleted = 'TRUE'";
+	$query="DELETE FROM photo_file WHERE deleted = 'TRUE'";
 	$db->query($query);
 			
 	

@@ -18,7 +18,7 @@
 	
 	$json .= '"imageArray" : [';
 	// very basic search-
-	$query = "SELECT photo_path, date_created FROM photo WHERE photo_path LIKE '%${simple_search}%' ORDER BY date_created DESC";
+	$query = "SELECT photo_path, date_created FROM photo_file WHERE photo_path LIKE '%${simple_search}%' ORDER BY date_created DESC";
 	
 	$result= $db->query($query);
 	

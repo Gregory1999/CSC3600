@@ -108,7 +108,7 @@
 	}
 	
 	//insert or replace the db
-	$query="INSERT OR REPLACE INTO photo(photo_path, date_created) VALUES ( '$imagePath', '$exif_date') ";
+	$query="INSERT OR REPLACE INTO photo_file(photo_path, date_created) VALUES ( '$imagePath', '$exif_date') ";
 	$db->query($query);
 	$query="INSERT  OR REPLACE INTO photo_description(photo_path, title, comments, tags) VALUES ( '$imagePath', '$exif_title','$exif_comments', '$exif_keywords') ";
 	$db->query($query);
