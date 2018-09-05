@@ -21,6 +21,12 @@
 				 title STRING,
 				 comments STRING,
 				 tags STRING)'); 
+		
+		
+		//table for holding photo thumbnail 	
+		$db->exec('CREATE TABLE photo_thumbnail
+				(photo_path STRING PRIMARY Key,
+				 photo_thumbnail BLOB)'); 
 				 
 				 //,
 				 /*subject STRING,
@@ -29,7 +35,7 @@
 				 comments STRING)');
 				 */
 
-
+		
 	}
 	//if file exists point to database
 	else {

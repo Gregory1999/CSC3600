@@ -114,7 +114,7 @@
 				var output = "<div class= 'row display-flex' >";
 				for (var i = 0; i < response.imageArray.length; i++)  {
 					var imagePath =  response.imageArray[i];
-					output += '<div class="col-xs-4 thumbnail">  <img src = "' + imagePath + '" class = "img-fluid" id = "' + imagePath + '" />  </div>\n';
+					output += '<div class="col-xs-4 thumbnail">  <img src = "scripts/thumbnail.php?path=' + imagePath + '" class = "img-fluid" id = "' + imagePath + '" />  </div>\n';
 				}
 				output += "</ div>";
 				

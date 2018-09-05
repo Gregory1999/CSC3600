@@ -44,11 +44,23 @@
 		$exif_keywords = '';		
 	}
 	
+	$image_thumbnail = exif_thumbnail($image);
+	
+	if ($image_thumbnail === False) {
+		$image_thumbnail = "";
+	}
 	
 	//insert or replace the db
 	$query="INSERT OR REPLACE INTO photo(photo_path, date_created) VALUES ( '$imagePath', '$exif_date') ";
 	$db->query($query);
 	$query="INSERT  OR REPLACE INTO photo_description(photo_path, title, comments, tags) VALUES ( '$imagePath', '$exif_title','$exif_comments', '$exif_keywords') ";
 	$db->query($query);
+	
+	//insert the thumbnail image
+	$query="INSERT OR REPLACE INTO photo_thumbnail(photo_path, photo_thumbnail) VALUES ( '$imagePath', :image_thumbnail) ";
+	$stmt= $db->prepare($query);
+	$stmt->bindParam(':image_thumbnail', $image_thumbnail, \PDO::PARAM_LOB);
+	$stmt->execute();
+	
 	
 ?>
