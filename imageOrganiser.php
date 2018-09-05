@@ -141,7 +141,7 @@
 		var script = "scripts/get_meta.php";
 		var imagePath = this.src;
 		var imageRelPath = this.id;
-		var output = '<img src = "' + imagePath + '" class = "img-fluid" id = "' + imagePath + '" /> <div id = "metadata"></div> <button id = "home_button" type="button" >Show all Photos </button>' 
+		var output = '<img src = "' + imageRelPath + '" class = "img-fluid" id = "' + imageRelPath + '" /> <div id = "metadata"></div> <button id = "home_button" type="button" >Show all Photos </button>' 
 		photos.innerHTML= output ;
 		// show all photos is button is pressed
 		var home = document.getElementById('home_button');
