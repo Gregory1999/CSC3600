@@ -2,16 +2,6 @@
 //this script is only called from the file_scanner.php script
 //it is used to group all the metadata extraction code
 
-
-	//include the pel library----------------------------------------------------------------
-		set_include_path('../scripts/pel-master' . PATH_SEPARATOR . get_include_path());
-		require_once "autoload.php";
-		use lsolesen\pel\PelDataWindow;
-		use lsolesen\pel\PelJpeg;
-		use lsolesen\pel\PelTag;
-		use lsolesen\pel\PelIfd;
-		use lsolesen\pel\PelEntryAscii;
-
 	ini_set('exif.encode_unicode', 'UTF-8');
 	$exif = exif_read_data($image, 'ANY_TAG', true);	
 
@@ -61,7 +51,7 @@
 	if ($image_thumbnail === False) {
 		//This code was referenced from exif_thumbnail php man page
 		//viewed from <http://php.net/manual/en/function.exif-thumbnail.php>
-		//thrustvector at &#39;gee&#39;mail dot com ¶
+		//from -thrustvector at &#39;gee&#39;mail dot com ¶
 
 		$jpeg = new PelJpeg($image);
 		$exif = $jpeg->getExif();

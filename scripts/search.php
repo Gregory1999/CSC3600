@@ -7,6 +7,7 @@
 	
 	// scan file system 
 	$db = new SQLite3('../site.db');
+	chdir('../');
 	require_once "file_scanner.php";
 
 	

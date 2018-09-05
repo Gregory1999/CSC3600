@@ -1,6 +1,7 @@
 <?php
 	/* 	Script is used to edit metadata
-	/	Receives the filename and metadata tag:values via the get method
+	/	called from imageOrganiser using GET 
+	/	Receives the filename and metadata tag:values via the GET method
 	/	Updates the metadata of the file directly on the file system- this data will be sync'ed to the db during next scan
 	/	This script uses the PEL to write metadata to an image
 	*/

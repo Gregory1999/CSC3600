@@ -1,15 +1,25 @@
 <?php
-# this script will scan the file system and update any new or changed images
+// this script will scan the file system and update any new or changed images
+// it is included in multiple scripts- get_meta.php, search.php,
 
-//This library will be required to update metadata images
-//	require_once "lib/pel-master/src/PelJpeg.php"
+ 
+	//This library will be required to update metadata images
+	//include the pel library----------------------------------------------------------------
+	$scriptDir= getcwd();
+	set_include_path('./scripts/pel-master' . PATH_SEPARATOR . get_include_path());
+	require_once "autoload.php";
+	use lsolesen\pel\PelDataWindow;
+	use lsolesen\pel\PelJpeg;
+	use lsolesen\pel\PelTag;
+	use lsolesen\pel\PelIfd;
+	use lsolesen\pel\PelEntryAscii;
 
 	$query = "SELECT path, last_scan FROM root_directory";
 	$result= $db->query($query);
 	$row = $result->fetchArray(SQLITE3_ASSOC);
 	$root_path= $row["path"];
 	$last_scan = $row["last_scan"];
-	$scriptDir= getcwd();
+	
 	
 	//mark all entries in the photo table to delete- this flag is used to identify if a photo has been deleted	
 	$query="UPDATE photo SET deleted= 'TRUE'";

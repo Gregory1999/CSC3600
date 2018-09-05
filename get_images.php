@@ -1,6 +1,8 @@
 <?php
-//this file will send all images on request
+//this file will send the path for all images on request
+//called from the imageOrganiser using GET method
 //path to images will be sent in JSON format
+//
 			
 			$json = "{";
 			

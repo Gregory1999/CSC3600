@@ -6,8 +6,9 @@
 	//point to the database
 	$db = new SQLite3('../site.db');
 	// scan file system 
+	chdir('../');
 	require("file_scanner.php");
-	
+
 	$photoPath = $_GET['path'];
 	
 	$json = "{";
