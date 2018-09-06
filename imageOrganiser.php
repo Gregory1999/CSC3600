@@ -178,7 +178,7 @@
 							//add code for star ratti
 						}
 						else{
-						output += "<div> <label>" + key + ": <input type='text' id = '" + key + "' placeholder= '" + response[key]  + "' name='" + key + "'  size='40'/></label> </div> \n";
+						output += "<div> <label>" + key + ": <input type='text' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "'  size='40'/></label> </div> \n";
 						}
 					}
 				}
