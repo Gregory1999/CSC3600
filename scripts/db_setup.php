@@ -1,9 +1,12 @@
 <?php
 //this file is to set up the db 
 	//if no database file- create the db
+	
+	
 	if (!file_exists('site.db')){
 		$db = new SQLite3('site.db');
-						
+		$db->exec('PRAGMA foreign_keys = ON;');
+				
 		//this table will store the root directory information-  may later be able to extend code to have multiple selectable roots
 		$db->exec('CREATE TABLE root_directory
 				(path STRING PRIMARY Key,
@@ -26,37 +29,43 @@
 				 comments STRING,
 				 subject STRING,
 				 rating STRING,
-				 tags STRING)'); 
+				 tags STRING,
+				 FOREIGN KEY (photo_path) references photo_file(photo_path) ON DELETE CASCADE)'); 
 		
 		//table for holding photo thumbnail 	
 		$db->exec('CREATE TABLE photo_thumbnail
 				(photo_path STRING PRIMARY Key,
-				 photo_thumbnail BLOB)'); 
+				 photo_thumbnail BLOB,
+				 FOREIGN KEY (photo_path) references photo_file(photo_path) ON DELETE CASCADE)'); 
 				 
 		//table for holding photo origin description	
 		$db->exec('CREATE TABLE photo_origin
 				(photo_path STRING PRIMARY Key,
 				 authors STRING,
 				 date_taken DATETIME,
-				 copyright STRING)'); 
+				 copyright STRING,
+				 FOREIGN KEY (photo_path) references photo_file(photo_path) ON DELETE CASCADE)'); 
 				 
 		//table for holding photo image description	
 		$db->exec('CREATE TABLE photo_image
 				(photo_path STRING PRIMARY Key,
 				 width INTEGER,
 				 height INTEGER,
-				 compression  STRING)'); 
+				 compression  STRING,
+				 FOREIGN KEY (photo_path) references photo_file(photo_path) ON DELETE CASCADE)'); 
 				 
 		//table for holding photo camera  description	
 		$db->exec('CREATE TABLE photo_camera 
 				(photo_path STRING PRIMARY Key,
 				 camera_maker STRING,
-				 camera_model STRING)');
+				 camera_model STRING,
+				 FOREIGN KEY (photo_path) references photo_file(photo_path) ON DELETE CASCADE)');
 				 
 		//table for holding photo photo_advanced  description	
 		$db->exec('CREATE TABLE photo_advanced 
 				(photo_path STRING PRIMARY Key,
-				 camera_serial_number STRING)');
+				 camera_serial_number STRING,
+				 FOREIGN KEY (photo_path) references photo_file(photo_path) ON DELETE CASCADE)');
 
 		
 	}

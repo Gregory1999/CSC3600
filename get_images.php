@@ -53,7 +53,7 @@
 			
 				$json .= '"root": ' . json_encode($root_path) . ' ,"imageArray" : [';
 				//display images
-				$query = "SELECT photo_path, date_created FROM photo_file ORDER BY date_created DESC";
+				$query = "SELECT photo_path, date_taken FROM photo_origin ORDER BY date_taken DESC";
 				$result= $db->query($query);
 				
 				while( $row = $result->fetchArray(SQLITE3_ASSOC)) {

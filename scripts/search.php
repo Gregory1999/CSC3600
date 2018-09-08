@@ -17,16 +17,18 @@
 	//add all matches to JSON imageArray
 	
 	$json .= '"imageArray" : [';
-	// very basic search-
-	$query = "SELECT photo_path, date_created FROM photo_file WHERE photo_path LIKE '%${simple_search}%' ORDER BY date_created DESC";
+	// very basic search- add to this
+	$query = "SELECT photo_path, date_taken FROM photo_origin WHERE photo_path LIKE '%${simple_search}%' ORDER BY date_taken DESC";
 	
 	$result= $db->query($query);
 	
 	while( $row = $result->fetchArray(SQLITE3_ASSOC)) {
-					$photo_path= $row["photo_path"];
-					$json .= ' "' . $photo_path . '",';			
-				}
-				$json = rtrim($json,",") . "]";
+		$photo_path= $row["photo_path"];
+		$json .= ' "' . $photo_path . '",';			
+	}
+	
+	
+	$json = rtrim($json,",") . "]";
 
 	$json .=  "}";
 	//add json header and send the data

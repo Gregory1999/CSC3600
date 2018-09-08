@@ -1,14 +1,19 @@
 <?php
 //this script is only called from the file_scanner.php script
 //it is used to group all the metadata extraction code
-
+	use lsolesen\pel\PelDataWindow;
+	use lsolesen\pel\PelJpeg;
+	use lsolesen\pel\PelTag;
+	use lsolesen\pel\PelIfd;
+	use lsolesen\pel\PelEntryAscii;
+	
 	ini_set('exif.encode_unicode', 'UTF-8');
 	$exif = exif_read_data($image, 'ANY_TAG', true);	
 	
 	//could probably process all sections using a loop<----------------
 	
 	//arrays of all stored metadata
-	$ifd0_data = array("Title"=>"", "Comments"=>"","Keywords"=>"", "Subject"=>"", "Author"=>"", "Copyright"=>"");
+	$ifd0_data = array("Title"=>"", "Comments"=>"","Keywords"=>"", "Subject"=>"", "Author"=>"", "Copyright"=>"", "Make"=>"", "Model"=>"");
 	$exif_data = array("DateTimeOriginal"=>"", "ExifImageLength"=>"", "ExifImageWidth"=>"", "CompressedBitsPerPixel"=>"");
 	$file_data = array("FileName"=>"", "FileDateTime"=>"","FileSize"=>"", "MimeType"=>"");
 	
@@ -32,7 +37,20 @@
 			$ifd0_data["$key"]= preg_replace("/[[:^print:]]/", "", $exif["IFD0"]["$key"]);	
 		}
 	}
-	
+	$serial_number = "";
+	//find the XMP serial number
+	//read in the image file and find the serial number tag
+	$file_contents = file_get_contents( $image );
+	//if tag exists then get contents
+	if (strpos( $file_contents, '<MicrosoftPhoto:CameraSerialNumber>' )){
+		$start = strpos( $file_contents, '<MicrosoftPhoto:CameraSerialNumber>' ) + strlen('<MicrosoftPhoto:CameraSerialNumber>');
+		$end = strpos( $file_contents, '</MicrosoftPhoto:CameraSerialNumber>' );
+		$length = $end - $start;
+		if ($length !== 0){
+			$serial_number = substr($file_contents, $start, $length);
+		}
+	}
+		
 	$image_thumbnail = exif_thumbnail($image);
 	
 	//creates a thumbnail image if one does not exist
@@ -110,7 +128,12 @@
 	$db->query($query);
 	
 	//photo_camera
+	$query="INSERT  OR REPLACE INTO photo_camera(photo_path, camera_maker, camera_model) VALUES ( '$imagePath', '" . $ifd0_data['Make'] . "','" . $ifd0_data['Model'] . "') ";
+	$db->query($query);
+	
 	//photo_advanced
+	$query="INSERT  OR REPLACE INTO photo_advanced(photo_path, camera_serial_number) VALUES ( '$imagePath', '$serial_number')";
+	$db->query($query);
 	
 	//insert the thumnail image
 	$query="INSERT OR REPLACE INTO photo_thumbnail(photo_path, photo_thumbnail) VALUES ( '$imagePath', :image_thumbnail) ";
