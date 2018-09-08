@@ -7,6 +7,9 @@
 	use lsolesen\pel\PelIfd;
 	use lsolesen\pel\PelEntryAscii;
 	
+	use lsolesen\pel\PelTiff;
+	use lsolesen\pel\PelExif;
+	
 	ini_set('exif.encode_unicode', 'UTF-8');
 	$exif = exif_read_data($image, 'ANY_TAG', true);	
 	
@@ -61,9 +64,23 @@
 
 		$jpeg = new PelJpeg($image);
 		$exif = $jpeg->getExif();
+		
+		if($exif == null) {
+			$exif = new PelExif();
+			$jpeg->setExif($exif);
+
+        $tiff = new PelTiff();
+        $exif->setTiff($tiff);
+		}		
+		
 		$tiff = $exif->getTiff();
 		$ifd0 = $tiff->getIfd();       
-
+		
+		if ($ifd0 == null) {	
+		    $ifd0 = new PelIfd(PelIfd::IFD0);
+		    $tiff->setIfd($ifd0);
+		}		
+		
 		$ifd1 = $ifd0->getNextIfd();
 		//if ifd1 doesnt exist then create it
 		if (!$ifd1) {
