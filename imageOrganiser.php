@@ -139,13 +139,8 @@
 	//the function will retrieve all metadata then display the image with its metadata
 	function imageClicked() {
 		var script = "scripts/get_meta.php";
-		var imagePath = this.src;
 		var imageRelPath = this.id;
-		var output = '<img src = "' + imageRelPath + '" class = "img-fluid" id = "' + imageRelPath + '" /> <div id = "metadata"></div> <button id = "home_button" type="button" >Show all Photos </button>' 
-		photos.innerHTML= output ;
-		// show all photos is button is pressed
-		var home = document.getElementById('home_button');
-		home.addEventListener("click", allPhotos);
+		loadSpinner();
 		
 		//retrieve and add metadata and then display image
 		var xmlhr1 = new XMLHttpRequest();
@@ -161,11 +156,15 @@
 	// It will receive a JSON formatted string of metadata field-value pairs.
 	function displayMeta() {
 		if (this.readyState == 4 && this.status == 200) {
+			var response = this.response;
+			var output = '<img src = "' + response['photo_path'] + '" class = "img-fluid" id = "' + response['photo_path'] + '" /> <div id = "metadata"></div> <button id = "home_button" type="button" >Show all Photos </button>' 
+			photos.innerHTML= output;
+			var home = document.getElementById('home_button');
+			home.addEventListener("click", allPhotos);	
 			var metadata = document.getElementById('metadata');
 				
 			//outputs JSON object (metadata) currently only displays limited data
 			var output ="";
-			var response = this.response;
 			for (var key in response) {
 				//display the path as hidden element
 			    if (response.hasOwnProperty(key)) {
@@ -196,7 +195,6 @@
 	//This function is used to save new metadata to the selected file
 	//it sets up a xhr funtion to upload and then display the new data
 	function saveMeta(){
-		
 			//store the value for each metadata field---------------------add more when db complete
 			var metaArray = [];
 			metaArray["title"] = document.getElementById('title').value;
@@ -216,7 +214,7 @@
 					script += '&' + key + '=' + metaArray[key];
 				}
 			}
-			
+			loadSpinner();
 			//xhr request that will update and reload the metadata
 			//								<--- may improve this to confirm with user, and provide feedback
 			var xmlhr1 = new XMLHttpRequest();
