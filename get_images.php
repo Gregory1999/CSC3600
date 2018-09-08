@@ -18,7 +18,7 @@
 				$scriptPath = getcwd();
 				$root_path=$_GET['root'];
 				
-				//fends path from document root
+				//finds path from document root
 				$root_path= realpath($root_path);
 				$servRoot=$_SERVER["DOCUMENT_ROOT"];
 				$root_path = str_replace($servRoot, "", str_replace('\\', '/', $root_path));

@@ -5,9 +5,19 @@
 	ini_set('exif.encode_unicode', 'UTF-8');
 	$exif = exif_read_data($image, 'ANY_TAG', true);	
 	
+	//could probably process all sections using a loop<----------------
+	
 	//arrays of all stored metadata
-	$ifd0_data = array("Title"=>"", "Comments"=>"","Keywords"=>"", "Subject"=>"");
-	$exif_data =array("DateTimeOriginal"=>"");
+	$ifd0_data = array("Title"=>"", "Comments"=>"","Keywords"=>"", "Subject"=>"", "Author"=>"", "Copyright"=>"");
+	$exif_data = array("DateTimeOriginal"=>"", "ExifImageLength"=>"", "ExifImageWidth"=>"", "CompressedBitsPerPixel"=>"");
+	$file_data = array("FileName"=>"", "FileDateTime"=>"","FileSize"=>"", "MimeType"=>"");
+	
+	//retrieve file  data
+	foreach ( $file_data as $key => $value ){
+		if (!empty($exif["FILE"]["$key"])) {
+			$file_data["$key"] = $exif["FILE"]["$key"];
+		}
+	}
 	
 	//retrieve exif section data
 	foreach ( $exif_data as $key => $value ){
@@ -85,11 +95,22 @@
 		
 	}
 	
-	//insert or replace the db
-	$query="INSERT OR REPLACE INTO photo_file(photo_path, date_created) VALUES ( '$imagePath', '" . $exif_data['DateTimeOriginal'] . "') ";
+	//insert or replace the db 
+	//photo_file table                       <----- might need to move date created
+	$query="INSERT OR REPLACE INTO photo_file(photo_path, date_created, photo_name, photo_type, date_modified, size) VALUES ( '$imagePath', '" . $exif_data['DateTimeOriginal'] . "', '" . $file_data['FileName'] . "', '" . $file_data['MimeType'] . "', '" . date ("d-m-Y h:m:s", $file_data['FileDateTime']) . "', '" . $file_data['FileSize'] . "' ) ";
 	$db->query($query);
+	//photo_description
 	$query="INSERT  OR REPLACE INTO photo_description(photo_path, title, comments, tags, subject) VALUES ( '$imagePath', '" . $ifd0_data['Title'] . "','" . $ifd0_data['Comments'] . "', '" . $ifd0_data['Keywords'] . "', '" . $ifd0_data['Subject'] . "') ";
 	$db->query($query);
+	//photo_origin
+	$query="INSERT  OR REPLACE INTO photo_origin(photo_path, authors, date_taken, copyright) VALUES ( '$imagePath', '" . $ifd0_data['Author'] . "','" . $exif_data['DateTimeOriginal'] . "', '" . $ifd0_data['Copyright'] . "') ";
+	$db->query($query);
+	//photo image
+	$query="INSERT  OR REPLACE INTO photo_image(photo_path, width, height, compression) VALUES ( '$imagePath', '" . $exif_data['ExifImageWidth'] . "','" . $exif_data['ExifImageLength'] . "', '" . $exif_data['CompressedBitsPerPixel'] . "') ";
+	$db->query($query);
+	
+	//photo_camera
+	//photo_advanced
 	
 	//insert the thumnail image
 	$query="INSERT OR REPLACE INTO photo_thumbnail(photo_path, photo_thumbnail) VALUES ( '$imagePath', :image_thumbnail) ";
