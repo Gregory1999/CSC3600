@@ -34,33 +34,35 @@
 	</nav>
 	</header>
 	<div class="">
-		<div class="left">	
+		<div class="left">
+		<div class="row">
+            <div class="column">
+                <div id="selectSource">
+				<form action="test_Browse.php" id="testing" method="post" enctype="multipart/form-data">
+                    <input type="file" name="folderName" id="folderName" class="inputfile" webkitdirectory />
+				</form>
+				</div>
+            </div>
+        </div>
 		</div>
 		<div class="right">
-	
-		</div>	
-		
-		
-		<div class="picker"><input type="file" id="picker" name="fileList" webkitdirectory multiple>
-		<ul id="listing"></ul>
+		<form action="upload-script-url test_Browse.php" method="post" enctype="multipart/form-data">
+			<input type="file" name="filePath">
+			<input type="submit">
+		</form>	
+		</div>
+
 			<?php
-	
-			?>
-		
+
+			?>		
 		</div>
 		</div>
 	</div>
 	</body>
 </html>
 <script type="text/javascript" >
-let picker = document.getElementById('picker');
-let listing = document.getElementById('listing');
-
-picker.addEventListener('change', e => {
-  for (let file of Array.from(e.target.files)) {
-    let item = document.createElement('li');
-    item.textContent = file.webkitRelativePath;
-    listing.appendChild(item);
-  };
-});
+$("#folderName").change(function() {
+        var sourceVal = document.getElementById("folderName").files[0].path;
+        $("#sourceDirPath").val(sourceVal);
+    });
 </script>
