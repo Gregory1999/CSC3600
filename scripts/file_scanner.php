@@ -2,7 +2,7 @@
 // this script will scan the file system and update any new or changed images
 // it is included in multiple scripts- get_meta.php, search.php,
 
- 
+	$db->exec('PRAGMA foreign_keys = ON;');
 	//This library will be required to update metadata images
 	//include the pel library----------------------------------------------------------------
 	$scriptDir= getcwd();

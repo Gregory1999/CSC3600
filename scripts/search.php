@@ -1,8 +1,9 @@
 <?php
-//this script will respond to simple and complex searches
+//this script will respond to simple searches
 //the script will send the path to all images that satisfy the search criteria
 //reply will be formatted in JSON
 //search criteria to be passed to script using Get
+//The script searches for the supplied string in the following metadata fields --photo_path, title, comments, subject, tags.
 	$json = "{";
 	
 	// scan file system 
@@ -17,16 +18,25 @@
 	//add all matches to JSON imageArray
 	
 	$json .= '"imageArray" : [';
-	// very basic search-
-	$query = "SELECT photo_path, date_created FROM photo_file WHERE photo_path LIKE '%${simple_search}%' ORDER BY date_created DESC";
+	
+	$query = "SELECT * FROM photo_origin NATURAL JOIN photo_description 
+				WHERE photo_path LIKE '%${simple_search}%' 
+				OR title LIKE '%${simple_search}%' 
+				OR comments LIKE '%${simple_search}%'
+				OR subject LIKE '%${simple_search}%'				
+				OR tags LIKE '%${simple_search}%'
+				ORDER BY date_taken DESC";
+	
 	
 	$result= $db->query($query);
 	
 	while( $row = $result->fetchArray(SQLITE3_ASSOC)) {
-					$photo_path= $row["photo_path"];
-					$json .= ' "' . $photo_path . '",';			
-				}
-				$json = rtrim($json,",") . "]";
+		$photo_path= $row["photo_path"];
+		$json .= ' "' . $photo_path . '",';			
+	}
+	
+	
+	$json = rtrim($json,",") . "]";
 
 	$json .=  "}";
 	//add json header and send the data
