@@ -8,8 +8,19 @@
   		<link rel="stylesheet" href="css/stylesheet1.css">
   		<script src="js/bootstrap.min.js"></script>
 		<script src="js/jquery.min.js"></script>
+		<script src="js/site.js"></script>
 	</head>
 	<body>
+		<script>
+			var photos= document.getElementById('photos');
+			var simple_search_btn = document.getElementById('simple_search_btn');
+			
+			//calls the search function when the search button is clicked
+			simple_search_btn.addEventListener("click", sendSearch);
+			
+			//uses ajax to load all photos
+			allPhotos();				
+		</script>	
 		<header>
 			<div class="container-fluid">
 				<div class="col-sm-4" style="background-color:white;"><img src="images/Mark_IV_logo.png" alt="Company Logo" style="width:180px;height:80px;"></div>
@@ -28,9 +39,9 @@
 				</ul>
 				<form class="navbar-form navbar-right" action="/action_page.php">
 					<div class="input-group">
-						<input type="text" class="form-control" placeholder="Search" name="search">
+						<input id="simple_search_input" type="text" class="form-control" placeholder="Search" name="search">
 						<div class="input-group-btn">
-							<button class="btn btn-default" type="submit"> Go</button>
+							<button id= "simple_search_btn" class="btn btn-default" type="submit"> Go</button>
 						</div>
 				  </div>
 				</form>
@@ -45,7 +56,7 @@
 			</div>	
 			 -->
 			<div class="container">
-				<div class="jumbotron" id="mainbox">
+				<div class="jumbotron" id="photos">
 				<h2>Welcome</h2>
 				<p>Site instructions go here</p>
 				</div>
