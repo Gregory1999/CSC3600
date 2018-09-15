@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+	<head>
+  		<title>Web -based Image Organiser</title>
+  		<meta charset="utf-8">
+  		<meta name="viewport" content="width=device-width, initial-scale=1">
+  		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  		<link rel="stylesheet" href="css/stylesheet.css">
+  		<script src="js/jquery.min.js"></script>
+  		<script src="js/bootstrap.min.js"></script>
+		<script src="js/site.js"></script>
+
+	</head>
+	<body>
+	<header>
+	<div>
+		<img src="images/Mark_IV_logo.png" alt="">
+	</div>
+	<nav class="navbar navbar-inverse">
+  		<div class="container-fluid">
+    	<div class="navbar-header">
+      	<a class="navbar-brand project" href="#">Web-based Image Organiser</a>
+    	</div>
+   	 <ul class="nav navbar-nav"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      	<li class="active"><a href="#">Home</a></li>
+      	<li><a href="#">Advanced Search</a></li>      		
+	    </ul>
+	    <div class="search">
+	    		<input id="simple_search_input" class="userInput" type="text" placeholder="Search.." name="search">
+      		<button id= "simple_search_btn"type="button" class="btn btn-default btn-sm">
+          		<span class="glyphicon glyphicon-search"></span>Search
+        		</button>
+	    </div>
+	  </div>
+	</nav>
+	</header>
+	<	<div class="">
+		<div class="left">
+				
+		</div>
+		<div class="right">
+	
+		</div>	
+		
+		
+		<div class="container">
+		<div class="jumbotron" id="photos">
+			
+			<div id="folder_list" >
+			<button id = "browse" type="button" >Select Photo Library</button>
+			</div>
+			
+		
+		</div>
+		</div>
+	</div>
+	</body>
+</html>
+<script type="text/javascript" >
+
+	var browse_btn = document.getElementById('browse');
+	var folder_list= document.getElementById('folder_list');
+ 	
+ 	//calls the search function when the search button is clicked
+ 	browse_btn.addEventListener("click", findFolder);
+
+	function findFolder() {
+		var script = "scripts/browse.php";
+		
+		//retrieve and add metadata and then display image
+		var xmlhr1 = new XMLHttpRequest();
+		xmlhr1.addEventListener("load", displayPath);
+		xmlhr1.open("GET", script+'?directory=', true);
+		xmlhr1.responseType = "json";
+		xmlhr1.send();
+	}
+	
+	function displayPath() {
+		var script = "scripts/browse.php";
+		var response = this.response;
+		
+		var output = '<button id = "selectBtn" type="button" >Select Folder</button> \n <H1> Current Directory- <div id="current">' + response.currentDirectory + '</div> </H1> \n';
+		if ( response.parentDirectory != response.currentDirectory ){
+			output += '<button id = "backBtn" name="' + response.parentDirectory + '" type="button" >Back</button> ';
+		}
+		
+		
+		output += '<list>  ';
+		for (var i = 0; i < response.directoryArray.length; i++)  {
+			var directoryPath =  response.directoryArray[i]; 					
+			output += '<ul> <a id = "' + directoryPath + '" /> ' + directoryPath + ' </a> </ul> \n';
+					
+		}
+		
+		output += "</ list>";
+		
+		//output the folders
+		folder_list.innerHTML= output;
+		
+		var selectBtn = document.getElementById('selectBtn');
+		selectBtn.addEventListener("click", folderSelected);
+		
+		if ( response.parentDirectory != response.currentDirectory ){
+			var backBtn = document.getElementById('backBtn');
+			backBtn.addEventListener("click", backBtnPress);
+		}
+		
+		//set up the event listeners
+		for (var i = 0; i < response.directoryArray.length; i++)  {
+			var directoryPath =  response.directoryArray[i]	;	
+			var linkId = document.getElementById(directoryPath);
+			linkId.addEventListener("click", getSubDir);
+		
+		}
+	}
+	function backBtnPress(){
+		var script = "scripts/browse.php";
+		var parentDir = document.getElementById("backBtn");
+		var parentDir = parentDir.name;
+		//retrieve the parent folders
+		var xmlhr1 = new XMLHttpRequest();
+		xmlhr1.addEventListener("load", displayPath);
+		xmlhr1.open("GET", script+'?directory=' + parentDir, true);
+		xmlhr1.responseType = "json";
+		xmlhr1.send();
+	}
+	
+	function folderSelected(){
+		var current_dir = document.getElementById("current");
+		
+		current_dir = current_dir.innerHTML;
+		
+		folder_list.innerHTML = "<p>The Path to the selected folder is " + current_dir +" </p>";
+	}
+		
+	function getSubDir(){
+		var script = "scripts/browse.php";
+		var linkId = this.id;
+		//retrieve the subfolders
+		var xmlhr1 = new XMLHttpRequest();
+		xmlhr1.addEventListener("load", displayPath);
+		xmlhr1.open("GET", script+'?directory=' + linkId, true);
+		xmlhr1.responseType = "json";
+		xmlhr1.send();
+	}
+	
+	
+	
+	
+</script>
