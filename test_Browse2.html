@@ -57,94 +57,15 @@
 	</body>
 </html>
 <script type="text/javascript" >
-
-	var browse_btn = document.getElementById('browse');
-	var folder_list= document.getElementById('folder_list');
+	
+	
+	var photos= document.getElementById('photos');
+	var simple_search_btn = document.getElementById('simple_search_btn');
  	
  	//calls the search function when the search button is clicked
- 	browse_btn.addEventListener("click", findFolder);
-
-	function findFolder() {
-		var script = "scripts/browse.php";
-		
-		//retrieve and add metadata and then display image
-		var xmlhr1 = new XMLHttpRequest();
-		xmlhr1.addEventListener("load", displayPath);
-		xmlhr1.open("GET", script+'?directory=', true);
-		xmlhr1.responseType = "json";
-		xmlhr1.send();
-	}
+ 	simple_search_btn.addEventListener("click", sendSearch);
 	
-	function displayPath() {
-		var script = "scripts/browse.php";
-		var response = this.response;
-		
-		var output = '<button id = "selectBtn" type="button" >Select Folder</button> \n <H1> Current Directory- <div id="current">' + response.currentDirectory + '</div> </H1> \n';
-		if ( response.parentDirectory != response.currentDirectory ){
-			output += '<button id = "backBtn" name="' + response.parentDirectory + '" type="button" >Back</button> ';
-		}
-		
-		
-		output += '<list>  ';
-		for (var i = 0; i < response.directoryArray.length; i++)  {
-			var directoryPath =  response.directoryArray[i]; 					
-			output += '<ul> <a id = "' + directoryPath + '" /> ' + directoryPath + ' </a> </ul> \n';
-					
-		}
-		
-		output += "</ list>";
-		
-		//output the folders
-		folder_list.innerHTML= output;
-		
-		var selectBtn = document.getElementById('selectBtn');
-		selectBtn.addEventListener("click", folderSelected);
-		
-		if ( response.parentDirectory != response.currentDirectory ){
-			var backBtn = document.getElementById('backBtn');
-			backBtn.addEventListener("click", backBtnPress);
-		}
-		
-		//set up the event listeners
-		for (var i = 0; i < response.directoryArray.length; i++)  {
-			var directoryPath =  response.directoryArray[i]	;	
-			var linkId = document.getElementById(directoryPath);
-			linkId.addEventListener("click", getSubDir);
-		
-		}
-	}
-	function backBtnPress(){
-		var script = "scripts/browse.php";
-		var parentDir = document.getElementById("backBtn");
-		var parentDir = parentDir.name;
-		//retrieve the parent folders
-		var xmlhr1 = new XMLHttpRequest();
-		xmlhr1.addEventListener("load", displayPath);
-		xmlhr1.open("GET", script+'?directory=' + parentDir, true);
-		xmlhr1.responseType = "json";
-		xmlhr1.send();
-	}
-	
-	function folderSelected(){
-		var current_dir = document.getElementById("current");
-		
-		current_dir = current_dir.innerHTML;
-		
-		folder_list.innerHTML = "<p>The Path to the selected folder is " + current_dir +" </p>";
-	}
-		
-	function getSubDir(){
-		var script = "scripts/browse.php";
-		var linkId = this.id;
-		//retrieve the subfolders
-		var xmlhr1 = new XMLHttpRequest();
-		xmlhr1.addEventListener("load", displayPath);
-		xmlhr1.open("GET", script+'?directory=' + linkId, true);
-		xmlhr1.responseType = "json";
-		xmlhr1.send();
-	}
-	
-	
-	
+	//uses ajax to load all photos
+	allPhotos();
 	
 </script>
