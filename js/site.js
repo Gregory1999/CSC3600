@@ -207,7 +207,7 @@
 		var script = "scripts/browse.php";
 		var response = this.response;
 		
-		var output = '<button id = "selectBtn" type="button" >Select Folder</button> \n <H3> Current Directory- <div id="current">' + response.currentDirectory + '</div> </H3> \n';
+		var output = '<H3> Current Directory- <strong id="current">' + response.currentDirectory + '</strong> </H3> \n <button id = "selectBtn" type="button" >Select Folder</button> \n ';
 		if ( response.parentDirectory != response.currentDirectory ){
 			output += '<button id = "backBtn" name="' + response.parentDirectory + '" type="button" >Back</button> ';
 		}
