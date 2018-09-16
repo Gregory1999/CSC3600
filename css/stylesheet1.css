@@ -55,6 +55,14 @@ img{
 	align-content: center;
 	width: 50%;
 }
+
+/* .thumbnailgrid{
+	display: block; 
+	margin: auto; 
+	width: 90%; 
+	min-height: 40%; 
+	max-height: 90%;
+} */
 body .search{
 	float: right;
 	margin-top: 10px;
