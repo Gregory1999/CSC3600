@@ -8,6 +8,7 @@
   		<link rel="stylesheet" href="css/stylesheet.css">
   		<script src="js/jquery.min.js"></script>
   		<script src="js/bootstrap.min.js"></script>
+		<script src="js/site.js"></script>
 
 	</head>
 	<body>
@@ -36,15 +37,19 @@
 	<div class="">
 		<div class="left">
 		</div>
-		<div class="right">
-		<form action="upload-script-url test_Browse.php" method="post" enctype="multipart/form-data">
-			<input type="file" name="filePath">
-			<input type="submit">
-		</form>	
+		<div class="right">	
 		</div>
-
+		<div class="container">
+		<label for="rootDirectory">Enter Drive or root directory</label>
+				<input id="rootDirectory" class="userInput" type="text">
+			<div class="jumbotron" id="photos">
+				
+			<div id="folder_list" >
+				<button id = "browse" type="button" >Select Photo Library</button>hello
+			</div>
+		</div>
 			<?php
-				print getcwd();
+
 			?>		
 		</div>
 		</div>
@@ -52,4 +57,12 @@
 	</body>
 </html>
 <script type="text/javascript" >
+	var photos= document.getElementById('photos');
+	var simple_search_btn = document.getElementById('simple_search_btn');
+ 	
+ 	//calls the search function when the search button is clicked
+ 	simple_search_btn.addEventListener("click", sendSearch);
+	
+	//uses ajax to load all photos
+	allPhotos();
 </script>
