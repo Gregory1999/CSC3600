@@ -194,11 +194,11 @@
 
 	function findFolder() {
 		var script = "scripts/browse.php";
-		
+		var testDir = document.getElementById("rootDirectory").value;
 		//retrieve and add metadata and then display image
 		var xmlhr1 = new XMLHttpRequest();
 		xmlhr1.addEventListener("load", displayPath);
-		xmlhr1.open("GET", script+'?directory=', true);
+		xmlhr1.open("GET", script+'?directory=' + testDir, true);
 		xmlhr1.responseType = "json";
 		xmlhr1.send();
 	}

@@ -6,8 +6,8 @@
 	if ($_GET['directory'] == ""){
 		//retrieve root from document root.
 		//$directory=$_SERVER["DOCUMENT_ROOT"];
-		
 		//improve this later
+		
 		$directory = "C:\\";
 		$parentDir = "C:\\";
 	}
