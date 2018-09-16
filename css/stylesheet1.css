@@ -48,10 +48,21 @@ background-color: rgb(71,78,93);
 header{
 	background-color: white;
 }
+#photos {
+	background-color: white;
+}
 img{
 	align-content: center;
 	width: 50%;
 }
+
+/* .thumbnailgrid{
+	display: block; 
+	margin: auto; 
+	width: 90%; 
+	min-height: 40%; 
+	max-height: 90%;
+} */
 body .search{
 	float: right;
 	margin-top: 10px;
@@ -65,7 +76,7 @@ body .navbar-project{
 	color: orange;
 	text-align: center;
 	font-size: 3em;
-	margin: auto;
+	margin-top: 10px;
 	display: inline-block;
 	
 /* 	margin-top: 0px;
