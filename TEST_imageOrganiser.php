@@ -8,8 +8,6 @@
   		<link rel="stylesheet" href="css/stylesheet.css">
   		<script src="js/jquery.min.js"></script>
   		<script src="js/bootstrap.min.js"></script>
-		<script src="js/site.js"></script>
-
 	</head>
 	<body>
 	<header>
@@ -34,7 +32,7 @@
 	  </div>
 	</nav>
 	</header>
-		<div class="">
+	<div class="">
 		<div class="left">
 				
 		</div>
@@ -45,27 +43,17 @@
 		
 		<div class="container">
 		<div class="jumbotron" id="photos">
-			
-			<div id="folder_list" >
-			<button id = "browse" type="button" >Select Photo Library</button>
-			</div>
-			
+			<?php
+				$db = new SQLite3('site11.db');
+				echo "<H1> Hello world!</H1>";
+
+			?>
 		
 		</div>
 		</div>
 	</div>
+
+
+ 	
 	</body>
 </html>
-<script type="text/javascript" >
-	
-	
-	var photos= document.getElementById('photos');
-	var simple_search_btn = document.getElementById('simple_search_btn');
- 	
- 	//calls the search function when the search button is clicked
- 	simple_search_btn.addEventListener("click", sendSearch);
-	
-	//uses ajax to load all photos
-	allPhotos();
-	
-</script>

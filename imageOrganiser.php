@@ -9,12 +9,11 @@
   		<script src="js/jquery.min.js"></script>
   		<script src="js/bootstrap.min.js"></script>
 		<script src="js/site.js"></script>
-
 	</head>
 	<body>
 	<header>
 	<div>
-		<img src="images/Mark_IV_logo.png" alt="">
+		<img src="images/Mark_IV_logo.png" alt="" style="width:180px;height:80px;">
 	</div>
 	<nav class="navbar navbar-inverse">
   		<div class="container-fluid">
@@ -34,7 +33,7 @@
 	  </div>
 	</nav>
 	</header>
-		<div class="">
+	<div class="">
 		<div class="left">
 				
 		</div>
@@ -46,19 +45,13 @@
 		<div class="container">
 		<div class="jumbotron" id="photos">
 			
-			<div id="folder_list" >
-			<button id = "browse" type="button" >Select Photo Library</button>
-			</div>
-			
 		
 		</div>
 		</div>
 	</div>
-	</body>
-</html>
-<script type="text/javascript" >
-	
-	
+
+	<script>
+		
 	var photos= document.getElementById('photos');
 	var simple_search_btn = document.getElementById('simple_search_btn');
  	
@@ -67,5 +60,8 @@
 	
 	//uses ajax to load all photos
 	allPhotos();
-	
-</script>
+ 		 		
+ 	</script>	
+ 	
+	</body>
+</html>
