@@ -1,4 +1,5 @@
-
+	var count = 0;
+	
 	//This function is called when the search button is pressed
 	//The function will display all images that match the search string
 	function sendSearch() {
@@ -27,6 +28,7 @@
 				var output = 	'<div id="folder_list" > <button id = "browse" type="button" >Select Photo Library</button> </div>'
 				photos.innerHTML= output;
 				// when button is pressed, send the directory
+				
 				var browse_btn = document.getElementById('browse');
 				var folder_list= document.getElementById('folder_list');
 				browse_btn.addEventListener("click", findFolder);
@@ -45,12 +47,17 @@
 	function loadPhotos() {
 		if ((this.readyState == 4) && (this.status == 200)) {
 			var response = this.response;
+
 			//if the root directory has not been loaded then call function to load directory
-			if (response.root == 'NULL' ) {			
-					loadDirectory();			 
+			if (response.root == 'NULL') {			
+					loadDirectory();					
 			}
 			//insert all photos and add event listeners to call function when image is clicked	
-			else {			
+			else {
+				// Hide Label and Textbox
+				document.getElementById('rootDirectory').style.display = "none";
+				document.getElementById('lblrootDirectory').style.display = "none";
+				
 				var output = "<div class= 'row display-flex' >";
 				for (var i = 0; i < response.imageArray.length; i++)  {
 					var imagePath =  response.imageArray[i];
@@ -60,7 +67,7 @@
 				
 				//output the images
 				photos.innerHTML= output;
-				
+
 				//set up the event listeners
 				for (var i = 0; i < response.imageArray.length; i++)  {
 					var imagePath=  response.imageArray[i]	;	
@@ -181,7 +188,7 @@
 		var xmlhr1 = new XMLHttpRequest();
 		//var root =  document.getElementById('root').value;
 		var root = document.getElementById("current");
-		root = root.innerHTML;
+		root = root.innerHTML;		
 		var script= "get_images.php";
 		
 		xmlhr1.addEventListener("load", loadPhotos);	
@@ -195,6 +202,9 @@
 	function findFolder() {
 		var script = "scripts/browse.php";
 		var testDir = document.getElementById("rootDirectory").value;
+		if(testDir == "")
+			alert("You must enter the drive or rootdirectory of the image folder.\nTry Again");
+		
 		//retrieve and add metadata and then display image
 		var xmlhr1 = new XMLHttpRequest();
 		xmlhr1.addEventListener("load", displayPath);
@@ -211,7 +221,6 @@
 		if ( response.parentDirectory != response.currentDirectory ){
 			output += '<button id = "backBtn" name="' + response.parentDirectory + '" type="button" >Back</button> ';
 		}
-		
 		
 		output += '<list>  ';
 		for (var i = 0; i < response.directoryArray.length; i++)  {
