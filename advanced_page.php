@@ -45,35 +45,35 @@
 				<div class="advsearch">
 					<form name="advsearchform" action="adv_search.php" method="POST">
 						<div class="form-group">
-						<label for="metadatatags">Tags:</label>
-	  				<input type="text" class="form-input" id="metadatatags">
-						<br>
+						<label for="tags">Tags:</label>
+	  				<input type="text" class="form-control" id="tags">
 						<br>
 						<label for="comments">Description:</label>
-	  				<input type="text" class="form-input" id="comments">
+	  				<input type="text" class="form-control" id="comments">
 						<br>
-						<br>
-  					<label for="cameramaker">Camera Manufacturer</label>
-  						<select class="form-list" id="cameramaker">
+  					<label for="sel1">Camera Manufacturer</label>
+  						<select class="form-control" id="cameramaker">
 								<option>Any</option>
 	    					<option>HTC</option>
 	    					<option>Motorola</option>
   						</select>
-							<label for="cameramodel">Camera Model</label>
-							<select class="form-list" id="cameramodel">
+							<br>
+							<label for="sel1">Camera Model</label>
+							<select class="form-control" id="cameramodel">
 								<option>Any</option>
 								<option>XT1572</option>
 								<option>HTC_PN071</option>
 							</select>
-							<label for="filetype">File Type</label>
-							<select class="form-list" id="filetype">
+							<br>
+							<label for="sel1">File Type</label>
+							<select class="form-control" id="filetype">
 								<option>Any</option>
 								<option>PNG</option>
 								<option>JPEG</option>
 							</select>
 							</div>
 							<button type="submit" class="btn btn-primary btn-md">Search</button>
-						</form>	
+						</form>
 						</div>
 				</div>
 			</div>
