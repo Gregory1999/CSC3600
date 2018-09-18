@@ -26,7 +26,7 @@
 	//save cwd
 	$current_dir = getcwd();
 	//cd to root directory
-	chdir($_SERVER['DOCUMENT_ROOT'] . $root_path);
+	chdir($root_path);
 	$image= str_replace($root_path, "" ,$image);
 	
 	//create a new pel object that points to the file

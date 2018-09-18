@@ -25,7 +25,7 @@
 	$query="UPDATE photo_file SET deleted= 'TRUE'";
 	$db->query($query);
 	//go to the photo directory
-	chdir($_SERVER['DOCUMENT_ROOT'] . $root_path);
+	chdir($root_path);
 	
 	//create an array of files ending in either jpg or jpeg
 	//$pattern =  realpath($root_path) . "/*.{jpg,jpeg}";
@@ -35,6 +35,8 @@
 	foreach($images as $image)
 	{
 		$imagePath = $root_path . "/" . ltrim($image, "./");
+		//$imagePath = realpath($root_path . "/" . ltrim($image, "./"));
+		
   		//$imagePath = $root_path . ltrim($image, ".");
   		//	if modified since last scan then update db data
   		$modified_date=date("d F Y H:i:s.", filemtime($image));

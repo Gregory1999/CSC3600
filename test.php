@@ -43,12 +43,29 @@
         }
     }
 	
+	
+	
+	
+
+	
 	$test = $exif['IFD0']['Comments'];
 	echo "substr(mb_convert_encoding($test,'auto','byte2le'), 0 ,-1) <br>\n";
 	echo preg_replace("/[^A-Za-z0-9 ]/", '', $test) . "<br>\n";
 	echo  $exif['EXIF']['DateTimeOriginal'] . "<br>\n";
 	echo date("d F Y H:i:s.", filemtime($image)) . "<br>\n";
 	echo date("d F Y H:i:s."). "<br>\n";
+	
+	
+	//iptc data
+	echo "var dump <br>\n";
+	$size = getimagesize($image, $info);
+	if (isset($info["APP13"])) {
+		$iptc = iptcparse($info["APP13"]);
+		var_dump($iptc);
+		
+	}
+	echo "var dump <br>\n";
+	
 ?>
 
 </body>

@@ -1,4 +1,5 @@
-
+	var count = 0;
+	
 	//This function is called when the search button is pressed
 	//The function will display all images that match the search string
 	function sendSearch() {
@@ -23,11 +24,14 @@
 				var xmlhr1 = new XMLHttpRequest();
 				var response = this.response;
 				//should be a better way to get the path- this is just temporary, so that I can build the back-end
-				var output = '<div><label>Full Directory Path: <input type="text" id = "root" value= "Test_Images" name="root_path" required="required" size="40"/></label> <button id = "root_button" type="button" >Load Root Directory </button></div>';				
+				//var output = '<div><label>Full Directory Path: <input type="text" id = "root" value= "Test_Images" name="root_path" required="required" size="40"/></label> <button id = "root_button" type="button" >Load Root Directory </button></div>';				
+				var output = 	'<div id="folder_list" > <button id = "browse" type="button" >Select Photo Library</button> </div>'
 				photos.innerHTML= output;
 				// when button is pressed, send the directory
-				var root_button = document.getElementById('root_button');
-				root_button.addEventListener("click", sendRoot);
+				
+				var browse_btn = document.getElementById('browse');
+				var folder_list= document.getElementById('folder_list');
+				browse_btn.addEventListener("click", findFolder);
 			}
 		};
 		xmlhr1.open("GET", script, true);
@@ -43,12 +47,17 @@
 	function loadPhotos() {
 		if ((this.readyState == 4) && (this.status == 200)) {
 			var response = this.response;
+
 			//if the root directory has not been loaded then call function to load directory
-			if (response.root == 'NULL' ) {			
-					loadDirectory();			 
+			if (response.root == 'NULL') {			
+					loadDirectory();					
 			}
 			//insert all photos and add event listeners to call function when image is clicked	
-			else {			
+			else {
+				// Hide Label and Textbox
+				document.getElementById('rootDirectory').style.display = "none";
+				document.getElementById('lblrootDirectory').style.display = "none";
+				
 				var output = "<div class= 'row display-flex' >";
 				for (var i = 0; i < response.imageArray.length; i++)  {
 					var imagePath =  response.imageArray[i];
@@ -58,7 +67,7 @@
 				
 				//output the images
 				photos.innerHTML= output;
-				
+
 				//set up the event listeners
 				for (var i = 0; i < response.imageArray.length; i++)  {
 					var imagePath=  response.imageArray[i]	;	
@@ -94,8 +103,9 @@
 	// It will receive a JSON formatted string of metadata field-value pairs.
 	function displayMeta() {
 		if (this.readyState == 4 && this.status == 200) {
+			var script1 = "scripts/full_Image.php";
 			var response = this.response;
-			var output = '<img src = "' + response['photo_path'] + '" class = "img-fluid" id = "' + response['photo_path'] + '" /> <div id = "metadata"></div> <button id = "home_button" type="button" >Show all Photos </button>' 
+			var output = '<img src = "' + script1 + '?path=' + response['photo_path'] + '" class = "img-fluid" id = "' + response['photo_path'] + '" /> <div id = "metadata"></div> <button id = "home_button" type="button" >Show all Photos </button>' 
 			photos.innerHTML= output;
 			var home = document.getElementById('home_button');
 			home.addEventListener("click", allPhotos);	
@@ -176,7 +186,9 @@
 	//this function will send the directory root
 	function sendRoot() {		
 		var xmlhr1 = new XMLHttpRequest();
-		var root =  document.getElementById('root').value;
+		//var root =  document.getElementById('root').value;
+		var root = document.getElementById("current");
+		root = root.innerHTML;		
 		var script= "get_images.php";
 		
 		xmlhr1.addEventListener("load", loadPhotos);	
@@ -185,7 +197,87 @@
    	loadSpinner();
    	xmlhr1.send();
 	}
+		
+
+	function findFolder() {
+		var script = "scripts/browse.php";
+		var testDir = document.getElementById("rootDirectory").value;
+		if(testDir == "")
+			alert("You must enter the drive or rootdirectory of the image folder.\nTry Again");
+		
+		//retrieve and add metadata and then display image
+		var xmlhr1 = new XMLHttpRequest();
+		xmlhr1.addEventListener("load", displayPath);
+		xmlhr1.open("GET", script+'?directory=' + testDir, true);
+		xmlhr1.responseType = "json";
+		xmlhr1.send();
+	}
 	
+	function displayPath() {
+		var script = "scripts/browse.php";
+		var response = this.response;
+		
+		var output = '<H3> Current Directory- <strong id="current">' + response.currentDirectory + '</strong> </H3> \n <button id = "selectBtn" type="button" >Select Folder</button> \n ';
+		if ( response.parentDirectory != response.currentDirectory ){
+			output += '<button id = "backBtn" name="' + response.parentDirectory + '" type="button" >Back</button> ';
+		}
+		
+		output += '<list>  ';
+		for (var i = 0; i < response.directoryArray.length; i++)  {
+			var directoryPath =  response.directoryArray[i]; 					
+			output += '<ul> <a id = "' + directoryPath + '" /> ' + directoryPath + ' </a> </ul> \n';
+					
+		}
+		
+		output += "</ list>";
+		
+		//output the folders
+		folder_list.innerHTML= output;
+		
+		var selectBtn = document.getElementById('selectBtn');
+		selectBtn.addEventListener("click", sendRoot);
+		
+		if ( response.parentDirectory != response.currentDirectory ){
+			var backBtn = document.getElementById('backBtn');
+			backBtn.addEventListener("click", backBtnPress);
+		}
+		
+		//set up the event listeners
+		for (var i = 0; i < response.directoryArray.length; i++)  {
+			var directoryPath =  response.directoryArray[i]	;	
+			var linkId = document.getElementById(directoryPath);
+			linkId.addEventListener("click", getSubDir);
+		
+		}
+	}
+	function backBtnPress(){
+		var script = "scripts/browse.php";
+		var parentDir = document.getElementById("backBtn");
+		var parentDir = parentDir.name;
+		//retrieve the parent folders
+		var xmlhr1 = new XMLHttpRequest();
+		xmlhr1.addEventListener("load", displayPath);
+		xmlhr1.open("GET", script+'?directory=' + parentDir, true);
+		xmlhr1.responseType = "json";
+		xmlhr1.send();
+	}
+	
+	
+		
+	function getSubDir(){
+		var script = "scripts/browse.php";
+		var linkId = this.id;
+		//retrieve the subfolders
+		var xmlhr1 = new XMLHttpRequest();
+		xmlhr1.addEventListener("load", displayPath);
+		xmlhr1.open("GET", script+'?directory=' + linkId, true);
+		xmlhr1.responseType = "json";
+		xmlhr1.send();
+	}
+	
+	
+	
+
 	// this function will display the loading spinner 	
  	function loadSpinner() {
  		photos.innerHTML = "<div class='preload'> <div class='loader-frame'> </div></div> ";
