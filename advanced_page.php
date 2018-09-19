@@ -35,6 +35,12 @@
 			</div>
 				<!-- </form> -->
 		</nav>
+		<div class="container">
+			<div class="well"> <!-- Place to put information for each page -->
+				<h2>Welcome</h2>
+				<p>Site instructions go here</p>
+			</div>	
+		</div>	
 		</div>
 			<div class="container">
 				<div class="jumbotron" id="photos">
