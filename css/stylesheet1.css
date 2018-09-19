@@ -85,6 +85,13 @@ body .navbar-project{
     margin-left: 0px; */
 	
 }
+#browsedirectory {
+	background-color: #D7D7D7;
+	width: 95%;
+	height: auto;
+    border: 2px solid black;
+    border-radius: 5px;
+}
 
 @media only screen and (max-width: 800px){
 	body .search{

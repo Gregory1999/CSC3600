@@ -217,7 +217,7 @@
 		var script = "scripts/browse.php";
 		var response = this.response;
 		
-		var output = '<H3> Current Directory- <strong id="current">' + response.currentDirectory + '</strong> </H3> \n <button id = "selectBtn" type="button" >Select Folder</button> \n ';
+		var output = '<div id="browsedirectory"> <H3>Current Directory- <strong id="current">' + response.currentDirectory + '</strong> </H3> \n <button id = "selectBtn" type="button" >Select Folder</button> \n ';
 		if ( response.parentDirectory != response.currentDirectory ){
 			output += '<button id = "backBtn" name="' + response.parentDirectory + '" type="button" >Back</button> ';
 		}
@@ -229,7 +229,7 @@
 					
 		}
 		
-		output += "</ list>";
+		output += "</ list> </div>";
 		
 		//output the folders
 		folder_list.innerHTML= output;
