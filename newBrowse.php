@@ -40,7 +40,7 @@
 		<div class="right">	
 		</div>
 		<div class="container">
-		<label for="rootDirectory">Enter Drive or root directory</label>
+		<label id="lblrootDirectory">Enter Drive or root directory</label>
 				<input id="rootDirectory" class="userInput" type="text">
 			<div class="jumbotron" id="photos">
 				
