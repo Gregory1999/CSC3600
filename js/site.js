@@ -1,5 +1,21 @@
 	var count = 0;
 	
+	$('#deleteDB').click(function(event) {
+		event.preventDefault();
+		var xmlhr1 = new XMLHttpRequest();
+		var script= "scripts/delete_db.php";
+		xmlhr1.onreadystatechange = function() {
+			document.getElementById('rootDirectory').style.display = "inline-block";
+			document.getElementById('lblrootDirectory').style.display = "inline-block";
+			xmlhr1.addEventListener("load", loadPhotos);
+		}
+		xmlhr1.open("GET",script);
+		
+		xmlhr1.responseType = "json";
+		loadSpinner();
+		xmlhr1.send();
+	});
+	
 	//This function is called when the search button is pressed
 	//The function will display all images that match the search string
 	function sendSearch() {
