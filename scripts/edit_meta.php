@@ -4,7 +4,8 @@
 	/	Receives the filename and metadata tag:values via the GET method
 	/	Updates the metadata of the file directly on the file system- this data will be sync'ed to the db during next scan
 	/	This script uses the PEL to write metadata to an image
-	*/
+	/	authors, date_Taken, camera_Maker, camera_Model, and rating
+	*/ 
 	
 	//include the pel library
 	set_include_path('../scripts/pel-master' . PATH_SEPARATOR . get_include_path());
@@ -83,9 +84,23 @@
 			    $entry = new PelEntryAscii(PelTag::XP_SUBJECT, $_GET['subject']);
 				$ifd0->addEntry($entry);
 		}
-		// if comment already exists then change
+		// if subject already exists then change
 		else{
 			$entry->setValue($_GET['subject']);
+		}
+	}
+	
+	//if authors is to be edited
+	if (array_key_exists('authors', $_GET)) {
+		$entry = $ifd0->getEntry(PelTag::XP_AUTHOR);
+		//if author does not exists add 
+		if ($entry == null){
+			    $entry = new PelEntryAscii(PelTag::XP_AUTHOR, $_GET['authors']);
+				$ifd0->addEntry($entry);
+		}
+		// if author already exists then change
+		else{
+			$entry->setValue($_GET['authors']);
 		}
 	}
 	

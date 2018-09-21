@@ -159,7 +159,7 @@
 	//This function is used to save new metadata to the selected file
 	//it sets up a xhr funtion to upload and then display the new data
 	function saveMeta(){
-			//store the value for each metadata field---------------------add more when db complete
+			//store the value for each metadata field
 			var metaArray = [];
 			metaArray["title"] = document.getElementById('title').value;
 			metaArray["comments"] = document.getElementById('comments').value;
