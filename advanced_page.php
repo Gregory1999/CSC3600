@@ -1,3 +1,19 @@
+<?php
+// initialise database
+$db = new SQLite3('site.db');
+
+// camera manufacturer query
+$query1 = "SELECT DISTINCT camera_maker FROM photo_camera WHERE camera_maker IS NOT NULL AND camera_maker <> ''";
+$result1 = $db->query($query1);
+
+// camera model query
+$query2 = "SELECT DISTINCT camera_model FROM photo_camera WHERE camera_model IS NOT NULL AND camera_model <> ''";
+$result2 = $db->query($query2);
+
+// file type query
+$query3 = "SELECT DISTINCT photo_type FROM photo_file WHERE photo_type IS NOT NULL AND photo_type <> ''";
+$result3 = $db->query($query3);
+?>
 <!DOCTYPE html> <!-- HTML 5 delcaration so browser knows what to expect -->
 <html lang="en">
 	<head>
@@ -35,6 +51,11 @@
 			</div>
 				<!-- </form> -->
 		</nav>
+		<div class="container">
+			<div class="well"> <!-- Place to put information for each page -->
+				<h2>Welcome</h2>
+				<p>Site instructions go here</p>
+			</div>
 		</div>
 			<div class="container">
 				<div class="jumbotron" id="photos">
@@ -43,7 +64,7 @@
 				<br>
 				<!-- Backend code should allow for fields to be updated dynamically -->
 				<div class="advsearch">
-					<form name="advsearchform" action="adv_search.php" method="POST">
+					<form name="advsearchform" action="" method="POST">
 						<div class="form-group">
 						<label for="tags">Tags:</label>
 	  				<input type="text" class="form-control" id="tags">
@@ -51,26 +72,36 @@
 						<label for="comments">Description:</label>
 	  				<input type="text" class="form-control" id="comments">
 						<br>
-  					<label for="sel1">Camera Manufacturer</label>
-  						<select class="form-control" id="cameramaker">
-								<option>Any</option>
-	    					<option>HTC</option>
-	    					<option>Motorola</option>
+  					<label for="sel1">Camera Manufacturer:</label>
+							<?php
+								echo '<select class="form-control" id="camera_maker">';
+								echo '<option>Any</option>';
+								while ($row1 = $result1->fetchArray(SQLITE3_ASSOC)) {
+    						echo '<option value="'.$row1['camera_maker'].'">'.$row1['camera_maker'].'</option>';
+							}
+							echo "</select>";
+							?>
   						</select>
 							<br>
-							<label for="sel1">Camera Model</label>
-							<select class="form-control" id="cameramodel">
-								<option>Any</option>
-								<option>XT1572</option>
-								<option>HTC_PN071</option>
-							</select>
+							<label for="sel1">Camera Model:</label>
+							<?php
+								echo '<select class="form-control" id="camera_model">';
+								echo '<option>Any</option>';
+								while ($row2 = $result2->fetchArray(SQLITE3_ASSOC)) {
+    						echo '<option value="'.$row2['camera_model'].'">'.$row2['camera_model'].'</option>';
+							}
+							echo "</select>";
+							?>
 							<br>
-							<label for="sel1">File Type</label>
-							<select class="form-control" id="filetype">
-								<option>Any</option>
-								<option>PNG</option>
-								<option>JPEG</option>
-							</select>
+							<label for="sel1">File Type:</label>
+							<?php
+								echo '<select class="form-control" id="photo_type">';
+								echo '<option>Any</option>';
+								while ($row3 = $result3->fetchArray(SQLITE3_ASSOC)) {
+    						echo '<option value="'.$row3['photo_type'].'">'.$row3['photo_type'].'</option>';
+							}
+							echo "</select>";
+							?>
 							</div>
 							<button type="submit" class="btn btn-primary btn-md">Search</button>
 						</form>
