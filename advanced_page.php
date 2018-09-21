@@ -75,6 +75,7 @@ $result3 = $db->query($query3);
   					<label for="sel1">Camera Manufacturer:</label>
 							<?php
 								echo '<select class="form-control" id="camera_maker">';
+								echo '<option>Any</option>';
 								while ($row1 = $result1->fetchArray(SQLITE3_ASSOC)) {
     						echo '<option value="'.$row1['camera_maker'].'">'.$row1['camera_maker'].'</option>';
 							}
@@ -85,6 +86,7 @@ $result3 = $db->query($query3);
 							<label for="sel1">Camera Model:</label>
 							<?php
 								echo '<select class="form-control" id="camera_model">';
+								echo '<option>Any</option>';
 								while ($row2 = $result2->fetchArray(SQLITE3_ASSOC)) {
     						echo '<option value="'.$row2['camera_model'].'">'.$row2['camera_model'].'</option>';
 							}
@@ -94,6 +96,7 @@ $result3 = $db->query($query3);
 							<label for="sel1">File Type:</label>
 							<?php
 								echo '<select class="form-control" id="photo_type">';
+								echo '<option>Any</option>';
 								while ($row3 = $result3->fetchArray(SQLITE3_ASSOC)) {
     						echo '<option value="'.$row3['photo_type'].'">'.$row3['photo_type'].'</option>';
 							}
