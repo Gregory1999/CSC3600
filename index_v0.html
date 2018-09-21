@@ -25,7 +25,8 @@
 					<li><a href="browse_page.html">Browse Images</a></li>   
 					<li><a href="metadata_page.html">Edit Metadata</a></li>   
 					<li><a href="nerd_page.html">Nerdy Stuff</a></li>   
-					<li><a href="advanced_page.html">Advanced Search</a></li>     		
+					<li><a href="advanced_page.html">Advanced Search</a></li> 
+					<li><a id="deleteDB" href="" >Select Library Folder</a></li>     							
 				</ul>
 				<!-- <form class="navbar-form navbar-right" action="/action_page.php"> -->
 	    <div class="search">
@@ -67,6 +68,24 @@
 		<script>
 			var photos= document.getElementById('photos');
 			var simple_search_btn = document.getElementById('simple_search_btn');
+			
+			$('#deleteDB').click(function(event) {
+				event.preventDefault();
+				var xmlhr1 = new XMLHttpRequest();
+				var script= "scripts/delete_db.php";
+				xmlhr1.onreadystatechange = function() {
+					document.getElementById('rootDirectory').style.display = "inline-block";
+					document.getElementById('lblrootDirectory').style.display = "inline-block";
+					xmlhr1.addEventListener("load", loadPhotos);
+				}
+				xmlhr1.open("GET",script);
+			
+				xmlhr1.responseType = "json";
+				loadSpinner();
+				xmlhr1.send();
+			}
+			);
+		
 			
 			//calls the search function when the search button is clicked
 			simple_search_btn.addEventListener("click", sendSearch);

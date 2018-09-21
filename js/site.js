@@ -49,7 +49,7 @@
 			var response = this.response;
 
 			//if the root directory has not been loaded then call function to load directory
-			if (response.root == 'NULL') {			
+			if (response.root == 'NULL') {	
 					loadDirectory();					
 			}
 			//insert all photos and add event listeners to call function when image is clicked	
