@@ -73,7 +73,15 @@
 			simple_search_btn.addEventListener("click", sendSearch);
 			
 			//uses ajax to load all photos
-			allPhotos();				
+			allPhotos();	
+			
+			//resets the database
+			var deleteDB = document.getElementById('deleteDB');
+			deleteDB.addEventListener("click", deleteDatabase);
+			
+			
+			
+			
 		</script>	
 	</body>
 </html>

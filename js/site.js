@@ -1,8 +1,8 @@
-	var count = 0;
+	//var count = 0;
 	
 	
-	$('#deleteDB').click(function(event) {
-		event.preventDefault();
+	function deleteDatabase(event) {
+		event.preventDefault(); 
 		var xmlhr1 = new XMLHttpRequest();
 		var script= "scripts/delete_db.php";
 		xmlhr1.onreadystatechange = function() {
@@ -11,11 +11,11 @@
 			xmlhr1.addEventListener("load", loadPhotos);
 		}
 		xmlhr1.open("GET",script);
-		
+				
 		xmlhr1.responseType = "json";
 		loadSpinner();
 		xmlhr1.send();
-	});
+	}
 
 	//This function is called when the search button is pressed
 	//The function will display all images that match the search string
@@ -79,7 +79,6 @@
 				for (var i = 0; i < response.imageArray.length; i++)  {
 					var imagePath =  response.imageArray[i];
 					output += '<div class="col-sm-3 thumbnail">  <img src = "scripts/thumbnail.php?path=' + imagePath + '" style = "display:block; margin: auto; width: 90%; min-height: 40%; max-height: 90%;" id = "' + imagePath + '" />  </div>\n';
-					//output += '<div class="col-xs-4 thumbnail">  <img src = "scripts/thumbnail.php?path=' + imagePath + '" class = "img-fluid" id = "' + imagePath + '" />  </div>\n';
 				}
 				output += "</ div>";
 				
