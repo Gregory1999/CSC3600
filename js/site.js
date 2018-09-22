@@ -122,7 +122,12 @@
 					//display all other editable data as placeholders in input elements
 					else {
 						if ( key === 'rating' ){
-							//add code for star ratti
+							//add code for star rating
+						}
+						//will improve this later <-----------------doest work in firefox
+						else if (key === 'date_taken'){
+						output += "<div> <label>" + key + ": <input type='datetime-local' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "' /></label> </div> \n";
+
 						}
 						else{
 						output += "<div> <label>" + key + ": <input type='text' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "'  size='40'/></label> </div> \n";
@@ -143,12 +148,17 @@
 	//This function is used to save new metadata to the selected file
 	//it sets up a xhr funtion to upload and then display the new data
 	function saveMeta(){
-			//store the value for each metadata field---------------------add more when db complete
+			//store the value for each metadata field
 			var metaArray = [];
 			metaArray["title"] = document.getElementById('title').value;
 			metaArray["comments"] = document.getElementById('comments').value;
 			metaArray["tags"] = document.getElementById('tags').value;
 			metaArray["subject"] = document.getElementById('subject').value;
+			metaArray["authors"] = document.getElementById('authors').value;
+			metaArray["date_taken"] = document.getElementById('date_taken').value;
+			metaArray["copyright"] = document.getElementById('copyright').value;
+			metaArray["camera_maker"] = document.getElementById('camera_maker').value;
+			metaArray["camera_model"] = document.getElementById('camera_model').value;
 			//metaArray["rating"] = document.getElementById('rating').value;
 			//store the image path
 			var imagePath = document.getElementById('photo_path').value;
