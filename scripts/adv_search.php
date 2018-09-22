@@ -6,19 +6,18 @@
 //
 //test querry string----> ?photo_name=dog
 
-	//$json = "{";
+	$json = "{";
 	
 	// scan file system 
 	$db = new SQLite3('../site.db');
 	chdir('../');
 	require_once "file_scanner.php";
 	$value_set_flag = FALSE;
-	//$simple_search= $_GET['advanced'];
-	$simple_search= "hhh";
-	echo "<p>zzz</p>";
-	/*//Join all talbes and create the query string
+
+
+	//Join all talbes and create the query string
 	$query = "SELECT * FROM photo_file NATURAL JOIN photo_description NATURAL JOIN photo_origin NATURAL JOIN photo_image NATURAL JOIN photo_camera NATURAL JOIN photo_advanced WHERE ";
-	//
+
 	foreach($_GET as $key=>$value) {
 		if ( $value != "") {
 			$query .= $key . " LIKE '%" . $value . "%' OR ";
@@ -47,5 +46,5 @@
 	$json .=  "}";
 	//add json header and send the data
  	header("Content_type: text/json");
- 	print $json;*/
+ 	print $json;
 ?>

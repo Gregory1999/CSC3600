@@ -34,31 +34,30 @@
 	//This function is called when the search button is pressed
 	//The function will display all images that match the search string
 	function sendAdvancedSearch(){
-			alert("works");
 			var advanced_search_txt= [];
 			
-			advanced_search_txt["created"] = document.getElementById('created').value;
-			advanced_search_txt["fileName"] = document.getElementById('fileName').value;
-			advanced_search_txt["photoType"] = document.getElementById('photoType').value;
-			advanced_search_txt["dateModified"] = document.getElementById('dateModified').value;
-			advanced_search_txt["fileSize"] = document.getElementById('fileSize').value;
-			advanced_search_txt["photoTitle"] = document.getElementById('photoTitle').value;
-			advanced_search_txt["photoComments"] = document.getElementById('photoComments').value;
-			advanced_search_txt["photoSubject"] = document.getElementById('photoSubject').value;
-			advanced_search_txt["photoRating"] = document.getElementById('photoRating').value;
-			advanced_search_txt["photoTags"] = document.getElementById('photoTags').value;
-			advanced_search_txt["author"] = document.getElementById('author').value;
-			advanced_search_txt["dateTaken"] = document.getElementById('dateTaken').value;
+			advanced_search_txt["date_created"] = document.getElementById('created').value;
+			advanced_search_txt["photo_name"] = document.getElementById('fileName').value;
+			advanced_search_txt["photo_type"] = document.getElementById('photoType').value;
+			advanced_search_txt["date_modified"] = document.getElementById('dateModified').value;
+			advanced_search_txt["size"] = document.getElementById('fileSize').value;
+			advanced_search_txt["title"] = document.getElementById('photoTitle').value;
+			advanced_search_txt["comments"] = document.getElementById('photoComments').value;
+			advanced_search_txt["subject"] = document.getElementById('photoSubject').value;
+			advanced_search_txt["rating"] = document.getElementById('photoRating').value;
+			advanced_search_txt["tags"] = document.getElementById('photoTags').value;
+			advanced_search_txt["authors"] = document.getElementById('author').value;
+			advanced_search_txt["date_taken"] = document.getElementById('dateTaken').value;
 			advanced_search_txt["copyright"] = document.getElementById('copyright').value;
-			advanced_search_txt["photoWidth"] = document.getElementById('photoWidth').value;
-			advanced_search_txt["photoHeight"] = document.getElementById('photoHeight').value;
-			advanced_search_txt["photoCompression"] = document.getElementById('photoCompression').value;
-			advanced_search_txt["cameraMaker"] = document.getElementById('cameraMaker').value;
-			advanced_search_txt["cameraModel"] = document.getElementById('cameraModel').value;
-			advanced_search_txt["cameraSerialNumber"] = document.getElementById('cameraSerialNumber').value;
+			advanced_search_txt["width"] = document.getElementById('photoWidth').value;
+			advanced_search_txt["height"] = document.getElementById('photoHeight').value;
+			advanced_search_txt["compression"] = document.getElementById('photoCompression').value;
+			advanced_search_txt["camera_maker"] = document.getElementById('cameraMaker').value;
+			advanced_search_txt["camera_model"] = document.getElementById('cameraModel').value;
+			advanced_search_txt["camera_serial_number"] = document.getElementById('cameraSerialNumber').value;
 
 			var xmlhr1 = new XMLHttpRequest();
-			var script1 = 'scripts/adv_search.php?advanced=';
+			var script1 = 'scripts/adv_search.php?';
 			xmlhr1.addEventListener("load", loadPhotos);
 		
 			var count = 0;
@@ -77,8 +76,8 @@
 			}
 			xmlhr1.open("GET",script1);
 			xmlhr1.responseType = "json";
-			/*loadSpinner();
-			xmlhr1.send();*/			
+			loadSpinner();
+			xmlhr1.send();			
 	}
 
 	// This function will be used if the root directory is not set
