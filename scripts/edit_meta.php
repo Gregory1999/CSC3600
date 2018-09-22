@@ -35,12 +35,8 @@
 	$jpeg = new PelJpeg($image);
 	$ifd0 = $jpeg->getExif()->getTiff()->getIfd();
 	
-	
-	
 	//array of all the tags for the metadata to edit
 	$PelTagArray_ifd0 = ['comments'=>PelTag::XP_COMMENT, 'tags'=>PelTag::XP_KEYWORDS,'title'=>PelTag::XP_TITLE,'subject'=>PelTag::XP_SUBJECT,'authors'=>PelTag::XP_AUTHOR,  'copyright'=>PelTag::COPYRIGHT, 'camera_maker'=>PelTag::MAKE, 'camera_model'=>PelTag::MODEL];
-	
-	
 	
 	//loop over tag array and write in the new data
 	foreach ($PelTagArray_ifd0 as $key => $tag) {
@@ -58,38 +54,14 @@
 		}
 	}
 	
-	
-	//$ex = new PelIfd(PelIfd::EXIF); $ifd->addSubIfd($ex); $ex->addEntry(new PelEntryTime(PelTag::DATE_TIME_ORIGINAL, $tags['DateTimeOriginal']));
-	// ExifIFD
 	//if date_taken are to be edited
 	if (array_key_exists('date_taken', $_GET)) {
 		//$date_taken= DateTime::createFromFormat('Y-m-d H:i:s', strtotime($_GET['date_taken']));
 		$date_taken= strtotime($_GET['date_taken']);
 		$exif = $ifd0->getSubIfd(PelIfd::EXIF);
-/*
-		$ifd1 = $ifd0->getNextIfd();
-		//if ifd1 doesnt exist then create it
-		if (!$ifd1) {
-			//create new ifd1 and point ifd0 to it
-			$ifd1 = new PelIfd(1);
-			$ifd0->setNextIfd($ifd1); 
-			
-		}
-		
-		$exif = $ifd1->getNextIfd();
-		
-		//if ifd1 doesnt exist then create it 
-		if (!$exif) {
-			//create new exif and point ifd0 to it
-			$exif = new PelIfd(PelIfd::EXIF);
-			$ifd1->setNextIfd($exif); 
-			
-		}
-*/	
-		//$entry = $exif->getEntry(PelTag::DATE_TIME_ORIGINAL);
+
 		$entry = $exif->getEntry(PelTag::DATE_TIME_ORIGINAL);
 		//if date_taken doen not exists add
-		
 		if ($entry == null){
 			//$entry = new PelEntryTime(PelTag::DATE_TIME_ORIGINAL, $date_taken);
 			$entry = new PelEntryTime(PelTag::DATE_TIME_ORIGINAL, $date_taken);
@@ -103,23 +75,6 @@
 		}
 
 	}
-	/*
-	//if comments are to be edited
-	if (array_key_exists('comments', $_GET)) {
-		$entry = $ifd0->getEntry(PelTag::XP_COMMENT);
-		//if comment doen not exists add 
-		if ($entry == null){
-			    $entry = new PelEntryAscii(PelTag::XP_COMMENT, $_GET['comments']);
-				$ifd0->addEntry($entry);
-		}
-		// if comment already exists then change
-		else{
-			$entry->setValue($_GET['comments']);
-		}
-	}
-	
-*/
-	
 	
 	//save data to the image
 	$jpeg->saveFile($image);
