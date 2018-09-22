@@ -34,26 +34,6 @@
 	$jpeg = new PelJpeg($image);
 	$ifd0 = $jpeg->getExif()->getTiff()->getIfd();
 	
-	//array of all the tags for the metadata to edit
-	$PelTagArray_ifd0 = ['comments'=>PelTag::XP_COMMENT, 'tags'=>PelTag::XP_KEYWORDS,'title'=>PelTag::XP_TITLE,'subject'=>PelTag::XP_SUBJECT,'authors'=>PelTag::XP_AUTHOR,  'copyright'=>PelTag::COPYRIGHT, 'camera_maker'=>PelTag::MAKE, 'camera_model'=>PelTag::MODEL];
-	
-	//loop over tag array and write in the new data
-	foreach ($PelTagArray_ifd0 as $key => $tag) {
-		if (array_key_exists($key, $_GET)) {
-			$entry = $ifd0->getEntry($tag);
-			//if tag does not exists add 
-			if ($entry == null){
-					$entry = new PelEntryAscii($tag, $_GET[$key]);
-					$ifd0->addEntry($entry);
-			}
-			// if tag already exists then add new data
-			else{
-				$entry->setValue($_GET[$key]);
-			}
-		}
-	}
-	
-	/*
 	//if comments are to be edited
 	if (array_key_exists('comments', $_GET)) {
 		$entry = $ifd0->getEntry(PelTag::XP_COMMENT);
@@ -68,7 +48,61 @@
 		}
 	}
 	
-*/
+	//if tags are to be edited
+	if (array_key_exists('tags', $_GET)) {
+		$entry = $ifd0->getEntry(PelTag::XP_KEYWORDS);
+		//if tag doen not exists add 
+		if ($entry == null){
+			    $entry = new PelEntryAscii(PelTag::XP_KEYWORDS, $_GET['tags']);
+				$ifd0->addEntry($entry);
+		}
+		// if tag already exists then change
+		else{
+			$entry->setValue($_GET['tags']);
+		}
+	}
+	
+	//if title is to be edited
+	if (array_key_exists('title', $_GET)) {
+		$entry = $ifd0->getEntry(PelTag::XP_TITLE);
+		//if title does not exists add 
+		if ($entry == null){
+			    $entry = new PelEntryAscii(PelTag::XP_TITLE, $_GET['title']);
+				$ifd0->addEntry($entry);
+		}
+		// if comment already exists then change
+		else{
+			$entry->setValue($_GET['title']);
+		}
+	}
+	
+	//if subject is to be edited
+	if (array_key_exists('subject', $_GET)) {
+		$entry = $ifd0->getEntry(PelTag::XP_SUBJECT);
+		//if title does not exists add 
+		if ($entry == null){
+			    $entry = new PelEntryAscii(PelTag::XP_SUBJECT, $_GET['subject']);
+				$ifd0->addEntry($entry);
+		}
+		// if subject already exists then change
+		else{
+			$entry->setValue($_GET['subject']);
+		}
+	}
+	
+	//if authors is to be edited
+	if (array_key_exists('authors', $_GET)) {
+		$entry = $ifd0->getEntry(PelTag::XP_AUTHOR);
+		//if author does not exists add 
+		if ($entry == null){
+			    $entry = new PelEntryAscii(PelTag::XP_AUTHOR, $_GET['authors']);
+				$ifd0->addEntry($entry);
+		}
+		// if author already exists then change
+		else{
+			$entry->setValue($_GET['authors']);
+		}
+	}
 	
 	
 	//save data to the image
