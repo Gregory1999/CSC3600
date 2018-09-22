@@ -1,21 +1,5 @@
 	var count = 0;
 	
-	$('#deleteDB').click(function(event) {
-		event.preventDefault();
-		var xmlhr1 = new XMLHttpRequest();
-		var script= "scripts/delete_db.php";
-		xmlhr1.onreadystatechange = function() {
-			document.getElementById('rootDirectory').style.display = "inline-block";
-			document.getElementById('lblrootDirectory').style.display = "inline-block";
-			xmlhr1.addEventListener("load", loadPhotos);
-		}
-		xmlhr1.open("GET",script);
-		
-		xmlhr1.responseType = "json";
-		loadSpinner();
-		xmlhr1.send();
-	});
-	
 	//This function is called when the search button is pressed
 	//The function will display all images that match the search string
 	function sendSearch() {
@@ -65,7 +49,7 @@
 			var response = this.response;
 
 			//if the root directory has not been loaded then call function to load directory
-			if (response.root == 'NULL') {	
+			if (response.root == 'NULL') {			
 					loadDirectory();					
 			}
 			//insert all photos and add event listeners to call function when image is clicked	
@@ -77,7 +61,7 @@
 				var output = "<div class= 'row display-flex' >";
 				for (var i = 0; i < response.imageArray.length; i++)  {
 					var imagePath =  response.imageArray[i];
-					output += '<div class="col-sm-3 thumbnail">  <img src = "scripts/thumbnail.php?path=' + imagePath + '" style = "display:block; margin: auto; width: 90%; min-height: 40%; max-height: 90%;" id = "' + imagePath + '" />  </div>\n';
+					output += '<div class="col-xs-4 thumbnail">  <img src = "scripts/thumbnail.php?path=' + imagePath + '" class = "img-fluid" id = "' + imagePath + '" />  </div>\n';
 				}
 				output += "</ div>";
 				
@@ -218,9 +202,21 @@
 	function findFolder() {
 		var script = "scripts/browse.php";
 		var testDir = document.getElementById("rootDirectory").value;
-		if(testDir == "")
+		var letters = 'abcdefghijklmnopqrstuvwxyz';
+
+		if(testDir == ""){
 			alert("You must enter the drive or rootdirectory of the image folder.\nTry Again");
-		
+		}
+		else if(testDir.length == 1){
+			testDir.toUpperCase();
+			var index = letters.indexOf(testDir);
+
+			if(index >= 0){
+				testDir += ':';				
+			}else{
+				alert("You need to enter a letter for the drive");				
+			}
+		}
 		//retrieve and add metadata and then display image
 		var xmlhr1 = new XMLHttpRequest();
 		xmlhr1.addEventListener("load", displayPath);
@@ -233,7 +229,7 @@
 		var script = "scripts/browse.php";
 		var response = this.response;
 		
-		var output = '<div id="browsedirectory"> <H3>Current Directory- <strong id="current">' + response.currentDirectory + '</strong> </H3> \n <button id = "selectBtn" type="button" >Select Folder</button> \n ';
+		var output = '<H3> Current Directory- <strong id="current">' + response.currentDirectory + '</strong> </H3> \n <button id = "selectBtn" type="button" >Select Folder</button> \n ';
 		if ( response.parentDirectory != response.currentDirectory ){
 			output += '<button id = "backBtn" name="' + response.parentDirectory + '" type="button" >Back</button> ';
 		}
@@ -245,7 +241,7 @@
 					
 		}
 		
-		output += "</ list> </div>";
+		output += "</ list>";
 		
 		//output the folders
 		folder_list.innerHTML= output;
@@ -263,7 +259,6 @@
 			var directoryPath =  response.directoryArray[i]	;	
 			var linkId = document.getElementById(directoryPath);
 			linkId.addEventListener("click", getSubDir);
-		
 		}
 	}
 	function backBtnPress(){
