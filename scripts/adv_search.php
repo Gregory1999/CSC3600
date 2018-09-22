@@ -6,15 +6,17 @@
 //
 //test querry string----> ?photo_name=dog
 
-	$json = "{";
+	//$json = "{";
 	
 	// scan file system 
 	$db = new SQLite3('../site.db');
 	chdir('../');
 	require_once "file_scanner.php";
 	$value_set_flag = FALSE;
-	
-	//Join all talbes and create the querry string
+	//$simple_search= $_GET['advanced'];
+	$simple_search= "hhh";
+	echo "<p>zzz</p>";
+	/*//Join all talbes and create the query string
 	$query = "SELECT * FROM photo_file NATURAL JOIN photo_description NATURAL JOIN photo_origin NATURAL JOIN photo_image NATURAL JOIN photo_camera NATURAL JOIN photo_advanced WHERE ";
 	//
 	foreach($_GET as $key=>$value) {
@@ -36,7 +38,7 @@
 	
 	while( $row = $result->fetchArray(SQLITE3_ASSOC)) {
 		$photo_path= $row["photo_path"];
-		$json .= ' "' . $photo_path . '",';			
+		$json .= json_encode($photo_path) . ',';			
 	}
 	
 	
@@ -45,5 +47,5 @@
 	$json .=  "}";
 	//add json header and send the data
  	header("Content_type: text/json");
- 	print $json;
+ 	print $json;*/
 ?>

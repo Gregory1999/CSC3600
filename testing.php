@@ -1,4 +1,4 @@
-<!DOCTYPE html> <!-- HTML 5 delcaration so browser knows what to expect --> 
+<!DOCTYPE html> <!-- HTML 5 delcaration so browser knows what to expect -->
 <html lang="en">
 	<head>
   		<title>Web-based Image Organiser</title>
@@ -22,43 +22,34 @@
 				<ul class="nav navbar-nav">
 					<li><a href="index_v0.html">Home</a></li>
 					<li><a href="upload_page.html">Scan Images</a></li>
-					<li class="active"><a href="browse_page.html">Browse Images</a></li>   
-					<li><a href="metadata_page.html">Edit Metadata</a></li>   
-					<li><a href="nerd_page.html">Nerdy Stuff</a></li>   
-					<li><a href="advanced_page.html">Advanced Search</a></li>  
-					<li><a id="deleteDB" href="" >Select Library Folder</a></li>     							
-					
+					<li><a href="browse_page.html">Browse Images</a></li>
+					<li><a href="metadata_page.html">Edit Metadata</a></li>
+					<li><a href="nerd_page.html">Nerdy Stuff</a></li>
+					<li class="active"><a href="advanced_page.html">Advanced Search</a></li>
 				</ul>
 				<!-- <form class="navbar-form navbar-right" action="/action_page.php"> -->
 	    <div class="search">
 	    	<input id="simple_search_input" class="userInput" type="text" placeholder="Search.." name="search">
-      		<button id= "simple_search_btn"type="button" class="btn btn-default btn-sm"> Search</button>
+      		<button id= "simple_search_btn"type="button" class="btn btn-default btn-sm" onclick="sendMessage()"> Search</button>
 	    </div>
 			</div>
 				<!-- </form> -->
 		</nav>
 		<div class="container">
-			<div class="well"> <!-- Place to put information for each page -->
-					<h2>Welcome</h2>
-					<p>Site instructions go here</p>
-			</div>	
-		</div>	
-			<div class="container"> <!-- All scripts load into this section -->
-				<div class="jumbotron" id="photos">
 				<h2>Welcome</h2>
 				<p>Site instructions go here</p>
-				</div>
 			</div>
-		<!-- </div> -->
-		<script>
-			var photos= document.getElementById('photos');
-			var simple_search_btn = document.getElementById('simple_search_btn');
+		</div>
+			<div class="container">
+				<div class="jumbotron" id="photos">
+				</div>
+				<p id="test"></p>
+			</div>
 			
-			//calls the search function when the search button is clicked
-			simple_search_btn.addEventListener("click", sendSearch);
-			
-			//uses ajax to load all photos
-			allPhotos();				
-		</script>	
-	</body>
+			<script>
+			function sendMessage(){
+				//document.getElementById("test").innerHTML = "hello";
+				alert("ll");
+			}
+			</script>
 </html>

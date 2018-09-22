@@ -1,3 +1,21 @@
+	var count = 0;
+	
+	
+	$('#deleteDB').click(function(event) {
+		event.preventDefault();
+		var xmlhr1 = new XMLHttpRequest();
+		var script= "scripts/delete_db.php";
+		xmlhr1.onreadystatechange = function() {
+			document.getElementById('rootDirectory').style.display = "inline-block";
+			document.getElementById('lblrootDirectory').style.display = "inline-block";
+			xmlhr1.addEventListener("load", loadPhotos);
+		}
+		xmlhr1.open("GET",script);
+		
+		xmlhr1.responseType = "json";
+		loadSpinner();
+		xmlhr1.send();
+	});
 
 	//This function is called when the search button is pressed
 	//The function will display all images that match the search string
@@ -12,6 +30,56 @@
 			loadSpinner();
 			xmlhr1.send();
 	}
+	
+	//This function is called when the search button is pressed
+	//The function will display all images that match the search string
+	function sendAdvancedSearch(){
+			alert("works");
+			var advanced_search_txt= [];
+			
+			advanced_search_txt["created"] = document.getElementById('created').value;
+			advanced_search_txt["fileName"] = document.getElementById('fileName').value;
+			advanced_search_txt["photoType"] = document.getElementById('photoType').value;
+			advanced_search_txt["dateModified"] = document.getElementById('dateModified').value;
+			advanced_search_txt["fileSize"] = document.getElementById('fileSize').value;
+			advanced_search_txt["photoTitle"] = document.getElementById('photoTitle').value;
+			advanced_search_txt["photoComments"] = document.getElementById('photoComments').value;
+			advanced_search_txt["photoSubject"] = document.getElementById('photoSubject').value;
+			advanced_search_txt["photoRating"] = document.getElementById('photoRating').value;
+			advanced_search_txt["photoTags"] = document.getElementById('photoTags').value;
+			advanced_search_txt["author"] = document.getElementById('author').value;
+			advanced_search_txt["dateTaken"] = document.getElementById('dateTaken').value;
+			advanced_search_txt["copyright"] = document.getElementById('copyright').value;
+			advanced_search_txt["photoWidth"] = document.getElementById('photoWidth').value;
+			advanced_search_txt["photoHeight"] = document.getElementById('photoHeight').value;
+			advanced_search_txt["photoCompression"] = document.getElementById('photoCompression').value;
+			advanced_search_txt["cameraMaker"] = document.getElementById('cameraMaker').value;
+			advanced_search_txt["cameraModel"] = document.getElementById('cameraModel').value;
+			advanced_search_txt["cameraSerialNumber"] = document.getElementById('cameraSerialNumber').value;
+
+			var xmlhr1 = new XMLHttpRequest();
+			var script1 = 'scripts/adv_search.php?advanced=';
+			xmlhr1.addEventListener("load", loadPhotos);
+		
+			var count = 0;
+			
+			for(var key in advanced_search_txt){
+				if(count > 0)
+					script1 += '&';
+				// if value is empty pass empty string
+				//else pass the string
+				if(advanced_search_txt[key] == ""){
+					script1 += key + '=' + '';
+				}else{
+					script1 += key + '=' + advanced_search_txt[key];
+				}
+				count++;
+			}
+			xmlhr1.open("GET",script1);
+			xmlhr1.responseType = "json";
+			/*loadSpinner();
+			xmlhr1.send();*/			
+	}
 
 	// This function will be used if the root directory is not set
 	// It retrieves the root directory from the user
@@ -23,11 +91,14 @@
 				var xmlhr1 = new XMLHttpRequest();
 				var response = this.response;
 				//should be a better way to get the path- this is just temporary, so that I can build the back-end
-				var output = '<div><label>Full Directory Path: <input type="text" id = "root" value= "Test_Images" name="root_path" required="required" size="40"/></label> <button id = "root_button" type="button" >Load Root Directory </button></div>';				
+				//var output = '<div><label>Full Directory Path: <input type="text" id = "root" value= "Test_Images" name="root_path" required="required" size="40"/></label> <button id = "root_button" type="button" >Load Root Directory </button></div>';				
+				var output = 	'<div id="folder_list" > <button id = "browse" type="button" >Select Photo Library</button> </div>'
 				photos.innerHTML= output;
 				// when button is pressed, send the directory
-				var root_button = document.getElementById('root_button');
-				root_button.addEventListener("click", sendRoot);
+				
+				var browse_btn = document.getElementById('browse');
+				var folder_list= document.getElementById('folder_list');
+				browse_btn.addEventListener("click", findFolder);
 			}
 		};
 		xmlhr1.open("GET", script, true);
@@ -43,22 +114,28 @@
 	function loadPhotos() {
 		if ((this.readyState == 4) && (this.status == 200)) {
 			var response = this.response;
+
 			//if the root directory has not been loaded then call function to load directory
-			if (response.root == 'NULL' ) {			
-					loadDirectory();			 
+			if (response.root == 'NULL') {			
+					loadDirectory();					
 			}
 			//insert all photos and add event listeners to call function when image is clicked	
-			else {			
+			else {
+				// Hide Label and Textbox
+				document.getElementById('rootDirectory').style.display = "none";
+				document.getElementById('lblrootDirectory').style.display = "none";
+				
 				var output = "<div class= 'row display-flex' >";
 				for (var i = 0; i < response.imageArray.length; i++)  {
 					var imagePath =  response.imageArray[i];
-					output += '<div class="col-xs-4 thumbnail">  <img src = "scripts/thumbnail.php?path=' + imagePath + '" class = "img-fluid" id = "' + imagePath + '" />  </div>\n';
+					output += '<div class="col-sm-3 thumbnail">  <img src = "scripts/thumbnail.php?path=' + imagePath + '" style = "display:block; margin: auto; width: 90%; min-height: 40%; max-height: 90%;" id = "' + imagePath + '" />  </div>\n';
+					//output += '<div class="col-xs-4 thumbnail">  <img src = "scripts/thumbnail.php?path=' + imagePath + '" class = "img-fluid" id = "' + imagePath + '" />  </div>\n';
 				}
 				output += "</ div>";
 				
 				//output the images
 				photos.innerHTML= output;
-				
+
 				//set up the event listeners
 				for (var i = 0; i < response.imageArray.length; i++)  {
 					var imagePath=  response.imageArray[i]	;	
@@ -94,8 +171,9 @@
 	// It will receive a JSON formatted string of metadata field-value pairs.
 	function displayMeta() {
 		if (this.readyState == 4 && this.status == 200) {
+			var script1 = "scripts/full_Image.php";
 			var response = this.response;
-			var output = '<img src = "' + response['photo_path'] + '" class = "img-fluid" id = "' + response['photo_path'] + '" /> <div id = "metadata"></div> <button id = "home_button" type="button" >Show all Photos </button>' 
+			var output = '<img src = "' + script1 + '?path=' + response['photo_path'] + '" class = "img-fluid" id = "' + response['photo_path'] + '" /> <div id = "metadata"></div> <button id = "home_button" type="button" >Show all Photos </button>' 
 			photos.innerHTML= output;
 			var home = document.getElementById('home_button');
 			home.addEventListener("click", allPhotos);	
@@ -112,7 +190,12 @@
 					//display all other editable data as placeholders in input elements
 					else {
 						if ( key === 'rating' ){
-							//add code for star ratti
+							//add code for star rating
+						}
+						//will improve this later <-----------------doest work in firefox
+						else if (key === 'date_taken'){
+						output += "<div> <label>" + key + ": <input type='datetime-local' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "' /></label> </div> \n";
+
 						}
 						else{
 						output += "<div> <label>" + key + ": <input type='text' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "'  size='40'/></label> </div> \n";
@@ -133,12 +216,17 @@
 	//This function is used to save new metadata to the selected file
 	//it sets up a xhr funtion to upload and then display the new data
 	function saveMeta(){
-			//store the value for each metadata field---------------------add more when db complete
+			//store the value for each metadata field
 			var metaArray = [];
 			metaArray["title"] = document.getElementById('title').value;
 			metaArray["comments"] = document.getElementById('comments').value;
 			metaArray["tags"] = document.getElementById('tags').value;
 			metaArray["subject"] = document.getElementById('subject').value;
+			metaArray["authors"] = document.getElementById('authors').value;
+			metaArray["date_taken"] = document.getElementById('date_taken').value;
+			metaArray["copyright"] = document.getElementById('copyright').value;
+			metaArray["camera_maker"] = document.getElementById('camera_maker').value;
+			metaArray["camera_model"] = document.getElementById('camera_model').value;
 			//metaArray["rating"] = document.getElementById('rating').value;
 			//store the image path
 			var imagePath = document.getElementById('photo_path').value;
@@ -176,7 +264,9 @@
 	//this function will send the directory root
 	function sendRoot() {		
 		var xmlhr1 = new XMLHttpRequest();
-		var root =  document.getElementById('root').value;
+		//var root =  document.getElementById('root').value;
+		var root = document.getElementById("current");
+		root = root.innerHTML;		
 		var script= "get_images.php";
 		
 		xmlhr1.addEventListener("load", loadPhotos);	
@@ -185,7 +275,98 @@
    	loadSpinner();
    	xmlhr1.send();
 	}
+		
+
+	function findFolder() {
+		var script = "scripts/browse.php";
+		var testDir = document.getElementById("rootDirectory").value;
+		var letters = 'abcdefghijklmnopqrstuvwxyz';
+
+		if(testDir == ""){
+			alert("You must enter the drive or rootdirectory of the image folder.\nTry Again");
+		}
+		else if(testDir.length == 1){
+			testDir.toUpperCase();
+			var index = letters.indexOf(testDir);
+
+			if(index >= 0){
+				testDir += ':';				
+			}else{
+				alert("You need to enter a letter for the drive");				
+			}
+		}
+		//retrieve and add metadata and then display image
+		var xmlhr1 = new XMLHttpRequest();
+		xmlhr1.addEventListener("load", displayPath);
+		xmlhr1.open("GET", script+'?directory=' + testDir, true);
+		xmlhr1.responseType = "json";
+		xmlhr1.send();
+	}
 	
+	function displayPath() {
+		var script = "scripts/browse.php";
+		var response = this.response;
+		var output = '<div id="browsedirectory"> <H3>Current Directory- <strong id="current">' + response.currentDirectory + '</strong> </H3> \n <button id = "selectBtn" type="button" >Select Folder</button> \n ';
+		//var output = '<H3> Current Directory- <strong id="current">' + response.currentDirectory + '</strong> </H3> \n <button id = "selectBtn" type="button" >Select Folder</button> \n ';
+		if ( response.parentDirectory != response.currentDirectory ){
+			output += '<button id = "backBtn" name="' + response.parentDirectory + '" type="button" >Back</button> ';
+		}
+		
+		output += '<list>   </div>';
+		for (var i = 0; i < response.directoryArray.length; i++)  {
+			var directoryPath =  response.directoryArray[i]; 					
+			output += '<ul> <a id = "' + directoryPath + '" /> ' + directoryPath + ' </a> </ul> \n';
+					
+		}
+		
+		output += "</ list>";
+		
+		//output the folders
+		folder_list.innerHTML= output;
+		
+		var selectBtn = document.getElementById('selectBtn');
+		selectBtn.addEventListener("click", sendRoot);
+		
+		if ( response.parentDirectory != response.currentDirectory ){
+			var backBtn = document.getElementById('backBtn');
+			backBtn.addEventListener("click", backBtnPress);
+		}
+		
+		//set up the event listeners
+		for (var i = 0; i < response.directoryArray.length; i++)  {
+			var directoryPath =  response.directoryArray[i]	;	
+			var linkId = document.getElementById(directoryPath);
+			linkId.addEventListener("click", getSubDir);
+		}
+	}
+	function backBtnPress(){
+		var script = "scripts/browse.php";
+		var parentDir = document.getElementById("backBtn");
+		var parentDir = parentDir.name;
+		//retrieve the parent folders
+		var xmlhr1 = new XMLHttpRequest();
+		xmlhr1.addEventListener("load", displayPath);
+		xmlhr1.open("GET", script+'?directory=' + parentDir, true);
+		xmlhr1.responseType = "json";
+		xmlhr1.send();
+	}
+	
+	
+		
+	function getSubDir(){
+		var script = "scripts/browse.php";
+		var linkId = this.id;
+		//retrieve the subfolders
+		var xmlhr1 = new XMLHttpRequest();
+		xmlhr1.addEventListener("load", displayPath);
+		xmlhr1.open("GET", script+'?directory=' + linkId, true);
+		xmlhr1.responseType = "json";
+		xmlhr1.send();
+	}
+	
+	
+	
+
 	// this function will display the loading spinner 	
  	function loadSpinner() {
  		photos.innerHTML = "<div class='preload'> <div class='loader-frame'> </div></div> ";

@@ -16,7 +16,7 @@
 	// array of field to not output
 	
 	//array of tables to output
-	$tableArray= ['photo_description'];
+	$tableArray= ['photo_description', 'photo_origin', 'photo_camera'];
 	
 	//output each
 	foreach($tableArray as $tableName){
