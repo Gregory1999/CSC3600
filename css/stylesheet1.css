@@ -32,7 +32,14 @@
 
 
 body{
-background-color: rgb(71,78,93);	
+	background-color: rgb(71,78,93);	
+}
+fieldset{
+	margin-bottom: 50px;
+	margin-top: 50x;
+}
+.lHeader{
+	color: Green;
 }
 .logo{
 	background-color: white;
