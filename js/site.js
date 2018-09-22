@@ -262,14 +262,14 @@
 			output += '<button id = "backBtn" name="' + response.parentDirectory + '" type="button" >Back</button> ';
 		}
 		
-		output += '<list>   </div>';
+		output += '<list> ';
 		for (var i = 0; i < response.directoryArray.length; i++)  {
 			var directoryPath =  response.directoryArray[i]; 					
 			output += '<ul> <a id = "' + directoryPath + '" /> ' + directoryPath + ' </a> </ul> \n';
 					
 		}
 		
-		output += "</ list>";
+		output += "</list> </div>";
 		
 		//output the folders
 		folder_list.innerHTML= output;
