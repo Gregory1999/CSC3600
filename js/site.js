@@ -141,7 +141,7 @@
 						if ( key === 'rating' ){
 							//add code for star rating
 						}
-						//will improve this later <-----------------doest work in firefox
+						//will improve this later- need to add formatting criteria to enforce correct date format.
 						else if (key === 'date_taken'){
 						output += "<div> <label for='" + key + "'></label>" + key + ": <input class='form-control' type='datetime-local' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "' /> </div> \n";
 
