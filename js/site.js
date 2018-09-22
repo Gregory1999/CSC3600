@@ -122,14 +122,14 @@
 		if (this.readyState == 4 && this.status == 200) {
 			var script1 = "scripts/full_Image.php";
 			var response = this.response;
-			var output = '<img src = "' + script1 + '?path=' + response['photo_path'] + '" class = "img-fluid" id = "' + response['photo_path'] + '" /> <div id = "metadata"></div> <button id = "home_button" type="button" >Show all Photos </button>' 
+			var output = '<img src = "' + script1 + '?path=' + response['photo_path'] + '" class = "img-fluid" id = "' + response['photo_path'] + '" /> <div id = "metadata"></div> <button id = "home_button" class="btn btn-primary btn-md" type="button" >Show all Photos </button>' 
 			photos.innerHTML= output;
 			var home = document.getElementById('home_button');
 			home.addEventListener("click", allPhotos);	
 			var metadata = document.getElementById('metadata');
 				
 			//outputs JSON object (metadata) currently only displays limited data
-			var output ="";
+			var output ='<div class="form-group"> <fieldset> <legend class="lHeader">Photo Metadata</legend>';
 			for (var key in response) {
 				//display the path as hidden element
 			    if (response.hasOwnProperty(key)) {
@@ -143,17 +143,17 @@
 						}
 						//will improve this later <-----------------doest work in firefox
 						else if (key === 'date_taken'){
-						output += "<div> <label>" + key + ": <input type='datetime-local' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "' /></label> </div> \n";
+						output += "<div> <label for='" + key + "'></label>" + key + ": <input class='form-control' type='datetime-local' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "' /> </div> \n";
 
 						}
 						else{
-						output += "<div> <label>" + key + ": <input type='text' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "'  size='40'/></label> </div> \n";
+						output += "<div> <label for='" + key + "'></label>" + key + ": <input type='text' class='form-control' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "'  /> </div> \n";
 						}
 					}
 				}
 			}
 				
-			output += "<div> <button id ='meta_edit_btn' type='button' >Save Metadata </button> </div> \n";
+			output += "</fieldset> <div> <button id ='meta_edit_btn' type='button' class='btn btn-primary btn-md'>Save Metadata </button> </div> </div>\n";
 			metadata.innerHTML = output;
 			//add event listner to the metadata save button
 			var save_btn = document.getElementById('meta_edit_btn');
