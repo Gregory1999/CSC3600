@@ -42,14 +42,32 @@
 		</div>
 			<div class="container">
 				<div class="jumbotron" id="photos">
+				<form id="metaDataForm" name="advsearchform" action="" onsubmit="return false" method="POST">
+						<div class="form-group">
+						<fieldset>
+						<legend class="lHeader">File Data</legend>
+							<label for="created">Date Created:</label>
+							<input type="text" class="form-control" id="created">
+							<label for="fileName">File Name:</label>
+							<input type="text" class="form-control" id="fileName">
+							<label for="photoType">Photo Type (JPG):</label>
+							<input type="text" class="form-control" id="photoType">
+							<label for="dateModified">Date Modified:</label>
+							<input type="text" class="form-control" id="dateModified">
+							<label for="fileSize">File Size:</label>
+							<input type="text" class="form-control" id="fileSize">
+						</fieldset>
+						</div>
+						<button id="advanced_search_btn" type="submit" class="btn btn-primary btn-md" onclick="myFunction()">Search</button>
+						<a href="index_v0.html" class="btn btn-primary btn-md">Close</a>
+						</form>
 				</div>
 				<p id="test"></p>
 			</div>
 			
 			<script>
-			function sendMessage(){
-				//document.getElementById("test").innerHTML = "hello";
-				alert("ll");
-			}
+function myFunction() {
+		document.getElementById("metaDataForm").style.display = "none";
+}
 			</script>
 </html>

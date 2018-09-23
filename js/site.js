@@ -76,6 +76,12 @@
 			}
 			xmlhr1.open("GET",script1);
 			xmlhr1.responseType = "json";
+			
+			// Add don't display form
+			alert("im");
+			document.getElementById("advancedSearch").style.display = "none";
+			alert("i got here");
+			
 			loadSpinner();
 			xmlhr1.send();			
 	}
