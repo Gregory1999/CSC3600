@@ -6,8 +6,8 @@
 		var xmlhr1 = new XMLHttpRequest();
 		var script= "scripts/delete_db.php";
 		xmlhr1.onreadystatechange = function() {
-			document.getElementById('rootDirectory').style.display = "inline-block";
-			document.getElementById('lblrootDirectory').style.display = "inline-block";
+			//document.getElementById('rootDirectory').style.display = "inline-block";
+			//document.getElementById('lblrootDirectory').style.display = "inline-block";
 			xmlhr1.addEventListener("load", loadPhotos);
 		}
 		xmlhr1.open("GET",script);
@@ -72,8 +72,8 @@
 			//insert all photos and add event listeners to call function when image is clicked	
 			else {
 				// Hide Label and Textbox
-				document.getElementById('rootDirectory').style.display = "none";
-				document.getElementById('lblrootDirectory').style.display = "none";
+				//document.getElementById('rootDirectory').style.display = "none";
+				//document.getElementById('lblrootDirectory').style.display = "none";
 				
 				var output = "<div class= 'row display-flex' >";
 				for (var i = 0; i < response.imageArray.length; i++)  {
