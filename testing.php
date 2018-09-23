@@ -50,17 +50,11 @@
 							<input type="text" class="form-control" id="created">
 							<label for="fileName">File Name:</label>
 							<input type="text" class="form-control" id="fileName">
-							<label for="photoType">Photo Type (JPG):</label>
-							<input type="text" class="form-control" id="photoType">
-							<label for="dateModified">Date Modified:</label>
-							<input type="text" class="form-control" id="dateModified">
-							<label for="fileSize">File Size:</label>
-							<input type="text" class="form-control" id="fileSize">
 						</fieldset>
 						</div>
 						<button id="advanced_search_btn" type="submit" class="btn btn-primary btn-md" onclick="myFunction()">Search</button>
 						<a href="index_v0.html" class="btn btn-primary btn-md">Close</a>
-						</form>
+				</form>
 				</div>
 				<p id="test"></p>
 			</div>
@@ -68,6 +62,9 @@
 			<script>
 function myFunction() {
 		document.getElementById("metaDataForm").style.display = "none";
+		//photos.innerHTML = "<div>hello</div><div></div>";
+		var r= $('<a href="index_v0.html" class="btn btn-primary btn-md">New Search</a>');
+		$("#photos").append(r);
 }
 			</script>
 </html>

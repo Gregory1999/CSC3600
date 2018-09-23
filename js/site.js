@@ -34,6 +34,9 @@
 	//This function is called when the search button is pressed
 	//The function will display all images that match the search string
 	function sendAdvancedSearch(){
+			//Hide form 
+			document.getElementById("advancedSearch").style.display = "none";
+			
 			var advanced_search_txt= [];
 			
 			advanced_search_txt["date_created"] = document.getElementById('created').value;
@@ -75,15 +78,16 @@
 				count++;
 			}
 			xmlhr1.open("GET",script1);
-			xmlhr1.responseType = "json";
+			xmlhr1.responseType = "json";			
+
+			//Dynamically back New Search button
+			var addButton= $('<a href="advanced_page.html" class="btn btn-primary btn-md">New Search</a>');
+			$("#photos").append(addButton);
 			
-			// Add don't display form
-			alert("im");
-			document.getElementById("advancedSearch").style.display = "none";
-			alert("i got here");
+			//loadSpinner();
+			xmlhr1.send();
 			
-			loadSpinner();
-			xmlhr1.send();			
+			
 	}
 
 	// This function will be used if the root directory is not set
