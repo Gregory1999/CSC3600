@@ -105,24 +105,18 @@
 			else { 
 				$thumb_w=$width;
 				$thumb_h=$height;
-			}
-
-				
+			}	
 			$thumb=imagecreatetruecolor($thumb_w,$thumb_h);
-			imagecopyresampled($thumb,$origImage,
-									   0,0,0,0,$thumb_w,$thumb_h,$width,$height);
-
-
-			ob_start();       
-			ImageJpeg($thumb);   
+			imagecopyresampled($thumb,$origImage,0,0,0,0,$thumb_w,$thumb_h,$width,$height);
+			ob_start();
+			ImageJpeg($thumb);
 				
 			$window = new PelDataWindow(ob_get_clean());
 
-			if ($window) {   
-
-				$ifd1->setThumbnail($window); 
-				$outpath = $image; 
-				file_put_contents($outpath, $jpeg->getBytes()); 
+			if ($window) {
+				$ifd1->setThumbnail($window);
+				$outpath = $image;
+				file_put_contents($outpath, $jpeg->getBytes());
 			}
 		}
 		

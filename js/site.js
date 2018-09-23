@@ -42,7 +42,7 @@
 				var response = this.response;
 				//should be a better way to get the path- this is just temporary, so that I can build the back-end
 				//var output = '<div><label>Full Directory Path: <input type="text" id = "root" value= "Test_Images" name="root_path" required="required" size="40"/></label> <button id = "root_button" type="button" >Load Root Directory </button></div>';				
-				var output = 	'<div id="folder_list" > <button id = "browse" type="button" >Select Photo Library</button> </div>'
+				var output = '<div id="folder_list" > <label for="rootDirectory" id="lblrootDirectory">Enter Drive or root directory</label><input id="rootDirectory" class="userInput" type="text"> <button id = "browse" type="button" class="btn btn-primary btn-md" >Select Photo Library Drive</button> </div>'
 				photos.innerHTML= output;
 				// when button is pressed, send the directory
 				
@@ -225,15 +225,16 @@
    	xmlhr1.send();
 	}
 		
-
+	//this function will retrieve the user drive and then display and direct child dirs
 	function findFolder() {
 		var script = "scripts/browse.php";
 		var testDir = document.getElementById("rootDirectory").value;
 		var letters = 'abcdefghijklmnopqrstuvwxyz';
-
+		//if no drive entered then alert the user
 		if(testDir == ""){
 			alert("You must enter the drive or rootdirectory of the image folder.\nTry Again");
 		}
+		
 		else if(testDir.length == 1){
 			testDir.toUpperCase();
 			var index = letters.indexOf(testDir);
@@ -252,26 +253,27 @@
 		xmlhr1.send();
 	}
 	
+	//this function will display the subfolders as hyper links
 	function displayPath() {
 		var script = "scripts/browse.php";
 		var response = this.response;
-		var output = '<div id="browsedirectory"> <H3>Current Directory- <strong id="current">' + response.currentDirectory + '</strong> </H3> \n <button id = "selectBtn" type="button" >Select Folder</button> \n ';
-		//var output = '<H3> Current Directory- <strong id="current">' + response.currentDirectory + '</strong> </H3> \n <button id = "selectBtn" type="button" >Select Folder</button> \n ';
+		var output = '<div id="browsedirectory"> <div><button id = "drive" class="btn btn-primary btn-md" type="button" >Change Library Drive</button> </div> <H3>Current Directory- <strong id="current">' + response.currentDirectory + '</strong> </H3> \n <button id = "selectBtn" type="button" class="btn btn-primary btn-md">Select Folder</button> \n ';
+		
 		if ( response.parentDirectory != response.currentDirectory ){
-			output += '<button id = "backBtn" name="' + response.parentDirectory + '" type="button" >Back</button> ';
+			output += '<button class="btn btn-primary btn-md" id = "backBtn" name="' + response.parentDirectory + '" type="button" >Back</button> ';
 		}
 		
 		output += '<list> ';
 		for (var i = 0; i < response.directoryArray.length; i++)  {
 			var directoryPath =  response.directoryArray[i]; 					
-			output += '<ul> <a id = "' + directoryPath + '" /> ' + directoryPath + ' </a> </ul> \n';
-					
+			output += '<ul> <a id = "' + directoryPath + '" /> ' + directoryPath + ' </a> </ul> \n';		
 		}
-		
 		output += "</list> </div>";
-		
 		//output the folders
 		folder_list.innerHTML= output;
+		
+		var selectBtn = document.getElementById('drive');
+		selectBtn.addEventListener("click", loadDirectory);
 		
 		var selectBtn = document.getElementById('selectBtn');
 		selectBtn.addEventListener("click", sendRoot);
@@ -288,6 +290,9 @@
 			linkId.addEventListener("click", getSubDir);
 		}
 	}
+	
+	//this function will return the list of directories from the parrent folder of the current directory
+	//this function is called when the back button is pressed
 	function backBtnPress(){
 		var script = "scripts/browse.php";
 		var parentDir = document.getElementById("backBtn");
@@ -301,7 +306,7 @@
 	}
 	
 	
-		
+	//this function will retrieve the full list of direct child directories	of the current directory
 	function getSubDir(){
 		var script = "scripts/browse.php";
 		var linkId = this.id;
