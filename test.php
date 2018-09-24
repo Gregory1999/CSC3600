@@ -11,24 +11,24 @@
 	use lsolesen\pel\PelTag;
 	use lsolesen\pel\PelIfd;
 	
-	$image = "Test_Images/dog.jpg";
+	$image = "Test_Images/jpegls-home.jpg";
     ini_set('display_errors', 1);
     ini_set('exif.encode_unicode', 'UTF-8');  // To see WINXP values
 	
-	
+	/*
 	//update exif data
 	$jpeg = new PelJpeg($image);
 	$ifd0 = $jpeg->getExif()->getTiff()->getIfd();
 	$entry = $ifd0->getEntry(PelTag::XP_COMMENT);
 	$entry->setValue('Edited by PEL');
 	$jpeg->saveFile($image);
-	
+	*/
     error_reporting(-1);        
     //$n = (intval($_GET['n'])) ? $_GET['n'] : 99;
     //echo "ANI_$n.jpg:<br />\n";
 	
 
-    $exif = exif_read_data("Test_Images/dog.jpg", 'ANY_TAG', true);
+    $exif = exif_read_data("Test_Images/jpegls-home.jpg", 'ANY_TAG', true);
     echo $exif===false ? "No header data found.<br />\n" : "Image contains the following headers:<br><br />\n";
 
     if ($exif) {
