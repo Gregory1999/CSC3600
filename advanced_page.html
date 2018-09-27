@@ -27,33 +27,29 @@
 					<li><a href="nerd_page.html">Nerdy Stuff</a></li>
 					<li class="active"><a href="advanced_page.html">Advanced Search</a></li>
 				</ul>
-				<!-- <form class="navbar-form navbar-right" action="/action_page.php"> -->
 	    <div class="search">
 	    	<input id="simple_search_input" class="userInput" type="text" placeholder="Search.." name="search">
       		<button id= "simple_search_btn"type="button" class="btn btn-default btn-sm"> Search</button>
 	    </div>
 			</div>
-				<!-- </form> -->
 		</nav>
 		<div class="container">
 			<div class="well"> <!-- Place to put information for each page -->
-				<h2>Welcome</h2>
-				<p>Site instructions go here</p>
-			</div>
-		</div>
-			<div class="container">
-				<div class="jumbotron" id="photos">
 				<h2>Advanced Search</h2>
 				<p>Use the fields below to search for photos based on metadata.</p>
-				<br>
-				<!-- Backend code should allow for fields to be updated dynamically -->
-				<div class="advsearch">
-					<form name="advsearchform" action="" method="POST">
+				<div class="">
+					<div id="puthere" class="left">
+					</div>
+					<div class="right">	
+					</div>
+					<div class="container">
+						<div class="jumbotron" id="photos">
+						<form id="advancedSearch" name="advsearchform" action="" onsubmit="return false" method="POST">
 						<div class="form-group">
 						<fieldset>
 						<legend class="lHeader">File Data</legend>
-							<label for="dateCreated">Date Created:</label>
-							<input type="text" class="form-control" id="dateCreated">
+							<label for="created">Date Created:</label>
+							<input type="text" class="form-control" id="created">
 							<label for="fileName">File Name:</label>
 							<input type="text" class="form-control" id="fileName">
 							<label for="photoType">Photo Type (JPG):</label>
@@ -67,8 +63,8 @@
 						<legend class="lHeader">Description</legend>
 							<label for="photoTitle">Photo Title:</label>
 							<input type="text" class="form-control" id="photoTitle">
-							<label for="photComments">Photo Comments:</label>
-							<input type="text" class="form-control" id="photComments">
+							<label for="photoComments">Photo Comments:</label>
+							<input type="text" class="form-control" id="photoComments">
 							<label for="photoSubject">Photo Subject (JPG):</label>
 							<input type="text" class="form-control" id="photoSubject">
 							<label for="photoRating">Photo Rating:</label>
@@ -108,10 +104,15 @@
 
 						</fieldset>
 						</div>
-						<button type="submit" class="btn btn-primary btn-md">Search</button>
+						<button id="advanced_search_btn" type="submit" class="btn btn-primary btn-md" onclick="sendAdvancedSearch()">Search</button>
 						<a href="index_v0.html" class="btn btn-primary btn-md">Close</a>
-						</form>
-						</div>
-				</div>
-			</div>
+					</form>
+						</div>	
+					</div>
+				</div>	
+			</div>	
+		</div>
+			<script>
+				var photos= document.getElementById('photos');
+			</script>
 </html>

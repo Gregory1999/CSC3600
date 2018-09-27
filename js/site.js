@@ -1,5 +1,60 @@
 	//var count = 0;
-	
+	//This function is called when the search button is pressed
+	//The function will display all images that match the search string
+	function sendAdvancedSearch(){
+			//Hide form 
+			document.getElementById("advancedSearch").style.display = "none";
+			
+			var advanced_search_txt= [];
+			
+			advanced_search_txt["date_created"] = document.getElementById('created').value;
+			advanced_search_txt["photo_name"] = document.getElementById('fileName').value;
+			advanced_search_txt["photo_type"] = document.getElementById('photoType').value;
+			advanced_search_txt["date_modified"] = document.getElementById('dateModified').value;
+			advanced_search_txt["size"] = document.getElementById('fileSize').value;
+			advanced_search_txt["title"] = document.getElementById('photoTitle').value;
+			advanced_search_txt["comments"] = document.getElementById('photoComments').value;
+			advanced_search_txt["subject"] = document.getElementById('photoSubject').value;
+			advanced_search_txt["rating"] = document.getElementById('photoRating').value;
+			advanced_search_txt["tags"] = document.getElementById('photoTags').value;
+			advanced_search_txt["authors"] = document.getElementById('author').value;
+			advanced_search_txt["date_taken"] = document.getElementById('dateTaken').value;
+			advanced_search_txt["copyright"] = document.getElementById('copyright').value;
+			advanced_search_txt["width"] = document.getElementById('photoWidth').value;
+			advanced_search_txt["height"] = document.getElementById('photoHeight').value;
+			advanced_search_txt["compression"] = document.getElementById('photoCompression').value;
+			advanced_search_txt["camera_maker"] = document.getElementById('cameraMaker').value;
+			advanced_search_txt["camera_model"] = document.getElementById('cameraModel').value;
+			advanced_search_txt["camera_serial_number"] = document.getElementById('cameraSerialNumber').value;
+
+			var xmlhr1 = new XMLHttpRequest();
+			var script1 = 'scripts/adv_search.php?';
+			xmlhr1.addEventListener("load", loadPhotos);
+		
+			var count = 0;
+			
+			for(var key in advanced_search_txt){
+				if(count > 0)
+					script1 += '&';
+				// if value is empty pass empty string
+				//else pass the string
+				if(advanced_search_txt[key] == ""){
+					script1 += key + '=' + '';
+				}else{
+					script1 += key + '=' + advanced_search_txt[key];
+				}
+				count++;
+			}
+			xmlhr1.open("GET",script1);
+			xmlhr1.responseType = "json";			
+
+			//Dynamically back New Search button
+			var addButton= $('<a href="advanced_page.html" class="btn btn-primary btn-md">New Search</a>');
+			$("#photos").append(addButton);
+			
+			//loadSpinner();
+			xmlhr1.send();		
+	}
 	
 	function deleteDatabase(event) {
 		event.preventDefault(); 
