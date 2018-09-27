@@ -16,7 +16,7 @@
 	//could probably process all sections using a loop<----------------
 	
 	//arrays of all stored metadata
-	$ifd0_data = array("Title"=>"", "Comments"=>"","Keywords"=>"", "Subject"=>"", "Author"=>"", "Copyright"=>"", "Make"=>"", "Model"=>"");
+	$ifd0_data = array("Title"=>"", "Comments"=>"","Keywords"=>"", "Subject"=>"", "Author"=>"", "Copyright"=>"", "Make"=>"", "Model"=>"", "UndefinedTag:0x4746"=>"");
 	$exif_data = array("DateTimeOriginal"=>"", "ExifImageLength"=>"", "ExifImageWidth"=>"", "CompressedBitsPerPixel"=>"");
 	$file_data = array("FileName"=>"", "FileDateTime"=>"","FileSize"=>"", "MimeType"=>"");
 	
@@ -131,7 +131,7 @@
 
 	$db->query($query);
 	//photo_description
-	$query="INSERT  OR REPLACE INTO photo_description(photo_path, title, comments, tags, subject) VALUES ( '$imagePath', '" . $ifd0_data['Title'] . "','" . $ifd0_data['Comments'] . "', '" . $ifd0_data['Keywords'] . "', '" . $ifd0_data['Subject'] . "') ";
+	$query="INSERT  OR REPLACE INTO photo_description(photo_path, rating, title, comments, tags, subject) VALUES ( '$imagePath', '" . $ifd0_data['UndefinedTag:0x4746'] . "', '" . $ifd0_data['Title'] . "','" . $ifd0_data['Comments'] . "', '" . $ifd0_data['Keywords'] . "', '" . $ifd0_data['Subject'] . "') ";
 	$db->query($query);
 	//photo_origin
 	$query="INSERT  OR REPLACE INTO photo_origin(photo_path, authors, date_taken, copyright) VALUES ( '$imagePath', '" . $ifd0_data['Author'] . "','" . $exif_data['DateTimeOriginal'] . "', '" . $ifd0_data['Copyright'] . "') ";

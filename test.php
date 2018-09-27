@@ -11,7 +11,7 @@
 	use lsolesen\pel\PelTag;
 	use lsolesen\pel\PelIfd;
 	
-	$image = "Test_Images/jpegls-home.jpg";
+	$image = "Test_Images/dog.jpg";
     ini_set('display_errors', 1);
     ini_set('exif.encode_unicode', 'UTF-8');  // To see WINXP values
 	
@@ -28,7 +28,7 @@
     //echo "ANI_$n.jpg:<br />\n";
 	
 
-    $exif = exif_read_data("Test_Images/jpegls-home.jpg", 'ANY_TAG', true);
+    $exif = exif_read_data($image, 'ANY_TAG', true);
     echo $exif===false ? "No header data found.<br />\n" : "Image contains the following headers:<br><br />\n";
 
     if ($exif) {
