@@ -312,7 +312,7 @@
 	function displayPath() {
 		var script = "scripts/browse.php";
 		var response = this.response;
-		var output = '<div id="browsedirectory"> <div><button id = "drive" class="btn btn-primary btn-md" type="button" >Change Library Drive</button> </div> <H3>Current Directory- <strong id="current">' + response.currentDirectory + '</strong> </H3> \n <button id = "selectBtn" type="button" class="btn btn-primary btn-md">Select Folder</button> \n ';
+		var output = '<div id="browsedirectory"> <div><button id = "drive" class="btn btn-primary btn-md" type="button" >Change Library Drive</button> </div> <H3>Current Directory- <strong id="current">' + response.currentDirectory + '</strong> </H3> \n <button id = "selectBtn" type="button" class="btn btn-primary btn-md">Select As Root Folder</button> \n ';
 		
 		if ( response.parentDirectory != response.currentDirectory ){
 			output += '<button class="btn btn-primary btn-md" id = "backBtn" name="' + response.parentDirectory + '" type="button" >Back</button> ';
