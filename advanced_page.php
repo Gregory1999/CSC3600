@@ -18,6 +18,7 @@ $result3 = $db->query($query3);
 <html lang="en">
 	<head>
   		<title>Web-based Image Organiser</title>
+		<link rel="icon" href="images/markivicon.png">
   		<meta charset="utf-8">
   		<meta name="viewport" content="width=device-width, initial-scale=1">
   		<link rel="stylesheet" href="css/bootstrap.min.css">
