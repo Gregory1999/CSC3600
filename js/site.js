@@ -198,7 +198,7 @@
 						}
 						//will improve this later- need to add formatting criteria to enforce correct date format.
 						else if (key === 'date_taken'){
-<<<<<<< HEAD
+// <<<<<<< HEAD
 							//Try get date working on firefox and chrome
 							if(getBrowserName() == "Chrome")
 							{
@@ -223,10 +223,13 @@
 									}									
 								}																
 							}
-							output += "<div> <label for='" + key + "'></label>" + key + ": <input class='form-control' type='datetime-local' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "' /> </div> \n";
+							output += "<br><div> <label for='" + key + "'></label>" + key + ": <input class='form-control' type='datetime-local' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "' /> </div> \n";
 						}
 						else{
-							output += "<div> <label for='" + key + "'></label>" + key + ": <input type='text' class='form-control' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "'  /> </div> \n";
+							output += "<br><div> <label for='" + key + "'></label>" + key + ": <input type='text' class='form-control' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "'  /> </div> \n";
+							
+/*							
+
 =======
 						output += "<br><div> <label for='" + key + "'></label>" + key + ": <input class='form-control' type='datetime-local' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "' /> </div> \n";
 
@@ -234,6 +237,7 @@
 						else{
 						output += "<br><div> <label for='" + key + "'></label>" + key + ": <input type='text' class='form-control' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "'  /> </div> \n";
 >>>>>>> 7e1577717b3302dea404f3d249e68a8665123f4d
+*/
 						}
 					}
 				}
