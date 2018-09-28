@@ -50,7 +50,7 @@
 
 			//Dynamically back New Search button
 			var addButton= $('<a href="advanced_page.html" class="btn btn-primary btn-md">New Search</a>');
-			$("#photos").append(addButton);
+			$("#advancedSearchForm").append(addButton);
 			
 			//loadSpinner();
 			xmlhr1.send();		

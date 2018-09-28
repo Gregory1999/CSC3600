@@ -47,11 +47,12 @@ fieldset{
 	text-shadow: 3px 2px lightblue;
 	font-family: "Times New Roman", Times, serif;
 	font-size: 100px; 
-	height: 200px;
-	
-	
-	 
+	height: 200px;	 
 }
+.searchContainer{
+	max-width: 1000px;
+}
+
 header{
 	background-color: white;
 }
