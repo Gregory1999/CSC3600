@@ -23,48 +23,68 @@
 					<li class="active"><a href="index_v0.html">Home</a></li>
 					<li><a href="upload_page.html">Scan Images</a></li>
 					<li><a href="browse_page.html">Browse Images</a></li>   
-					<li><a href="metadata_page.html">Edit Metadata</a></li>   
+					<!-- <li><a href="metadata_page.html">Edit Metadata</a></li>  -->  
 					<li><a href="nerd_page.html">Nerdy Stuff</a></li>   
 					<li><a href="advanced_page.html">Advanced Search</a></li> 
-					<li><a id="deleteDB" href="" >Select Library Folder</a></li>					
+					<!-- <li><a id="deleteDB" href="" >Select Library Folder</a></li> -->					
 				</ul>
+				<!-- <form class="navbar-form navbar-right" action="/action_page.php"> -->
 	    <div class="search">
 	    	<input id="simple_search_input" class="userInput" type="text" placeholder="Search.." name="search">
       		<button id= "simple_search_btn"type="button" class="btn btn-default btn-sm"> Search</button>
 	    </div>
 			</div>
+				<!-- </form> -->
 		</nav>
 		<div class="container">
 			<div class="well"> <!-- Place to put information for each page -->
-				<h2>Welcome</h2>
-				<p>Site instructions go here</p>
-				<div class="">
-					<div id="puthere" class="left">
-					</div>
-					<div class="right">	
-					</div>
-					<div class="container">
-							<label for="rootDirectory" id="lblrootDirectory">Enter Drive or root directory</label>
-							<input id="rootDirectory" class="userInput" type="text">
-						<div class="jumbotron" id="photos">
-
-						<div id="folder_list" >
-							<button id = "browse" type="button">Select Photo Library</button>
-						</div>
-					</div>	
-					</div>
-				</div>	
-			</div>	
+				<h1>Welcome to Web-based Image Organiser v1.0</h1>
+				<p><b>This program was created by Mark IV Tech and for all support related questions please direct them <a href="mailto:support@markivtech.com.au">here</a>.</b></p>
+				<h2>Site Layout</h2>
+				<h3><a href="upload_page.html">Scan Images</a></h3>
+				<p> Info </p>
+				<h3><a href="browse_page.html">Browse Images</a></h3>
+				<p> Info </p>
+				<h3><a href="nerd_page.html">Nerdy Stuff</a></h3>
+				<p> Info </p>
+				<h3><a href="advanced_page.html">Advanced Search</a></h3>
+				<p> Info </p>			
+<!-- 			<div class="">
+				<div id="puthere" class="left">
+				</div>
+				<div class="right">	
+				</div> -->
+<!-- 				<div class="container"> -->						
+				<!-- <button id ="deleteDB" type="button">Delete DB</button> -->
+				<!-- <div id="folder_list" > --> <!-- Used to load the folder list in from the script -->
+					<!-- <button id = "browse" type="button">Select Photo Library</button> -->
+				<!-- </div> -->
+<!-- 				</div> -->
+<!-- 				</div>	 -->				
+			</div>			
 		</div>	
+			<div class="container"> <!-- All scripts load into this section -->
+				<div class="jumbotron" id="photos">
+				<h2></h2>
+				<p></p>
+				</div>
+			</div>
+		<!-- </div> -->
 		<script>
+			//assign variables to objects on page for ease of editing
 			var photos= document.getElementById('photos');
 			var simple_search_btn = document.getElementById('simple_search_btn');
+			//var deleteDB = document.getElementById('deleteDB');
 			
 			//calls the search function when the search button is clicked
 			simple_search_btn.addEventListener("click", sendSearch);
 			
 			//uses ajax to load all photos
-			//allPhotos();				
+			//allPhotos();	
+			
+			//resets the database
+			//deleteDB.addEventListener("click", deleteDatabase);
+			
 		</script>	
 	</body>
 </html>

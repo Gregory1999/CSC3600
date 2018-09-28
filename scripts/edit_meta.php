@@ -15,6 +15,7 @@
 	use lsolesen\pel\PelTag;
 	use lsolesen\pel\PelIfd;
 	use lsolesen\pel\PelEntryAscii;
+	use lsolesen\pel\PelEntryTime;
 	
 	$image = $_GET['path'];
 	
@@ -53,23 +54,27 @@
 		}
 	}
 	
-	/*
-	//if comments are to be edited
-	if (array_key_exists('comments', $_GET)) {
-		$entry = $ifd0->getEntry(PelTag::XP_COMMENT);
-		//if comment doen not exists add 
+	//if date_taken are to be edited
+	if (array_key_exists('date_taken', $_GET)) {
+		//$date_taken= DateTime::createFromFormat('Y-m-d H:i:s', strtotime($_GET['date_taken']));
+		$date_taken= strtotime($_GET['date_taken']);
+		$exif = $ifd0->getSubIfd(PelIfd::EXIF);
+
+		$entry = $exif->getEntry(PelTag::DATE_TIME_ORIGINAL);
+		//if date_taken doen not exists add
 		if ($entry == null){
-			    $entry = new PelEntryAscii(PelTag::XP_COMMENT, $_GET['comments']);
-				$ifd0->addEntry($entry);
+			//$entry = new PelEntryTime(PelTag::DATE_TIME_ORIGINAL, $date_taken);
+			$entry = new PelEntryTime(PelTag::DATE_TIME_ORIGINAL, $date_taken);
+			
+			$exif->addEntry($entry);
 		}
-		// if comment already exists then change
+		// if date_taken already exists then change
 		else{
-			$entry->setValue($_GET['comments']);
+			$entry->setValue($date_taken);
+			
 		}
+
 	}
-	
-*/
-	
 	
 	//save data to the image
 	$jpeg->saveFile($image);

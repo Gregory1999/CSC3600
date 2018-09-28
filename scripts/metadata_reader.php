@@ -16,7 +16,7 @@
 	//could probably process all sections using a loop<----------------
 	
 	//arrays of all stored metadata
-	$ifd0_data = array("Title"=>"", "Comments"=>"","Keywords"=>"", "Subject"=>"", "Author"=>"", "Copyright"=>"", "Make"=>"", "Model"=>"");
+	$ifd0_data = array("Title"=>"", "Comments"=>"","Keywords"=>"", "Subject"=>"", "Author"=>"", "Copyright"=>"", "Make"=>"", "Model"=>"", "UndefinedTag:0x4746"=>"");
 	$exif_data = array("DateTimeOriginal"=>"", "ExifImageLength"=>"", "ExifImageWidth"=>"", "CompressedBitsPerPixel"=>"");
 	$file_data = array("FileName"=>"", "FileDateTime"=>"","FileSize"=>"", "MimeType"=>"");
 	
@@ -91,8 +91,8 @@
 			$width=imagesx($origImage);
 			$height=imagesy($origImage);
 			
-			$widthMax = 150;
-			$heightMax = 100;
+			$widthMax = 512;
+			$heightMax = 512;
 
 			if ($width>$widthMax || $height>$heightMax) {
 				$thumb_w=$widthMax;
@@ -105,24 +105,18 @@
 			else { 
 				$thumb_w=$width;
 				$thumb_h=$height;
-			}
-
-				
+			}	
 			$thumb=imagecreatetruecolor($thumb_w,$thumb_h);
-			imagecopyresampled($thumb,$origImage,
-									   0,0,0,0,$thumb_w,$thumb_h,$width,$height);
-
-
-			ob_start();       
-			ImageJpeg($thumb);   
+			imagecopyresampled($thumb,$origImage,0,0,0,0,$thumb_w,$thumb_h,$width,$height);
+			ob_start();
+			ImageJpeg($thumb);
 				
 			$window = new PelDataWindow(ob_get_clean());
 
-			if ($window) {   
-
-				$ifd1->setThumbnail($window); 
-				$outpath = $image; 
-				file_put_contents($outpath, $jpeg->getBytes()); 
+			if ($window) {
+				$ifd1->setThumbnail($window);
+				$outpath = $image;
+				file_put_contents($outpath, $jpeg->getBytes());
 			}
 		}
 		
@@ -132,10 +126,12 @@
 	
 	//insert or replace the db 
 	//photo_file table                       <----- might need to move date created
-	$query="INSERT OR REPLACE INTO photo_file(photo_path, date_created, photo_name, photo_type, date_modified, size) VALUES ( '$imagePath', '" . $exif_data['DateTimeOriginal'] . "', '" . $file_data['FileName'] . "', '" . $file_data['MimeType'] . "', '" . date ("d-m-Y h:m:s", $file_data['FileDateTime']) . "', '" . $file_data['FileSize'] . "' ) ";
+	//$query="INSERT OR REPLACE INTO photo_file(photo_path, date_created, photo_name, photo_type, date_modified, size) VALUES ( '$imagePath', '" . $exif_data['DateTimeOriginal'] . "', '" . $file_data['FileName'] . "', '" . $file_data['MimeType'] . "', '" . date ("d-m-Y h:m:s", $file_data['FileDateTime']) . "', '" . $file_data['FileSize'] . "' ) ";
+	$query="INSERT OR REPLACE INTO photo_file(photo_path, date_created, photo_name, photo_type, date_modified, size) VALUES ( '$imagePath', '" . $exif_data['DateTimeOriginal'] . "', '" . $file_data['FileName'] . "', '" . $file_data['MimeType'] . "', '" . $file_data['FileDateTime'] . "', '" . $file_data['FileSize'] . "' ) ";
+
 	$db->query($query);
 	//photo_description
-	$query="INSERT  OR REPLACE INTO photo_description(photo_path, title, comments, tags, subject) VALUES ( '$imagePath', '" . $ifd0_data['Title'] . "','" . $ifd0_data['Comments'] . "', '" . $ifd0_data['Keywords'] . "', '" . $ifd0_data['Subject'] . "') ";
+	$query="INSERT  OR REPLACE INTO photo_description(photo_path, rating, title, comments, tags, subject) VALUES ( '$imagePath', '" . $ifd0_data['UndefinedTag:0x4746'] . "', '" . $ifd0_data['Title'] . "','" . $ifd0_data['Comments'] . "', '" . $ifd0_data['Keywords'] . "', '" . $ifd0_data['Subject'] . "') ";
 	$db->query($query);
 	//photo_origin
 	$query="INSERT  OR REPLACE INTO photo_origin(photo_path, authors, date_taken, copyright) VALUES ( '$imagePath', '" . $ifd0_data['Author'] . "','" . $exif_data['DateTimeOriginal'] . "', '" . $ifd0_data['Copyright'] . "') ";

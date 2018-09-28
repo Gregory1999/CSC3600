@@ -1,36 +1,4 @@
-	var count = 0;
-	
-	
-	$('#deleteDB').click(function(event) {
-		event.preventDefault();
-		var xmlhr1 = new XMLHttpRequest();
-		var script= "scripts/delete_db.php";
-		xmlhr1.onreadystatechange = function() {
-			document.getElementById('rootDirectory').style.display = "inline-block";
-			document.getElementById('lblrootDirectory').style.display = "inline-block";
-			xmlhr1.addEventListener("load", loadPhotos);
-		}
-		xmlhr1.open("GET",script);
-		
-		xmlhr1.responseType = "json";
-		loadSpinner();
-		xmlhr1.send();
-	});
-
-	//This function is called when the search button is pressed
-	//The function will display all images that match the search string
-	function sendSearch() {
-			var simple_search_txt = document.getElementById('simple_search_input').value;
-			var xmlhr1 = new XMLHttpRequest();
-			var script1 = "scripts/search.php";
-			xmlhr1.addEventListener("load", loadPhotos);
-
-			xmlhr1.open("GET",script1+'?simple='+ simple_search_txt);
-			xmlhr1.responseType = "json";
-			loadSpinner();
-			xmlhr1.send();
-	}
-	
+	//var count = 0;
 	//This function is called when the search button is pressed
 	//The function will display all images that match the search string
 	function sendAdvancedSearch(){
@@ -85,9 +53,37 @@
 			$("#photos").append(addButton);
 			
 			//loadSpinner();
+			xmlhr1.send();		
+	}
+	
+	function deleteDatabase(event) {
+		event.preventDefault(); 
+		var xmlhr1 = new XMLHttpRequest();
+		var script= "scripts/delete_db.php";
+		xmlhr1.onreadystatechange = function() {
+			//document.getElementById('rootDirectory').style.display = "inline-block";
+			//document.getElementById('lblrootDirectory').style.display = "inline-block";
+			xmlhr1.addEventListener("load", loadPhotos);
+		}
+		xmlhr1.open("GET",script);
+				
+		xmlhr1.responseType = "json";
+		loadSpinner();
+		xmlhr1.send();
+	}
+
+	//This function is called when the search button is pressed
+	//The function will display all images that match the search string
+	function sendSearch() {
+			var simple_search_txt = document.getElementById('simple_search_input').value;
+			var xmlhr1 = new XMLHttpRequest();
+			var script1 = "scripts/search.php";
+			xmlhr1.addEventListener("load", loadPhotos);
+
+			xmlhr1.open("GET",script1+'?simple='+ simple_search_txt);
+			xmlhr1.responseType = "json";
+			loadSpinner();
 			xmlhr1.send();
-			
-			
 	}
 
 	// This function will be used if the root directory is not set
@@ -101,7 +97,7 @@
 				var response = this.response;
 				//should be a better way to get the path- this is just temporary, so that I can build the back-end
 				//var output = '<div><label>Full Directory Path: <input type="text" id = "root" value= "Test_Images" name="root_path" required="required" size="40"/></label> <button id = "root_button" type="button" >Load Root Directory </button></div>';				
-				var output = 	'<div id="folder_list" > <button id = "browse" type="button" >Select Photo Library</button> </div>'
+				var output = '<div id="folder_list" > <label for="rootDirectory" id="lblrootDirectory">Enter Drive or root directory</label><input id="rootDirectory" class="userInput" type="text"> <button id = "browse" type="button" class="btn btn-primary btn-md" >Select Photo Library Drive</button> </div>'
 				photos.innerHTML= output;
 				// when button is pressed, send the directory
 				
@@ -131,14 +127,13 @@
 			//insert all photos and add event listeners to call function when image is clicked	
 			else {
 				// Hide Label and Textbox
-				document.getElementById('rootDirectory').style.display = "none";
-				document.getElementById('lblrootDirectory').style.display = "none";
+				//document.getElementById('rootDirectory').style.display = "none";
+				//document.getElementById('lblrootDirectory').style.display = "none";
 				
 				var output = "<div class= 'row display-flex' >";
 				for (var i = 0; i < response.imageArray.length; i++)  {
 					var imagePath =  response.imageArray[i];
 					output += '<div class="col-sm-3 thumbnail">  <img src = "scripts/thumbnail.php?path=' + imagePath + '" style = "display:block; margin: auto; width: 90%; min-height: 40%; max-height: 90%;" id = "' + imagePath + '" />  </div>\n';
-					//output += '<div class="col-xs-4 thumbnail">  <img src = "scripts/thumbnail.php?path=' + imagePath + '" class = "img-fluid" id = "' + imagePath + '" />  </div>\n';
 				}
 				output += "</ div>";
 				
@@ -182,14 +177,14 @@
 		if (this.readyState == 4 && this.status == 200) {
 			var script1 = "scripts/full_Image.php";
 			var response = this.response;
-			var output = '<img src = "' + script1 + '?path=' + response['photo_path'] + '" class = "img-fluid" id = "' + response['photo_path'] + '" /> <div id = "metadata"></div> <button id = "home_button" type="button" >Show all Photos </button>' 
+			var output = '<img src = "' + script1 + '?path=' + response['photo_path'] + '" class = "img-fluid" id = "' + response['photo_path'] + '" /> <div id = "metadata"></div> <button id = "home_button" class="btn btn-primary btn-md" type="button" >Show all Photos </button>' 
 			photos.innerHTML= output;
 			var home = document.getElementById('home_button');
 			home.addEventListener("click", allPhotos);	
 			var metadata = document.getElementById('metadata');
 				
 			//outputs JSON object (metadata) currently only displays limited data
-			var output ="";
+			var output ='<div class="form-group"> <fieldset> <legend class="lHeader">Photo Metadata</legend>';
 			for (var key in response) {
 				//display the path as hidden element
 			    if (response.hasOwnProperty(key)) {
@@ -201,19 +196,19 @@
 						if ( key === 'rating' ){
 							//add code for star rating
 						}
-						//will improve this later <-----------------doest work in firefox
+						//will improve this later- need to add formatting criteria to enforce correct date format.
 						else if (key === 'date_taken'){
-						output += "<div> <label>" + key + ": <input type='datetime-local' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "' /></label> </div> \n";
+						output += "<div> <label for='" + key + "'></label>" + key + ": <input class='form-control' type='datetime-local' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "' /> </div> \n";
 
 						}
 						else{
-						output += "<div> <label>" + key + ": <input type='text' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "'  size='40'/></label> </div> \n";
+						output += "<div> <label for='" + key + "'></label>" + key + ": <input type='text' class='form-control' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "'  /> </div> \n";
 						}
 					}
 				}
 			}
 				
-			output += "<div> <button id ='meta_edit_btn' type='button' >Save Metadata </button> </div> \n";
+			output += "</fieldset> <div> <button id ='meta_edit_btn' type='button' class='btn btn-primary btn-md'>Save Metadata </button> </div> </div>\n";
 			metadata.innerHTML = output;
 			//add event listner to the metadata save button
 			var save_btn = document.getElementById('meta_edit_btn');
@@ -285,15 +280,16 @@
    	xmlhr1.send();
 	}
 		
-
+	//this function will retrieve the user drive and then display and direct child dirs
 	function findFolder() {
 		var script = "scripts/browse.php";
 		var testDir = document.getElementById("rootDirectory").value;
 		var letters = 'abcdefghijklmnopqrstuvwxyz';
-
+		//if no drive entered then alert the user
 		if(testDir == ""){
 			alert("You must enter the drive or rootdirectory of the image folder.\nTry Again");
 		}
+		
 		else if(testDir.length == 1){
 			testDir.toUpperCase();
 			var index = letters.indexOf(testDir);
@@ -312,26 +308,27 @@
 		xmlhr1.send();
 	}
 	
+	//this function will display the subfolders as hyper links
 	function displayPath() {
 		var script = "scripts/browse.php";
 		var response = this.response;
-		var output = '<div id="browsedirectory"> <H3>Current Directory- <strong id="current">' + response.currentDirectory + '</strong> </H3> \n <button id = "selectBtn" type="button" >Select Folder</button> \n ';
-		//var output = '<H3> Current Directory- <strong id="current">' + response.currentDirectory + '</strong> </H3> \n <button id = "selectBtn" type="button" >Select Folder</button> \n ';
+		var output = '<div id="browsedirectory"> <div><button id = "drive" class="btn btn-primary btn-md" type="button" >Change Library Drive</button> </div> <H3>Current Directory- <strong id="current">' + response.currentDirectory + '</strong> </H3> \n <button id = "selectBtn" type="button" class="btn btn-primary btn-md">Select As Root Folder</button> \n ';
+		
 		if ( response.parentDirectory != response.currentDirectory ){
-			output += '<button id = "backBtn" name="' + response.parentDirectory + '" type="button" >Back</button> ';
+			output += '<button class="btn btn-primary btn-md" id = "backBtn" name="' + response.parentDirectory + '" type="button" >Back</button> ';
 		}
 		
-		output += '<list>   </div>';
+		output += '<list> ';
 		for (var i = 0; i < response.directoryArray.length; i++)  {
 			var directoryPath =  response.directoryArray[i]; 					
-			output += '<ul> <a id = "' + directoryPath + '" /> ' + directoryPath + ' </a> </ul> \n';
-					
+			output += '<ul> <a id = "' + directoryPath + '" /> ' + directoryPath + ' </a> </ul> \n';		
 		}
-		
-		output += "</ list>";
-		
+		output += "</list> </div>";
 		//output the folders
 		folder_list.innerHTML= output;
+		
+		var selectBtn = document.getElementById('drive');
+		selectBtn.addEventListener("click", loadDirectory);
 		
 		var selectBtn = document.getElementById('selectBtn');
 		selectBtn.addEventListener("click", sendRoot);
@@ -348,6 +345,9 @@
 			linkId.addEventListener("click", getSubDir);
 		}
 	}
+	
+	//this function will return the list of directories from the parrent folder of the current directory
+	//this function is called when the back button is pressed
 	function backBtnPress(){
 		var script = "scripts/browse.php";
 		var parentDir = document.getElementById("backBtn");
@@ -361,7 +361,7 @@
 	}
 	
 	
-		
+	//this function will retrieve the full list of direct child directories	of the current directory
 	function getSubDir(){
 		var script = "scripts/browse.php";
 		var linkId = this.id;

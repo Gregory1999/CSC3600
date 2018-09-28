@@ -13,11 +13,10 @@
 	chdir('../');
 	require_once "file_scanner.php";
 	$value_set_flag = FALSE;
-
-
-	//Join all talbes and create the query string
+	
+	//Join all talbes and create the querry string
 	$query = "SELECT * FROM photo_file NATURAL JOIN photo_description NATURAL JOIN photo_origin NATURAL JOIN photo_image NATURAL JOIN photo_camera NATURAL JOIN photo_advanced WHERE ";
-
+	//
 	foreach($_GET as $key=>$value) {
 		if ( $value != "") {
 			$query .= $key . " LIKE '%" . $value . "%' OR ";
