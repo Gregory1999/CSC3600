@@ -58,7 +58,8 @@
 				
 				while( $row = $result->fetchArray(SQLITE3_ASSOC)) {
 					$photo_path= json_encode($row["photo_path"]);
-					$json .= $photo_path . ',';	
+					$photo_date= json_encode($row["date_taken"]);
+					$json .= '{"path" : ' . $photo_path . ', "date" :' . $photo_date . '}' .',';	
 				}
 				$json = rtrim($json,",") . "]";
 			}

@@ -129,10 +129,25 @@
 				// Hide Label and Textbox
 				//document.getElementById('rootDirectory').style.display = "none";
 				//document.getElementById('lblrootDirectory').style.display = "none";
-				
+				var previousImageYear = 1970;
 				var output = "<div class= 'row display-flex' >";
 				for (var i = 0; i < response.imageArray.length; i++)  {
-					var imagePath =  response.imageArray[i];
+					var imagePath =  response.imageArray[i].path;
+					var imageDate =  response.imageArray[i].date;
+					//get the year 
+					var imageYear = imageDate.substr(0, 4);
+					//if new year add a year heading to output
+					if (previousImageYear != imageYear){
+						//if no year info provided, output 'no data heading'
+						if(imageYear == ""){
+							output += "<div class='col-sm-12' ><h2> No Date Metadata </h2> </div> \n";
+						}
+						else{
+							output += "<div class='col-sm-12' ><h2> " + imageYear + " </h2> </div>\n";
+						}
+						previousImageYear= imageYear;
+					}
+					
 					output += '<div class="col-sm-3 thumbnail">  <img src = "scripts/thumbnail.php?path=' + imagePath + '" style = "display:block; margin: auto; width: 90%; min-height: 40%; max-height: 90%;" id = "' + imagePath + '" />  </div>\n';
 				}
 				output += "</ div>";
@@ -142,7 +157,7 @@
 
 				//set up the event listeners
 				for (var i = 0; i < response.imageArray.length; i++)  {
-					var imagePath=  response.imageArray[i]	;	
+					var imagePath=  response.imageArray[i].path	;	
 					var imageId = document.getElementById(imagePath);
 					imageId.addEventListener("click", imageClicked);
 					//may add another event listener for hover events
