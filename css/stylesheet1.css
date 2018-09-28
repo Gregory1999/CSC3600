@@ -38,6 +38,10 @@ fieldset{
 	margin-bottom: 50px;
 	margin-top: 50x;
 }
+.formContainer{
+	max-width: 1000px;
+}
+
 .lHeader{
 	color: Green;
 }

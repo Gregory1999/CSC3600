@@ -42,10 +42,10 @@
 					</div>
 					<div class="right">	
 					</div>
-					<div class="container">
+					<div class="container formContainer" id="searchContainer">
 						<div class="jumbotron" id="photos">
 						<form id="advancedSearch" name="advsearchform" action="" onsubmit="return false" method="POST">
-						<div class="form-group">
+						<!--<div class="form-group">-->
 						<fieldset>
 						<legend class="lHeader">File Data</legend>
 							<label for="created">Date Created:</label>
@@ -103,7 +103,7 @@
 							<input type="text" class="form-control" id="cameraSerialNumber">
 
 						</fieldset>
-						</div>
+						<!--</div>-->
 						<button id="advanced_search_btn" type="submit" class="btn btn-primary btn-md" onclick="sendAdvancedSearch()">Search</button>
 						<a href="index_v0.html" class="btn btn-primary btn-md">Close</a>
 					</form>
