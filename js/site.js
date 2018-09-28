@@ -198,11 +198,34 @@
 						}
 						//will improve this later- need to add formatting criteria to enforce correct date format.
 						else if (key === 'date_taken'){
-						output += "<div> <label for='" + key + "'></label>" + key + ": <input class='form-control' type='datetime-local' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "' /> </div> \n";
-
+							//Try get date working on firefox and chrome
+							if(getBrowserName() == "Chrome")
+							{
+								var newDtString = response[key];
+								response[key] = "";
+								var count = 0;
+								
+								for(i=0; i < newDtString.length - 3; i++)
+								{
+									if(newDtString[i] == ':' && count <= 1)
+									{
+										response[key] += '-';
+										count++;
+									}
+									else if(newDtString[i] == ' ')
+									{
+										response[key] += 'T';
+									}
+									else if(newDtString[i] != ' ')
+									{
+										response[key] += newDtString[i];
+									}									
+								}																
+							}
+							output += "<div> <label for='" + key + "'></label>" + key + ": <input class='form-control' type='datetime-local' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "' /> </div> \n";
 						}
 						else{
-						output += "<div> <label for='" + key + "'></label>" + key + ": <input type='text' class='form-control' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "'  /> </div> \n";
+							output += "<div> <label for='" + key + "'></label>" + key + ": <input type='text' class='form-control' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "'  /> </div> \n";
 						}
 					}
 				}
@@ -275,9 +298,9 @@
 		
 		xmlhr1.addEventListener("load", loadPhotos);	
     	xmlhr1.open("GET",script+'?root='+ root);
-   	xmlhr1.responseType = "json";
-   	loadSpinner();
-   	xmlhr1.send();
+		xmlhr1.responseType = "json";
+		loadSpinner();
+		xmlhr1.send();
 	}
 		
 	//this function will retrieve the user drive and then display and direct child dirs
@@ -380,3 +403,31 @@
  	function loadSpinner() {
  		photos.innerHTML = "<div class='preload'> <div class='loader-frame'> </div></div> ";
  	}
+	
+	//Detecting browser
+	function getBrowserName(){
+var navAgent = navigator.userAgent;
+var browserName;
+if ((versionOffset=navAgent.indexOf("Opera"))!=-1) {
+   browserName = "Opera";  
+}
+else if ((versionOffset=navAgent.indexOf("MSIE"))!=-1) {
+   browserName = "Microsoft Internet Explorer";
+}
+else if ((versionOffset=navAgent.indexOf("Chrome"))!=-1) {
+   browserName = "Chrome";
+}
+else if ((versionOffset=navAgent.indexOf("Safari"))!=-1) {
+   browserName = "Safari";
+}
+else if ((versionOffset=navAgent.indexOf("Firefox"))!=-1) {
+    browserName = "Firefox";
+}
+else if ( (nameOffset=navAgent.lastIndexOf(' ')+1) < (versionOffset=navAgent.lastIndexOf('/')) ) {
+    browserName = navAgent.substring(nameOffset,versionOffset);
+    if (browserName.toLowerCase()==browserName.toUpperCase()) {
+       browserName = navigator.appName;
+    }
+}
+return browserName;
+}
