@@ -184,7 +184,7 @@
 			var metadata = document.getElementById('metadata');
 				
 			//outputs JSON object (metadata) currently only displays limited data
-			var output ='<div class="form-group"> <fieldset> <legend class="lHeader">Photo Metadata</legend>';
+			var output ='<br><div class="form-group"> <fieldset> <legend class="lHeader">Photo Metadata</legend>';
 			for (var key in response) {
 				//display the path as hidden element
 			    if (response.hasOwnProperty(key)) {
@@ -198,11 +198,11 @@
 						}
 						//will improve this later- need to add formatting criteria to enforce correct date format.
 						else if (key === 'date_taken'){
-						output += "<div> <label for='" + key + "'></label>" + key + ": <input class='form-control' type='datetime-local' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "' /> </div> \n";
+						output += "<br><div> <label for='" + key + "'></label>" + key + ": <input class='form-control' type='datetime-local' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "' /> </div> \n";
 
 						}
 						else{
-						output += "<div> <label for='" + key + "'></label>" + key + ": <input type='text' class='form-control' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "'  /> </div> \n";
+						output += "<br><div> <label for='" + key + "'></label>" + key + ": <input type='text' class='form-control' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "'  /> </div> \n";
 						}
 					}
 				}

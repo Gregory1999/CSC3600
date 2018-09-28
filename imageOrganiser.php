@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
-  		<title>Web -based Image Organiser</title>
+  		<title>Web-based Image Organiser</title>
+		<link rel="icon" href="images/markivicon.png">
   		<meta charset="utf-8">
   		<meta name="viewport" content="width=device-width, initial-scale=1">
   		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
