@@ -31,8 +31,9 @@
 	$result= $db->query($query);
 	
 	while( $row = $result->fetchArray(SQLITE3_ASSOC)) {
-		$photo_path= $row["photo_path"];
-		$json .= json_encode($photo_path) . ',';			
+		$photo_path= json_encode($row["photo_path"]);
+		$photo_date= json_encode($row["date_taken"]);
+		$json .= '{"path" : ' . $photo_path . ', "date" :' . $photo_date . '}' .',';			
 	}
 	
 	
