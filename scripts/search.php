@@ -14,13 +14,15 @@
 	
 	$simple_search= $_GET['simple'];
 	
+	//
+	
 	//search db for simple search string
 	//add all matches to JSON imageArray
 	
 	$json .= '"imageArray" : [';
 	
 	$query = "SELECT * FROM photo_origin NATURAL JOIN photo_description 
-				WHERE photo_path LIKE '%${simple_search}%' 
+				WHERE photo_path LIKE '${root_path}%${simple_search}%' 
 				OR title LIKE '%${simple_search}%' 
 				OR comments LIKE '%${simple_search}%'
 				OR subject LIKE '%${simple_search}%'				
