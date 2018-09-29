@@ -1,4 +1,18 @@
-	//var count = 0;
+	
+	//used to sort photos from oldest to newest
+	function sortOldFirst() {
+		var xmlhr1 = new XMLHttpRequest();
+		var script= "get_images.php?reverse=true";
+		xmlhr1.addEventListener("load", loadPhotos);	
+		loadSpinner(); 
+		xmlhr1.open("GET", script, true);
+		xmlhr1.responseType = "json";
+		xmlhr1.send();
+	}
+	
+	
+	
+	
 	//This function is called when the search button is pressed
 	//The function will display all images that match the search string
 	function sendAdvancedSearch(){

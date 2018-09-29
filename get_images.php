@@ -50,10 +50,15 @@
 				
 				// scan file system 
 				include_once "scripts/file_scanner.php";
-			
+				
+				//this allows the images to be displayed in reverse order
+				$sort = "DESC";
+				if (ISSET($_GET['reverse'])){
+					$sort = "ASC";
+				}
 				$json .= '"root": ' . json_encode($root_path) . ' ,"imageArray" : [';
 				//display images
-				$query = "SELECT photo_path, date_taken FROM photo_origin ORDER BY date_taken DESC";
+				$query = "SELECT photo_path, date_taken FROM photo_origin WHERE date_taken != '' ORDER BY date_taken $sort";
 				$result= $db->query($query);
 				
 				while( $row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -61,6 +66,16 @@
 					$photo_date= json_encode($row["date_taken"]);
 					$json .= '{"path" : ' . $photo_path . ', "date" :' . $photo_date . '}' .',';	
 				}
+				//add images with no date metadata to the end
+				$query = "SELECT photo_path, date_taken FROM photo_origin WHERE date_taken == '' ";
+				$result= $db->query($query);
+				while( $row = $result->fetchArray(SQLITE3_ASSOC)) {
+					$photo_path= json_encode($row["photo_path"]);
+					$photo_date= json_encode($row["date_taken"]);
+					$json .= '{"path" : ' . $photo_path . ', "date" :' . $photo_date . '}' .',';	
+				}
+				
+				
 				$json = rtrim($json,",") . "]";
 			}
 			$json .=  "}";
