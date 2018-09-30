@@ -10,7 +10,6 @@
 		<script src="js/jquery.min.js"></script>
   		<script src="js/bootstrap.min.js"></script>
 		<script src="js/site.js"></script>
-		<script src="scripts/advanced_fields.php"></script>
 	</head>
 	<body>
 		<header>
@@ -55,6 +54,7 @@
 							<label for="fileName">File Name:</label>
 							<input type="text" class="form-control" id="fileName">
 							<label for="photoType">Photo Type (JPG):</label>
+							
 							<input type="text" class="form-control" id="photoType">
 							<label for="dateModified">Date Modified:</label>
 							<input type="text" class="form-control" id="dateModified">
@@ -116,20 +116,20 @@
 		</div>
 			<script type="text/javascript">
 				
-				var maker = document.getElementById('camera_maker');	
-				var model = document.getElementById('camera_model');
-				var type = document.getElementById('photo_type');
+				var maker = document.getElementById('cameraMaker');	
+				var model = document.getElementById('cameraModel');
+				//var type = document.getElementById('photo_type');
 				var initial_load = true;
 				
 				//sets up placeholders
 				newOption(maker, "", "Select a Camera Maker");
 				newOption(model, "", "Select a Camera Model");
-				newOption(type, "", "Select a Photo Type");
+				//newOption(type, "", "Select a Photo Type");
 				
 				
-				camera_maker.addEventListener("change", getOptions);
-				camera_model.addEventListener("change", getOptions);
-				photo_type.addEventListener("change", getOptions);
+				maker.addEventListener("change", getOptions);
+				model.addEventListener("change", getOptions);
+				//photo_type.addEventListener("change", getOptions);
 				
 				//gets initial options
 				getOptions();
