@@ -1,0 +1,128 @@
+<!DOCTYPE html> <!-- HTML 5 delcaration so browser knows what to expect --> 
+<html lang="en">
+<head>
+  <title>Advanced Search Example</title>
+</head>
+<body>
+ 
+    <form>
+        <p><select name="camera_model" id="camera_model" ></select></p>
+		
+        <p><select name="photo_type" id="photo_type"></select> </p>
+		
+        <p><select name="camera_maker" id="camera_maker"></select> </p>
+		
+		<p> <button onclick="reset_selectors"> Reset </button> </p>
+    
+    </form>
+   
+    <script type="text/javascript">
+		
+		var model = document.getElementById('camera_model');
+		var type = document.getElementById('photo_type');
+		var maker = document.getElementById('camera_maker');
+		var initial_load = true;
+		
+		function deleteOptions(selectElement){
+			var firstOption = selectElement.firstChild;
+			if( firstOption ) {
+				var nextOption = firstOption.nextSibling;
+				if( nextOption ) {
+					selectElement.removeChild(nextOption);
+					deleteOptions(selectElement);
+				}
+			}
+		}
+		
+
+		//this function adds options to a select statement
+		function newOption(selectElement, value, textValue) { 
+			var newOption=document.createElement("option");
+			var textNode=document.createTextNode(textValue);
+			newOption.setAttribute("value",value);
+			newOption.appendChild(textNode);
+			selectElement.appendChild(newOption);	
+		}
+		
+		//this is an XHR callback function that will retreive the valid options and then calls newOption() to add the options into the select statement
+		function addOptions(){
+			if( this.status != 200 ) {
+				return;
+			}
+			//remove previous child options 
+			deleteOptions(model);
+			deleteOptions(type);
+			deleteOptions(maker);
+
+			//add new options
+			var modelArray = this.response.camera_model;
+			var typeArray = this.response.photo_type;
+			var makerArray = this.response.camera_maker;
+			//get the valid models
+			if (modelArray.length != 0){
+				for (var key in modelArray){
+					newOption(model, modelArray[key], modelArray[key]);
+				}
+				//if only two child options then delete the placeholder
+				if (model.childElementCount == 2){
+					model.removeChild(model.firstChild);
+				}
+			}
+			//get the valid types
+			if (typeArray.length != 0){
+				for (var key in typeArray){
+					newOption(type, typeArray[key], typeArray[key]);
+				}
+				//if only two child options then delete the placeholder
+				if (type.childElementCount == 2){
+					type.removeChild(type.firstChild);
+				}
+			}
+			//get the valid makers
+			if (makerArray.length != 0){
+				for (var key in makerArray){
+					newOption(maker, makerArray[key], makerArray[key]);
+				}
+				//if only two child options then delete the placeholder
+				if (maker.childElementCount == 2){
+					maker.removeChild(maker.firstChild);
+				}
+			}
+		}
+		//this function sets up the XHR and sends the GET data to the php script
+		function getOptions(){
+			var script = "scripts/advanced_fields.php";
+			var photo_type = type.value;
+			var camera_maker= maker.value;
+			var camera_model = model.value;
+			
+			var xhr= new XMLHttpRequest();
+			xhr.addEventListener("load", addOptions);
+			
+			xhr.open("GET", script + '?camera_model=' + camera_model + '&photo_type=' + photo_type + '&camera_maker='  + camera_maker);
+			xhr.responseType = "json";
+			xhr.send();
+		}
+		
+		//called when rest button selected- resets all fields
+		function reset_selectors(){
+			getOptions();
+		}
+	
+		//sets up placeholders
+		newOption(model,"", "Select a Camera Model");
+		newOption(type, "", "Select a Photo Type");
+		newOption(maker, "", "Select a Camera Maker");
+
+		camera_model.addEventListener("change", getOptions);
+		photo_type.addEventListener("change", getOptions);
+		camera_maker.addEventListener("change", getOptions);
+		
+		//gets initial options
+		getOptions();
+		
+		
+	
+    </script>
+</body>
+</html>

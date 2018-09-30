@@ -385,7 +385,7 @@
 		output += '<list> ';
 		for (var i = 0; i < response.directoryArray.length; i++)  {
 			var directoryPath =  response.directoryArray[i]; 					
-			output += '<ul> <a id = "' + directoryPath + '" /> ' + directoryPath + ' </a> </ul> \n';		
+			output += '<ul> <a href="#" id = "' + directoryPath + '" /> ' + directoryPath + ' </a> </ul> \n';		
 		}
 		output += "</list> </div>";
 		//output the folders
