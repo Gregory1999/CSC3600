@@ -10,6 +10,7 @@
 		<script src="js/jquery.min.js"></script>
   		<script src="js/bootstrap.min.js"></script>
 		<script src="js/site.js"></script>
+		<script src="scripts/advanced_fields.php"></script>
 	</head>
 	<body>
 		<header>
@@ -93,10 +94,10 @@
 						</fieldset>
 						<fieldset>
 						<legend class="lHeader">Camera Data</legend>
-							<label for="cameraMaker">Camera Maker:</label>
-							<input type="text" class="form-control" id="cameraMaker">
-							<label for="cameraModel">Camera Model:</label>
-							<input type="text" class="form-control" id="cameraModel">
+							<label for="sel1">Camera Maker:</label>
+							<select name="camera_maker" class="form-control" id="cameraMaker"></select>
+							<label for="sel1">Camera Model:</label>
+							<select name="camera_model" class="form-control" id="cameraModel"></select>
 						</fieldset>
 						<fieldset>
 						<legend class="lHeader">Advance Data</legend>
@@ -113,7 +114,25 @@
 				</div>	
 			</div>	
 		</div>
-			<script>
-				var photos= document.getElementById('photos');
+			<script type="text/javascript">
+				
+				var maker = document.getElementById('camera_maker');	
+				var model = document.getElementById('camera_model');
+				var type = document.getElementById('photo_type');
+				var initial_load = true;
+				
+				//sets up placeholders
+				newOption(maker, "", "Select a Camera Maker");
+				newOption(model, "", "Select a Camera Model");
+				newOption(type, "", "Select a Photo Type");
+				
+				
+				camera_maker.addEventListener("change", getOptions);
+				camera_model.addEventListener("change", getOptions);
+				photo_type.addEventListener("change", getOptions);
+				
+				//gets initial options
+				getOptions();
+				
 			</script>
 </html>
