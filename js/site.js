@@ -353,7 +353,7 @@
 		var letters = 'abcdefghijklmnopqrstuvwxyz';
 		//if no drive entered then alert the user
 		if(testDir == ""){
-			alert("You must enter the drive or rootdirectory of the image folder. (eg. 'c')\nTry Again");
+			alert("You must enter the drive or root directory of the image folder. (eg. 'c')\nTry Again");
 		}
 		
 		else if(testDir.length == 1){
@@ -381,7 +381,7 @@
 		var output = '<div id="browsedirectory"> <div><button id = "drive" class="btn btn-primary btn-md" type="button" >Change Library Drive</button></div> <hr> <H3>Current Directory- <strong id="current">' + response.currentDirectory + '</strong> </H3> \n <button id = "selectBtn" type="button" class="btn btn-primary btn-md">Select As Root Folder</button> \n ';
 		
 		if ( response.parentDirectory != response.currentDirectory ){
-			output += '<button class="btn btn-primary btn-md" id = "backBtn" name="' + response.parentDirectory + '" type="button" >Back</button> ';
+			output += '&nbsp;&nbsp;<button class="btn btn-primary btn-md" id = "backBtn" name="' + response.parentDirectory + '" type="button" >Back</button> ';
 		}
 		
 		output += '<list>';
@@ -437,10 +437,7 @@
 		xmlhr1.open("GET", script+'?directory=' + linkId, true);
 		xmlhr1.responseType = "json";
 		xmlhr1.send();
-	}
-	
-	
-	
+	}	
 
 	// this function will display the loading spinner 	
  	function loadSpinner() {

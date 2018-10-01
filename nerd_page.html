@@ -24,12 +24,9 @@
 					<li><a href="index_v0.html">Home</a></li>
 					<li><a href="upload_page.html">Scan Images</a></li>
 					<li><a href="browse_page.html">Browse Images</a></li>   
-					<!-- <li><a href="metadata_page.html">Edit Metadata</a></li>  -->  
 					<li class="active"><a href="nerd_page.html">Nerdy Stuff</a></li>   
-					<li><a href="advanced_page.html">Advanced Search</a></li> 
-					<!-- <li><a id="deleteDB" href="" >Select Library Folder</a></li> -->					
+					<li><a href="advanced_page.html">Advanced Search</a></li> 					
 				</ul>
-				<!-- <form class="navbar-form navbar-right" action="/action_page.php"> -->
 	    <div class="search">
 	    	<input id="simple_search_input" class="userInput" type="text" placeholder="Search.." name="search">
       		<button id= "simple_search_btn"type="button" class="btn btn-default btn-sm"> Search</button>
@@ -39,26 +36,14 @@
 		</nav>
 		<div class="container">
 			<div class="well"> <!-- Place to put information for each page -->
-				<h2>Welcome</h2>
-				<p>Site instructions go here</p>
-<!-- 			<div class="">
-				<div id="puthere" class="left">
-				</div>
-				<div class="right">	
-				</div> -->
-<!-- 				<div class="container"> -->						
-				<button id ="deleteDB" type="button">Delete DB</button>
-				<!-- <div id="folder_list" > --> <!-- Used to load the folder list in from the script -->
-					<!-- <button id = "browse" type="button">Select Photo Library</button> -->
-				<!-- </div> -->
-<!-- 				</div> -->
-<!-- 				</div>	 -->				
+				<h2>Nerdy Stuff</h2>
+				<p>This page will allow you to delete the current database and also view database stats.</p>
+				<hr>				
+				<button id ="deleteDB" type="button">Delete DB</button>			
 			</div>			
 		</div>	
 			<div class="container"> <!-- All scripts load into this section -->
 				<div class="jumbotron" id="photos">
-				<h2>Welcome</h2>
-				<p>Site instructions go here</p>
 				</div>
 			</div>
 		<!-- </div> -->
@@ -67,6 +52,14 @@
 			var photos= document.getElementById('photos');
 			var simple_search_btn = document.getElementById('simple_search_btn');
 			var deleteDB = document.getElementById('deleteDB');
+		
+			var input = document.getElementById("simple_search_input");
+			input.addEventListener("keyup", function(event) { //Adding listener so that when a user is typing a term they can press enter and get the search.
+				event.preventDefault();
+				if (event.keyCode === 13) { //13 is enter key
+					document.getElementById("simple_search_btn").click();
+				}
+			});		
 			
 			//calls the search function when the search button is clicked
 			simple_search_btn.addEventListener("click", sendSearch);
