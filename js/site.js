@@ -521,7 +521,17 @@
 				}
 
 				function reset_selectors(){
-					getOptions();
+					maker.innerHTML = '';
+					model.innerHTML = '';
+					var script = "scripts/advanced_fields.php";
+					newOption(maker, "", "Select a Camera Maker");
+					newOption(model, "", "Select a Camera Model");
+					var xhr= new XMLHttpRequest();
+					xhr.addEventListener("load", addOptions);
+					
+					xhr.open("GET", script + '?camera_model=&photo_type=&camera_maker=');
+					xhr.responseType = "json";
+					xhr.send();
 				}
 
 	// this function will display the loading spinner 	

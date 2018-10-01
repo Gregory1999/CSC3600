@@ -99,7 +99,7 @@
 							<label for="sel1">Camera Model:</label>
 							<select name="camera_model" class="form-control" id="cameraModel"></select>
 							<br>
-							<button onclick="reset_selectors" class="btn btn-primary btn-md"> Reset Dropdowns </button>
+							<button onclick="reset_selectors()" class="btn btn-primary btn-md"> Reset Dropdowns </button>
 						</fieldset>
 						<fieldset>
 						<legend class="lHeader">Advanced Data</legend>
@@ -120,7 +120,6 @@
 				var maker = document.getElementById('cameraMaker');	
 				var model = document.getElementById('cameraModel');
 				//var type = document.getElementById('photo_type');
-				var initial_load = true;
 				
 				//sets up placeholders
 				newOption(maker, "", "Select a Camera Maker");
