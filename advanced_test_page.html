@@ -8,8 +8,6 @@
     <form>
         <p><select name="camera_model" id="camera_model" ></select></p>
 		
-        <p><select name="photo_type" id="photo_type"></select> </p>
-		
         <p><select name="camera_maker" id="camera_maker"></select> </p>
 		
 		<p> <button onclick="reset_selectors"> Reset Dropdowns </button> </p>
@@ -19,7 +17,7 @@
     <script type="text/javascript">
 		
 		var model = document.getElementById('camera_model');
-		var type = document.getElementById('photo_type');
+		//var type = document.getElementById('photo_type');
 		var maker = document.getElementById('camera_maker');
 		
 		
@@ -51,12 +49,12 @@
 			}
 			//remove previous child options 
 			deleteOptions(model);
-			deleteOptions(type);
+			//deleteOptions(type);
 			deleteOptions(maker);
 
 			//add new options
 			var modelArray = this.response.camera_model;
-			var typeArray = this.response.photo_type;
+			//var typeArray = this.response.photo_type;
 			var makerArray = this.response.camera_maker;
 			//get the valid models
 			if (modelArray.length != 0){
@@ -69,7 +67,7 @@
 				}
 			}
 			//get the valid types
-			if (typeArray.length != 0){
+			/*if (typeArray.length != 0){
 				for (var key in typeArray){
 					newOption(type, typeArray[key], typeArray[key]);
 				}
@@ -77,7 +75,7 @@
 				if (type.childElementCount == 2){
 					type.removeChild(type.firstChild);
 				}
-			}
+			}*/
 			//get the valid makers
 			if (makerArray.length != 0){
 				for (var key in makerArray){
@@ -92,14 +90,14 @@
 		//this function sets up the XHR and sends the GET data to the php script
 		function getOptions(){
 			var script = "scripts/advanced_fields.php";
-			var photo_type = type.value;
+			//var photo_type = type.value;
 			var camera_maker= maker.value;
 			var camera_model = model.value;
 			
 			var xhr= new XMLHttpRequest();
 			xhr.addEventListener("load", addOptions);
 			
-			xhr.open("GET", script + '?camera_model=' + camera_model + '&photo_type=' + photo_type + '&camera_maker='  + camera_maker);
+			xhr.open("GET", script + '?camera_model=' + camera_model + '&camera_maker='  + camera_maker);
 			xhr.responseType = "json";
 			xhr.send();
 		}
@@ -111,11 +109,11 @@
 	
 		//sets up placeholders
 		newOption(model,"", "Select a Camera Model");
-		newOption(type, "", "Select a Photo Type");
+		//newOption(type, "", "Select a Photo Type");
 		newOption(maker, "", "Select a Camera Maker");
 
 		camera_model.addEventListener("change", getOptions);
-		photo_type.addEventListener("change", getOptions);
+		//photo_type.addEventListener("change", getOptions);
 		camera_maker.addEventListener("change", getOptions);
 		
 		//gets initial options

@@ -464,14 +464,14 @@
 						return;
 					}
 					//remove previous child options 
+					deleteOptions(maker);
 					deleteOptions(model);
 					//deleteOptions(type);
-					deleteOptions(maker);
 
 					//add new options
-					var modelArray = this.response.camera_model;
-					var typeArray = this.response.photo_type;
 					var makerArray = this.response.camera_maker;
+					var modelArray = this.response.camera_model;
+					//var typeArray = this.response.photo_type;
 					//get the valid models
 					if (modelArray.length != 0){
 						for (var key in modelArray){
@@ -509,7 +509,7 @@
 				function getOptions(){
 					var script = "scripts/advanced_fields.php";
 					//var photo_type = type.value;
-					var camera_maker= maker.value;
+					var camera_maker = maker.value;
 					var camera_model = model.value;
 					
 					var xhr= new XMLHttpRequest();
@@ -519,8 +519,7 @@
 					xhr.responseType = "json";
 					xhr.send();
 				}
-				
-				//called when reset button selected- resets all fields
+
 				function reset_selectors(){
 					getOptions();
 				}

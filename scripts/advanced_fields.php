@@ -6,7 +6,7 @@
 $db = new SQLite3('../site.db');
 
 //array of fields camera_maker 
-$fields_array=array("camera_model"=>"" , "photo_type"=>"" , "camera_maker"=>"");
+$fields_array=array("camera_model"=>"" , "camera_maker"=>"");
 $json="{";
 
 
