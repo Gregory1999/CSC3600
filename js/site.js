@@ -111,7 +111,7 @@
 				var response = this.response;
 				//should be a better way to get the path- this is just temporary, so that I can build the back-end
 				//var output = '<div><label>Full Directory Path: <input type="text" id = "root" value= "Test_Images" name="root_path" required="required" size="40"/></label> <button id = "root_button" type="button" >Load Root Directory </button></div>';				
-				var output = '<div id="folder_list" > <label for="rootDirectory" id="lblrootDirectory">Enter Drive or root directory</label><input id="rootDirectory" class="userInput" type="text"> <button id = "browse" type="button" class="btn btn-primary btn-md" >Select Photo Library Drive</button> </div>'
+				var output = '<div id="folder_list" > <label for="rootDirectory" id="lblrootDirectory">Enter Drive or root directory &nbsp;</label><input id="rootDirectory" class="userInput" type="text"> <button id = "browse" type="button" class="btn btn-primary btn-md" >Select Photo Library Drive</button> </div>'
 				photos.innerHTML= output;
 				// when button is pressed, send the directory
 				
@@ -206,10 +206,12 @@
 		if (this.readyState == 4 && this.status == 200) {
 			var script1 = "scripts/full_Image.php";
 			var response = this.response;
-			var output = '<img src = "' + script1 + '?path=' + response['photo_path'] + '" class = "img-fluid" id = "' + response['photo_path'] + '" /> <div id = "metadata"></div> <button id = "home_button" class="btn btn-primary btn-md" type="button" >Show all Photos </button>' 
+			var output = '<button id = "home_button" class="btn btn-primary btn-md" type="button">Show all Photos</button> <br><br><img src = "' + script1 + '?path=' + response['photo_path'] + '" class = "img-fluid" id = "' + response['photo_path'] + '" /> <div id = "metadata"></div><button id = "home_button1" class="btn btn-primary btn-md" type="button" >Show all Photos </button>' 
 			photos.innerHTML= output;
 			var home = document.getElementById('home_button');
-			home.addEventListener("click", allPhotos);	
+			home.addEventListener("click", allPhotos);
+			var home = document.getElementById('home_button1');
+			home.addEventListener("click", allPhotos);				
 			var metadata = document.getElementById('metadata');
 				
 			//outputs JSON object (metadata) currently only displays limited data
@@ -351,7 +353,7 @@
 		var letters = 'abcdefghijklmnopqrstuvwxyz';
 		//if no drive entered then alert the user
 		if(testDir == ""){
-			alert("You must enter the drive or rootdirectory of the image folder.\nTry Again");
+			alert("You must enter the drive or rootdirectory of the image folder. (eg. 'c')\nTry Again");
 		}
 		
 		else if(testDir.length == 1){
@@ -361,7 +363,7 @@
 			if(index >= 0){
 				testDir += ':';				
 			}else{
-				alert("You need to enter a letter for the drive");				
+				alert("You need to enter a letter for the drive (eg. 'c')");				
 			}
 		}
 		//retrieve and add metadata and then display image
@@ -376,16 +378,16 @@
 	function displayPath() {
 		var script = "scripts/browse.php";
 		var response = this.response;
-		var output = '<div id="browsedirectory"> <div><button id = "drive" class="btn btn-primary btn-md" type="button" >Change Library Drive</button> </div> <H3>Current Directory- <strong id="current">' + response.currentDirectory + '</strong> </H3> \n <button id = "selectBtn" type="button" class="btn btn-primary btn-md">Select As Root Folder</button> \n ';
+		var output = '<div id="browsedirectory"> <div><button id = "drive" class="btn btn-primary btn-md" type="button" >Change Library Drive</button></div> <hr> <H3>Current Directory- <strong id="current">' + response.currentDirectory + '</strong> </H3> \n <button id = "selectBtn" type="button" class="btn btn-primary btn-md">Select As Root Folder</button> \n ';
 		
 		if ( response.parentDirectory != response.currentDirectory ){
 			output += '<button class="btn btn-primary btn-md" id = "backBtn" name="' + response.parentDirectory + '" type="button" >Back</button> ';
 		}
 		
-		output += '<list> ';
+		output += '<list>';
 		for (var i = 0; i < response.directoryArray.length; i++)  {
 			var directoryPath =  response.directoryArray[i]; 					
-			output += '<ul> <a href="#" id = "' + directoryPath + '" /> ' + directoryPath + ' </a> </ul> \n';		
+			output += '<ul> &#8627; <a href="#" id = "' + directoryPath + '" /> ' + directoryPath + ' </a> </ul> \n';		
 		}
 		output += "</list> </div>";
 		//output the folders
@@ -410,7 +412,7 @@
 		}
 	}
 	
-	//this function will return the list of directories from the parrent folder of the current directory
+	//this function will return the list of directories from the parent folder of the current directory
 	//this function is called when the back button is pressed
 	function backBtnPress(){
 		var script = "scripts/browse.php";
