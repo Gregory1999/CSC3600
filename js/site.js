@@ -378,9 +378,12 @@
 	function displayPath() {
 		var script = "scripts/browse.php";
 		var response = this.response;
-		var output = '<div id="browsedirectory"> <div><button id = "drive" class="btn btn-primary btn-md" type="button" >Change Library Drive</button></div> <hr> <H3>Current Directory- <strong id="current">' + response.currentDirectory + '</strong> </H3> \n <button id = "selectBtn" type="button" class="btn btn-primary btn-md">Select As Root Folder</button> \n ';
+		var output = '<div id="browsedirectory"> <div><button id = "drive" class="btn btn-primary btn-md" type="button" >Change Library Drive</button></div> <hr> <H3>Current Directory- <strong id="current">' + response.currentDirectory + '</strong> </H3> \n ';
 		
+	
 		if ( response.parentDirectory != response.currentDirectory ){
+			// dont let user select drive as root
+			output += '<button id = "selectBtn" type="button" class="btn btn-primary btn-md">Select As Root Folder</button> \n ';
 			output += '&nbsp;&nbsp;<button class="btn btn-primary btn-md" id = "backBtn" name="' + response.parentDirectory + '" type="button" >Back</button> ';
 		}
 		
@@ -393,11 +396,12 @@
 		//output the folders
 		folder_list.innerHTML= output;
 		
-		var selectBtn = document.getElementById('drive');
-		selectBtn.addEventListener("click", loadDirectory);
-		
-		var selectBtn = document.getElementById('selectBtn');
-		selectBtn.addEventListener("click", sendRoot);
+		var driveSelectBtn = document.getElementById('drive');
+		driveSelectBtn.addEventListener("click", loadDirectory);
+		if ( response.parentDirectory != response.currentDirectory ){
+			var selectBtn = document.getElementById('selectBtn');
+			selectBtn.addEventListener("click", sendRoot);
+		}
 		
 		if ( response.parentDirectory != response.currentDirectory ){
 			var backBtn = document.getElementById('backBtn');
