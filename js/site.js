@@ -133,7 +133,11 @@
 	function loadPhotos() {
 		if ((this.readyState == 4) && (this.status == 200)) {
 			var response = this.response;
-
+			
+			//If there are no results on a search Message: Try Again
+			if(response.imageArray.length < 1){
+				alert("There were no search results. Try Again!");
+			}
 			//if the root directory has not been loaded then call function to load directory
 			if (response.root == 'NULL') {			
 					loadDirectory();					
