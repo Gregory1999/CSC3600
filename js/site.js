@@ -393,6 +393,10 @@
 		//output the folders
 		folder_list.innerHTML= output;
 		
+		if(response.currentDirectory.length <=2){
+			document.getElementById("selectBtn").style.display = "none";
+		}
+		
 		var selectBtn = document.getElementById('drive');
 		selectBtn.addEventListener("click", loadDirectory);
 		
