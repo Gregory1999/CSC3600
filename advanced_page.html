@@ -30,16 +30,12 @@
 					<!-- <li><a id="deleteDB" href="" >Select Library Folder</a></li> -->					
 				</ul>
 				<!-- <form class="navbar-form navbar-right" action="/action_page.php"> -->
-	    <div class="search">
-	    	<input id="simple_search_input" class="userInput" type="text" placeholder="Search.." name="search">
-      		<button id= "simple_search_btn"type="button" class="btn btn-default btn-sm"> Search</button>
-	    </div>
 			</div>
 				<!-- </form> -->
 		</nav>
 		<div class="container">
 			<div class="well"> <!-- Place to put information for each page -->
-				<h2>Advanced Search</h2>
+				<h2>Advanced Search11</h2>
 				<p>Use the fields below to search for photos based on metadata.</p>
 				<div class="">
 					<div id="puthere" class="left">
@@ -118,14 +114,6 @@
 		</div>
 		<script>
 			var photos= document.getElementById('photos');
-
-			var input = document.getElementById("simple_search_input");
-			input.addEventListener("keyup", function(event) { //Adding listener so that when a user is typing a term they can press enter and get the search.
-				event.preventDefault();
-				if (event.keyCode === 13) { //13 is enter key
-					document.getElementById("simple_search_btn").click();
-				}
-				});	
 				
 		</script>
 </html>

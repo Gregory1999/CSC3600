@@ -52,9 +52,10 @@
 			var photos= document.getElementById('photos');
 			var simple_search_btn = document.getElementById('simple_search_btn');
 			var deleteDB = document.getElementById('deleteDB');
-		
 			var input = document.getElementById("simple_search_input");
-			input.addEventListener("keyup", function(event) { //Adding listener so that when a user is typing a term they can press enter and get the search.
+			
+			//function to allow the pressing of enter to map to search button
+			input.addEventListener("keyup", function(event) { 
 				event.preventDefault();
 				if (event.keyCode === 13) { //13 is enter key
 					document.getElementById("simple_search_btn").click();
@@ -63,10 +64,7 @@
 			
 			//calls the search function when the search button is clicked
 			simple_search_btn.addEventListener("click", sendSearch);
-			
-			//uses ajax to load all photos
-			//allPhotos();	
-			
+
 			//resets the database
 			deleteDB.addEventListener("click", deleteDatabase);
 			
