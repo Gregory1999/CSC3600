@@ -24,18 +24,14 @@
 					<li><a href="index_v0.html">Home</a></li>
 					<li><a href="upload_page.html">Scan Images</a></li>
 					<li class="active"><a href="browse_page.html">Browse Images</a></li>   
-					<!-- <li><a href="metadata_page.html">Edit Metadata</a></li>  -->  
 					<li><a href="nerd_page.html">Nerdy Stuff</a></li>   
-					<li><a href="advanced_page.html">Advanced Search</a></li> 
-					<!-- <li><a id="deleteDB" href="" >Select Library Folder</a></li> -->					
+					<li><a href="advanced_page.html">Advanced Search</a></li> 				
 				</ul>
-				<!-- <form class="navbar-form navbar-right" action="/action_page.php"> -->
 	    <div class="search">
 	    	<input id="simple_search_input" class="userInput" type="text" placeholder="Search.." name="search">
       		<button id= "simple_search_btn"type="button" class="btn btn-default btn-sm"> Search</button>
 	    </div>
 			</div>
-				<!-- </form> -->
 		</nav>
 		<div class="container">
 			<div class="well"> <!-- Place to put information for each page -->
@@ -61,7 +57,15 @@
 		<script>
 			var photos= document.getElementById('photos');
 			var simple_search_btn = document.getElementById('simple_search_btn');
+			var input = document.getElementById("simple_search_input");
 			
+			//function to allow the pressing of enter to map to search button
+			input.addEventListener("keyup", function(event) { 
+				event.preventDefault();
+				if (event.keyCode === 13) { //13 is enter key
+					document.getElementById("simple_search_btn").click();
+				}
+			});				
 			//calls the search function when the search button is clicked
 			simple_search_btn.addEventListener("click", sendSearch);
 			

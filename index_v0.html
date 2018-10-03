@@ -24,18 +24,14 @@
 					<li class="active"><a href="index_v0.html">Home</a></li>
 					<li><a href="upload_page.html">Scan Images</a></li>
 					<li><a href="browse_page.html">Browse Images</a></li>   
-					<!-- <li><a href="metadata_page.html">Edit Metadata</a></li>  -->  
 					<li><a href="nerd_page.html">Nerdy Stuff</a></li>   
-					<li><a href="advanced_page.html">Advanced Search</a></li> 
-					<!-- <li><a id="deleteDB" href="" >Select Library Folder</a></li> -->					
+					<li><a href="advanced_page.html">Advanced Search</a></li> 					
 				</ul>
-				<!-- <form class="navbar-form navbar-right" action="/action_page.php"> -->
 	    <div class="search">
 	    	<input id="simple_search_input" class="userInput" type="text" placeholder="Search.." name="search">
       		<button id= "simple_search_btn"type="button" class="btn btn-default btn-sm"> Search</button>
 	    </div>
 			</div>
-				<!-- </form> -->
 		</nav>
 		<div class="container">
 			<div class="well"> <!-- Place to put information for each page -->
@@ -50,19 +46,7 @@
 				<h3><a href="nerd_page.html">Nerdy Stuff</a></h3>
 				<p>Use this page to view database stats and other site specific information. Also you can delete the current database if you run into errors.</p>
 				<h3><a href="advanced_page.html">Advanced Search</a></h3>
-				<p>Use this page to perform an advanced metadata search on the current library of images in the database.</p>			
-<!-- 			<div class="">
-				<div id="puthere" class="left">
-				</div>
-				<div class="right">	
-				</div> -->
-<!-- 				<div class="container"> -->						
-				<!-- <button id ="deleteDB" type="button">Delete DB</button> -->
-				<!-- <div id="folder_list" > --> <!-- Used to load the folder list in from the script -->
-					<!-- <button id = "browse" type="button">Select Photo Library</button> -->
-				<!-- </div> -->
-<!-- 				</div> -->
-<!-- 				</div>	 -->				
+				<p>Use this page to perform an advanced metadata search on the current library of images in the database.</p>						
 			</div>			
 		</div>	
 			<div class="container"> <!-- All scripts load into this section -->
@@ -86,13 +70,6 @@
 			
 			//calls the search function when the search button is clicked
 			simple_search_btn.addEventListener("click", sendSearch);
-			
-			//uses ajax to load all photos
-			//allPhotos();	
-			
-			//resets the database
-			//deleteDB.addEventListener("click", deleteDatabase);
-			
 		</script>	
 	</body>
 </html>

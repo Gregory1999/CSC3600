@@ -24,10 +24,8 @@
 					<li><a href="index_v0.html">Home</a></li>
 					<li class="active"><a href="upload_page.html">Scan Images</a></li>
 					<li><a href="browse_page.html">Browse Images</a></li>   
-					<!-- <li><a href="metadata_page.html">Edit Metadata</a></li>  -->  
 					<li><a href="nerd_page.html">Nerdy Stuff</a></li>   
-					<li><a href="advanced_page.html">Advanced Search</a></li> 
-					<!-- <li><a id="deleteDB" href="" >Select Library Folder</a></li> -->					
+					<li><a href="advanced_page.html">Advanced Search</a></li> 				
 				</ul>
 				<!-- <form class="navbar-form navbar-right" action="/action_page.php"> -->
 	    <div class="search">
@@ -35,38 +33,32 @@
       		<button id= "simple_search_btn"type="button" class="btn btn-default btn-sm"> Search</button>
 	    </div>
 			</div>
-				<!-- </form> -->
 		</nav>
 		<div class="container">
 			<div class="well"> <!-- Place to put information for each page -->
 				<h2>Image Library</h2>
-				<p>Select the directory you wish to scan images from, and select loaded images to add metadata to them.</p>
-<!-- 			<div class="">
-				<div id="puthere" class="left">
-				</div>
-				<div class="right">	
-				</div> -->
-<!-- 				<div class="container"> -->
-				
-				
-<!-- 				</div> -->
-<!-- 				</div>	 -->				
+				<p>Select the directory you wish to scan images from, and select loaded images to add metadata to them.</p>			
 			</div>			
 		</div>	
 			<div class="container"> <!-- All scripts load into this section -->
 				<div class="jumbotron" id="photos">
 				</div>
 			</div>
-		<!-- </div> -->
 		<script>
 			var photos= document.getElementById('photos');
 			var simple_search_btn = document.getElementById('simple_search_btn');
+			var input = document.getElementById("simple_search_input");
 			
+			//function to allow the pressing of enter to map to search button
+			input.addEventListener("keyup", function(event) { 
+				event.preventDefault();
+				if (event.keyCode === 13) { //13 is enter key
+					document.getElementById("simple_search_btn").click();
+				}
+			});				
 			//calls the search function when the search button is clicked
 			simple_search_btn.addEventListener("click", sendSearch);
 			
-			//loadDirectory();
-			//uses ajax to load all photos
 			allPhotos();				
 		</script>	
 	</body>

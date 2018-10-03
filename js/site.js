@@ -2,7 +2,7 @@
 	//used to sort photos from oldest to newest
 	function sortOldFirst() {
 		var xmlhr1 = new XMLHttpRequest();
-		var script= "get_images.php?reverse=true";
+		var script= "scripts/get_images.php?reverse=true";
 		xmlhr1.addEventListener("load", loadPhotos);	
 		loadSpinner(); 
 		xmlhr1.open("GET", script, true);
@@ -104,7 +104,7 @@
 	// It retrieves the root directory from the user
 	function loadDirectory() {
 		var xmlhr1 = new XMLHttpRequest();
-		var script= "get_images.php";
+		var script= "scripts/get_images.php";
 		xmlhr1.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
 				var xmlhr1 = new XMLHttpRequest();
@@ -328,7 +328,7 @@
 	//used to display all photos in the root directory
 	function allPhotos() {
 		var xmlhr1 = new XMLHttpRequest();
-		var script= "get_images.php";
+		var script= "scripts/get_images.php";
 		xmlhr1.addEventListener("load", loadPhotos);	
 		loadSpinner(); 
 		xmlhr1.open("GET", script, true);
@@ -342,7 +342,7 @@
 		//var root =  document.getElementById('root').value;
 		var root = document.getElementById("current");
 		root = root.innerHTML;		
-		var script= "get_images.php";
+		var script= "scripts/get_images.php";
 		
 		xmlhr1.addEventListener("load", loadPhotos);	
     	xmlhr1.open("GET",script+'?root='+ root);
