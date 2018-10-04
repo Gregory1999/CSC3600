@@ -448,6 +448,101 @@
 		xmlhr1.send();
 	}	
 
+	function deleteOptions(selectElement){
+			var firstOption = selectElement.firstChild;
+			if( firstOption ) {
+				var nextOption = firstOption.nextSibling;
+				if( nextOption ) {
+					selectElement.removeChild(nextOption);
+					deleteOptions(selectElement);
+				}
+			}
+		}
+				
+
+		//this function adds options to a select statement
+		function newOption(selectElement, value, textValue) { 
+			var newOption=document.createElement("option");
+			var textNode=document.createTextNode(textValue);
+			newOption.setAttribute("value",value);
+			newOption.appendChild(textNode);
+			selectElement.appendChild(newOption);
+		}
+		
+		//this is an XHR callback function that will retreive the valid options and then calls newOption() to add the options into the select statement
+		function addOptions(){
+			if( this.status != 200 ) {
+				return;
+			}
+			//remove previous child options 
+			deleteOptions(maker);
+			deleteOptions(model);
+			//deleteOptions(type);
+				//add new options
+			var makerArray = this.response.camera_maker;
+			var modelArray = this.response.camera_model;
+			//var typeArray = this.response.photo_type;
+			//get the valid models
+			if (modelArray.length != 0){
+				for (var key in modelArray){
+					newOption(model, modelArray[key], modelArray[key]);
+				}
+				//if only two child options then delete the placeholder
+				if (model.childElementCount == 2){
+					model.removeChild(model.firstChild);
+				}
+			}
+			/*
+			//get the valid types
+			if (typeArray.length != 0){
+				for (var key in typeArray){
+					newOption(type, typeArray[key], typeArray[key]);
+				}
+				//if only two child options then delete the placeholder
+				if (type.childElementCount == 2){
+					type.removeChild(type.firstChild);
+				}
+			}
+			*/
+			//get the valid makers
+			if (makerArray.length != 0){
+				for (var key in makerArray){
+					newOption(maker, makerArray[key], makerArray[key]);
+				}
+				//if only two child options then delete the placeholder
+				if (maker.childElementCount == 2){
+					maker.removeChild(maker.firstChild);
+				}
+			}
+		}
+		//this function sets up the XHR and sends the GET data to the php script
+		function getOptions(){
+			var script = "scripts/advanced_fields.php";
+			//var photo_type = type.value;
+			var camera_maker = maker.value;
+			var camera_model = model.value;
+			
+			var xhr= new XMLHttpRequest();
+			xhr.addEventListener("load", addOptions);
+			
+			xhr.open("GET", script + '?camera_model=' + camera_model + '&photo_type=&camera_maker='  + camera_maker);
+			xhr.responseType = "json";
+			xhr.send();
+		}
+			function reset_selectors(){
+			maker.innerHTML = '';
+			model.innerHTML = '';
+			var script = "scripts/advanced_fields.php";
+			newOption(maker, "", "Select a Camera Maker");
+			newOption(model, "", "Select a Camera Model");
+			var xhr= new XMLHttpRequest();
+			xhr.addEventListener("load", addOptions);
+			
+			xhr.open("GET", script + '?camera_model=&photo_type=&camera_maker=');
+			xhr.responseType = "json";
+			xhr.send();
+		}
+
 	// this function will display the loading spinner 	
  	function loadSpinner() {
  		photos.innerHTML = "<div class='preload'> <div class='loader-frame'> </div></div> ";
