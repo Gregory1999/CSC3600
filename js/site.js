@@ -548,6 +548,8 @@
 			xhr.send();
 		}
 			function reset_selectors(){
+			var maker = document.getElementById('cameraMaker');	
+			var model = document.getElementById('cameraModel');
 			maker.innerHTML = '';
 			model.innerHTML = '';
 			var script = "scripts/advanced_fields.php";
