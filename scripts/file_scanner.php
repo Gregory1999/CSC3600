@@ -13,60 +13,67 @@
 	use lsolesen\pel\PelTag;
 	use lsolesen\pel\PelIfd;
 	use lsolesen\pel\PelEntryAscii;
-
-	$query = "SELECT path, last_scan FROM root_directory";
-	$result= $db->query($query);
-	$row = $result->fetchArray(SQLITE3_ASSOC);
-	$root_path= $row["path"];
-	$last_scan = $row["last_scan"];
-	
 	
 	//mark all entries in the photo_file table to delete- this flag is used to identify if a photo has been deleted	
 	$query="UPDATE photo_file SET deleted= 'TRUE'";
 	$db->query($query);
-	//go to the photo directory
-	chdir($root_path);
 	
-	//create an array of files ending in either jpg or jpeg
-	//$pattern =  realpath($root_path) . "/*.{jpg,jpeg}";
-	$pattern = '*.{jpg,jpeg}';
-	$images= glob_recursive($pattern, GLOB_BRACE);
-	
-	foreach($images as $image)
-	{
-		$imagePath = $root_path . "/" . ltrim($image, "./");
-		//$imagePath = realpath($root_path . "/" . ltrim($image, "./"));
+	//get the root paths
+	$query = "SELECT path, last_scan FROM root_directory";
+	$result_path= $db->query($query);
+	//loop over each directory
+	while($row_path = $result_path->fetchArray(SQLITE3_ASSOC)){
 		
-  		//$imagePath = $root_path . ltrim($image, ".");
-  		//	if modified since last scan then update db data
-  		$modified_date=date("d F Y H:i:s.", filemtime($image));
-  		
-  		//check if a new photo has been added to directory but is not in db
-  		$query = "SELECT COUNT(*) as numRows FROM photo_file WHERE photo_path='$imagePath'";
-  		$result = $db->query($query);
-  		$row = $result->fetchArray(SQLITE3_ASSOC);
-  		$numRows = $row['numRows'];
-  		
-  		//update db if photo modified or not in db add to database
-		if (strtotime($modified_date) > strtotime($last_scan) || $numRows == 0){
+		$root_path= $row_path["path"];
+		$last_scan = $row_path["last_scan"];
+
+		//go to the photo directory
+		chdir($root_path);
+		
+		//create an array of files ending in either jpg or jpeg
+		//$pattern =  realpath($root_path) . "/*.{jpg,jpeg}";
+		$pattern = '*.{jpg,jpeg}';
+		$images= glob_recursive($pattern, GLOB_BRACE);
+		
+		foreach($images as $image)
+		{
+			$imagePath = $root_path . "/" . ltrim($image, "./");
+		
 			
-			//read in metadaa
-			include "metadata_reader.php";  				 	
+			//	if modified since last scan then update db data
+			$modified_date=date("d F Y H:i:s.", filemtime($image));
+			
+			//check if a new photo has been added to directory but is not in db
+			$query = "SELECT COUNT(*) as numRows FROM photo_file WHERE photo_path='$imagePath'";
+			$result = $db->query($query);
+			$row = $result->fetchArray(SQLITE3_ASSOC);
+			$numRows = $row['numRows'];
+			
+			//update db if photo modified or not in db add to database
+			if (strtotime($modified_date) > strtotime($last_scan) || $numRows == 0){
+				
+				//read in metadaa
+				include "metadata_reader.php";  				 	
+			}
+			//mark file as not deleted
+			$query="UPDATE photo_file SET deleted = 'FALSE' WHERE photo_path = '$imagePath'";
+			$db->query($query);	
+			
 		}
-		//mark file as not deleted
-		$query="UPDATE photo_file SET deleted = 'FALSE' WHERE photo_path = '$imagePath'";
-		$db->query($query);	
 		
+		//update last scan time
+		$last_scan = date("d F Y H:i:s.");
+		$query="UPDATE root_directory SET last_scan= '$last_scan' WHERE path= '$root_path'";
+		$db->query($query);	
 	}
-	//remove deleted files from the db
+	
+	
+	//remove deleted files from the db----------------------------------------------------------------------------------------
 	$query="DELETE FROM photo_file WHERE deleted = 'TRUE'";
 	$db->query($query);
 			
 	
-	//update last scan time
-	$last_scan = date("d F Y H:i:s.");
-	$query="UPDATE root_directory SET last_scan= '$last_scan' WHERE path= '$root_path'";
-	$db->query($query);	
+	
 	
 	
 //recursively searches directories to find all files matching the supplied pattern

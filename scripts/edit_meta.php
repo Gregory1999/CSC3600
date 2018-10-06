@@ -20,17 +20,7 @@
 	$image = $_GET['path'];
 	
 	$db = new SQLite3('../site.db');
-	$query = "SELECT path, last_scan FROM root_directory";
-				$result= $db->query($query);
-				$row = $result->fetchArray(SQLITE3_ASSOC);
-	$root_path= $row["path"] . '/';
-	
-	//save cwd
-	$current_dir = getcwd();
-	//cd to root directory
-	chdir($root_path);
-	$image= str_replace($root_path, "" ,$image);
-	
+		
 	//create a new pel object that points to the file
 	$jpeg = new PelJpeg($image);
 	$ifd0 = $jpeg->getExif()->getTiff()->getIfd();
@@ -78,8 +68,7 @@
 	
 	//save data to the image
 	$jpeg->saveFile($image);
-	//change back to original directory before including the get_meta script
-	chdir($current_dir);
+	
 	//return the new metadata
 	include("get_meta.php");
 	

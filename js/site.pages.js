@@ -99,8 +99,16 @@
 					var response = this.response;
 					var numImage = response.image_count;
 					var dbSize = response.db_size;
-					var root_path = response.root_path;
-					var output = "\n<p><label>Root Path: </label> " + root_path + "</p>";
+					var output="";
+					
+					if (response.root_path.length == 0){
+						output += "\n<p><label>Root Path: </label> No Folders Selected</p>";
+					}
+					else{
+						for (var root_path of response.root_path){
+						output += "\n<p><label>Root Path: </label> " + root_path + " </p>";
+						}
+					}
 					output += "\n<p><label>Number of Images in Database: </label> " + numImage + "</p>";
 					output += "\n<p><label>Size of Database:</label> " + dbSize + " bytes</p>";
 					photos.innerHTML= output;
@@ -156,8 +164,12 @@
 				enable_simple_search();
 				//uses ajax to load all photos
 				var photos= document.getElementById('photos');
-				allPhotos();		
+				loadDirectory();
+
+				
 			}
+			
+			
 			//This function will display the advanced search page
 			function advanced_search_page(){
 			navbar.innerHTML= 			'<li><a href="#" onclick="home_page()">Home</a></li>\
