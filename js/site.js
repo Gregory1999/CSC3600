@@ -63,7 +63,7 @@
 			xmlhr1.responseType = "json";			
 
 			//Dynamically back New Search button
-			var addButton= $('<a href="advanced_page.html" class="btn btn-primary btn-md">New Search</a>');
+			var addButton= $('<a href="#" class="btn btn-primary btn-md" onclick="advanced_search_page()">New Search</a>');
 			$("#advancedSearchForm").append(addButton);
 			
 			//loadSpinner();
@@ -103,6 +103,20 @@
 	// This function will be used if the root directory is not set
 	// It retrieves the root directory from the user
 	function loadDirectory() {
+		navbar.innerHTML= '<li><a href="#" onclick="home_page()">Home</a></li>\
+									<li class="active"><a href="#" onclick="scan_page()">Scan Images</a></li>\
+									<li><a href="#"  onclick="browse_page()">Browse Images</a></li>\
+									<li><a href="#" onclick="nerd_page()">Nerdy Stuff</a></li>   \
+									<li><a href="#" onclick="advanced_search_page()">Advanced Search</a></li> ';
+		simple_search.innerHTML=		'<input id="simple_search_input" class="userInput" type="text" placeholder="Search.." name="search">\
+												<button id= "simple_search_btn"type="button" class="btn btn-default btn-sm"> Search</button>';
+		upper_container.innerHTML=		'<div class="well"> \
+													<h2>Image Library</h2>\
+													<p>Select the directory you wish to scan images from, and select loaded images to add metadata to them.</p>\
+												</div>';
+		lower_container.innerHTML=		'<div class="jumbotron" id="photos">\
+												</div>';
+		enable_simple_search();
 		var xmlhr1 = new XMLHttpRequest();
 		var script= "get_images.php";
 		xmlhr1.onreadystatechange = function() {
@@ -110,7 +124,6 @@
 				var xmlhr1 = new XMLHttpRequest();
 				var response = this.response;
 				//should be a better way to get the path- this is just temporary, so that I can build the back-end
-				//var output = '<div><label>Full Directory Path: <input type="text" id = "root" value= "Test_Images" name="root_path" required="required" size="40"/></label> <button id = "root_button" type="button" >Load Root Directory </button></div>';				
 				var output = '<div id="folder_list" > <label for="rootDirectory" id="lblrootDirectory">Enter Drive or root directory &nbsp;</label><input id="rootDirectory" class="userInput" type="text"> <button id = "browse" type="button" class="btn btn-primary btn-md" >Select Photo Library Drive</button> </div>'
 				photos.innerHTML= output;
 				// when button is pressed, send the directory
@@ -464,6 +477,7 @@
 		function newOption(selectElement, value, textValue) { 
 			var newOption=document.createElement("option");
 			var textNode=document.createTextNode(textValue);
+
 			newOption.setAttribute("value",value);
 			newOption.appendChild(textNode);
 			selectElement.appendChild(newOption);
@@ -474,6 +488,8 @@
 			if( this.status != 200 ) {
 				return;
 			}
+			var maker = document.getElementById('cameraMaker');	
+			var model = document.getElementById('cameraModel');
 			//remove previous child options 
 			deleteOptions(maker);
 			deleteOptions(model);
@@ -517,6 +533,8 @@
 		}
 		//this function sets up the XHR and sends the GET data to the php script
 		function getOptions(){
+			var maker = document.getElementById('cameraMaker');	
+			var model = document.getElementById('cameraModel');
 			var script = "scripts/advanced_fields.php";
 			//var photo_type = type.value;
 			var camera_maker = maker.value;
