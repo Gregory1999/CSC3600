@@ -92,6 +92,8 @@
 			var simple_search_txt = document.getElementById('simple_search_input').value;
 			var xmlhr1 = new XMLHttpRequest();
 			var script1 = "scripts/search.php";
+			lower_container.innerHTML= 			'<div class="jumbotron" id="photos">\
+												</div>';
 			xmlhr1.addEventListener("load", loadPhotos);
 
 			xmlhr1.open("GET",script1+'?simple='+ simple_search_txt);

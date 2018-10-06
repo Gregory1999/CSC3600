@@ -35,8 +35,7 @@
 													<p>Use this page to perform an advanced metadata search on the current library of images in the database.</p>\
 												</div>';
 												
-				lower_container.innerHTML=		'<div class="jumbotron" id="photos">\
-												</div>';
+				lower_container.innerHTML=		'';
 				
 				simple_search.innerHTML=		'<input id="simple_search_input" class="userInput" type="text" placeholder="Search.." name="search">\
 												<button id= "simple_search_btn"type="button" class="btn btn-default btn-sm"> Search</button>';
