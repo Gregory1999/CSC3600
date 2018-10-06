@@ -10,7 +10,54 @@
 		xmlhr1.send();
 	}
 	
+	//this function will delete the selected root pathname from the db
+	//it is called from the nerd page and will return the results to the nerd page
+	function delete_folder(root_path){
+		var root = root_path;
+		var script = "scripts/db_stats.php?delete=" + root;
+		
+		//retrieve and db stats and display 
+		var xmlhr1 = new XMLHttpRequest();
+		xmlhr1.addEventListener("load", display_db_stats);
+		xmlhr1.open("GET", script, true);
+		xmlhr1.responseType = "json";
+		loadSpinner();
+		xmlhr1.send();
+	}
 	
+	//This function will retrieve the db stats and then call the function to display the data
+	function get_db_stats(){
+		var script = "scripts/db_stats.php";
+		
+		//retrieve and db stats and display 
+		var xmlhr1 = new XMLHttpRequest();
+		xmlhr1.addEventListener("load", display_db_stats);
+		xmlhr1.open("GET", script, true);
+		xmlhr1.responseType = "json";
+		xmlhr1.send();
+	}
+	
+	
+	
+	//This an XHR call back function that will display the returned db stats
+	function display_db_stats(){
+		var response = this.response;
+		var numImage = response.image_count;
+		var dbSize = response.db_size;
+		var output="";
+		
+		if (response.root_path.length == 0){
+			output += "\n<p><label>Root Path: </label> No Folders Selected</p>";
+		}
+		else{
+			for (var root_path of response.root_path){
+			output += "\n<p><label>Root Path: </label> " + root_path + ' <button id = "' + root_path +'" type="button" onclick=\'delete_folder("' + encodeURI(root_path) +'")\' >Remove</button></p>';
+			}
+		}
+		output += "\n<p><label>Number of Images in Database: </label> " + numImage + "</p>";
+		output += "\n<p><label>Size of Database:</label> " + dbSize + " bytes</p>";
+		photos.innerHTML= output;
+	}
 	
 	
 	//This function is called when the search button is pressed
@@ -125,7 +172,7 @@
 			if (this.readyState == 4 && this.status == 200) {
 				var xmlhr1 = new XMLHttpRequest();
 				var response = this.response;
-				//should be a better way to get the path- this is just temporary, so that I can build the back-end
+				
 				var output = '<div id="folder_list" > <label for="rootDirectory" id="lblrootDirectory">Enter Drive or root directory &nbsp;</label><input id="rootDirectory" class="userInput" type="text"> <button id = "browse" type="button" class="btn btn-primary btn-md" >Select Photo Library Drive</button> </div>'
 				photos.innerHTML= output;
 				// when button is pressed, send the directory
@@ -137,6 +184,7 @@
 		};
 		xmlhr1.open("GET", script, true);
 		xmlhr1.responseType = "json";
+		loadSpinner();
 		xmlhr1.send();
 	}
 	
@@ -249,7 +297,7 @@
 						}
 						//will improve this later- need to add formatting criteria to enforce correct date format.
 						else if (key === 'date_taken'){
-// <<<<<<< HEAD
+
 							//Try get date working on firefox and chrome
 							if(getBrowserName() == "Chrome")
 							{
@@ -279,16 +327,7 @@
 						else{
 							output += "<br><div> <label for='" + key + "'></label>" + key + ": <input type='text' class='form-control' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "'  /> </div> \n";
 							
-/*							
 
-=======
-						output += "<br><div> <label for='" + key + "'></label>" + key + ": <input class='form-control' type='datetime-local' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "' /> </div> \n";
-
-						}
-						else{
-						output += "<br><div> <label for='" + key + "'></label>" + key + ": <input type='text' class='form-control' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "'  /> </div> \n";
->>>>>>> 7e1577717b3302dea404f3d249e68a8665123f4d
-*/
 						}
 					}
 				}

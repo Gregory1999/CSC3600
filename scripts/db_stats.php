@@ -5,8 +5,19 @@
 
 	$json = "{";
 	$root_path_array = array();
-	// scan file system 
 	$db = new SQLite3('../site.db');
+	
+	//if a root folder has been selected to be deleted, remove it form the db and then rescan the db
+	if (isset($_GET['delete'])){
+		$root_path = $_GET['delete'];
+		$query = 'DELETE FROM root_directory WHERE path = "' . $root_path . '"';
+		$db->exec($query);
+		//rescan the images to remove images in deleted folder
+		$current_dir = getcwd ();
+		chdir('../');
+		include "scripts/file_scanner.php";
+		chdir($current_dir);
+	}
 	
 	//Create querry strint that counts number of images in db
 	$query = "SELECT COUNT(*) FROM photo_file";

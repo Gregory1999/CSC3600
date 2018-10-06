@@ -62,6 +62,7 @@
 				simple_search.innerHTML=		'<input id="simple_search_input" class="userInput" type="text" placeholder="Search.." name="search">\
 												<button id= "simple_search_btn"type="button" class="btn btn-default btn-sm"> Search</button>';
 				enable_simple_search();
+				
 				//assign variables to objects on page for ease of editing
 				var photos= document.getElementById('photos');
 				var simple_search_btn = document.getElementById('simple_search_btn');
@@ -82,37 +83,7 @@
 				//resets the database
 				deleteDB.addEventListener("click", deleteDatabase);
 				
-				//This function will retrieve the db stats and then call the function to display the data
-				function get_db_stats(){
-					var script = "scripts/db_stats.php";
-					
-					//retrieve and db stats and display 
-					var xmlhr1 = new XMLHttpRequest();
-					xmlhr1.addEventListener("load", display_db_stats);
-					xmlhr1.open("GET", script, true);
-					xmlhr1.responseType = "json";
-					xmlhr1.send();
-				}
 				
-				//This an XHR call back function that will display the returned db stats
-				function display_db_stats(){
-					var response = this.response;
-					var numImage = response.image_count;
-					var dbSize = response.db_size;
-					var output="";
-					
-					if (response.root_path.length == 0){
-						output += "\n<p><label>Root Path: </label> No Folders Selected</p>";
-					}
-					else{
-						for (var root_path of response.root_path){
-						output += "\n<p><label>Root Path: </label> " + root_path + " </p>";
-						}
-					}
-					output += "\n<p><label>Number of Images in Database: </label> " + numImage + "</p>";
-					output += "\n<p><label>Size of Database:</label> " + dbSize + " bytes</p>";
-					photos.innerHTML= output;
-				}
 				get_db_stats();
 	
 			}
