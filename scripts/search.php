@@ -13,14 +13,10 @@
 
 	
 	$simple_search= $_GET['simple'];
-	
-	//
-	
+
 	//search db for simple search string
 	//add all matches to JSON imageArray
-	
 	$json .= '"imageArray" : [';
-	
 	$query = "SELECT * FROM photo_origin NATURAL JOIN photo_description 
 				WHERE photo_path LIKE '${root_path}%${simple_search}%' 
 				OR title LIKE '%${simple_search}%' 
@@ -28,8 +24,7 @@
 				OR subject LIKE '%${simple_search}%'				
 				OR tags LIKE '%${simple_search}%'
 				ORDER BY date_taken DESC";
-	
-	
+
 	$result= $db->query($query);
 	
 	while( $row = $result->fetchArray(SQLITE3_ASSOC)) {
