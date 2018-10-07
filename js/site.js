@@ -10,13 +10,13 @@
 		xmlhr1.send();
 	}
 	
-	
-	//Testing
+
 	$(document).ready(function(){
 		isScan();
 	});
 	
 	function isScan(){
+		// Check if initial scan has been carried out
 		var xmlhr1 = new XMLHttpRequest();
 		var script= "get_images.php";
 		xmlhr1.addEventListener("load", findRoot);		
