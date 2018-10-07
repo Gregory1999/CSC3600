@@ -39,7 +39,7 @@
 				<h4  class="center"><b>This program was created by Mark IV Tech and for all support related questions please direct them <a href="mailto:support@markivtech.com.au">here</a>.</b></h4>
 				<hr>
 				<h2 class="center">Site Layout</h2>
-				<h3><a href="upload_page.html">Scan Images</a></h3>
+				<h3><a href="upload_page.html" onload="test()" id="scanPage">Scan Images</a></h3>
 				<p>Use this page to select a folder from your computer to scan for photos that can then have their metadata edited.</p>
 				<h3><a href="browse_page.html">Browse Images</a></h3>
 				<p>Use this page to browse through the current images that are stored on the database.</p>
@@ -70,6 +70,7 @@
 			
 			//calls the search function when the search button is clicked
 			simple_search_btn.addEventListener("click", sendSearch);
+
 		</script>	
 	</body>
 </html>
