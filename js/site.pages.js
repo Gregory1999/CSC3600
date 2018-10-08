@@ -40,6 +40,7 @@
 				simple_search.innerHTML=		'<input id="simple_search_input" class="userInput" type="text" placeholder="Search.." name="search">\
 												<button id= "simple_search_btn"type="button" class="btn btn-default btn-sm"> Search</button>';
 				enable_simple_search();
+				isScan();
 	
 			}
 			
