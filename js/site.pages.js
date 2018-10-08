@@ -164,8 +164,10 @@
 													<div class="form-group">\
 													<fieldset>\
 													<legend class="lHeader">File Data</legend>\
-														<label for="created">Date Created:</label>\
-														<input type="text" class="form-control" id="created">\
+														<label for="created">Date Created -From:</label>\
+														<input type="date" class="form-control" id="createdFrom" >\
+														<label for="created">Date Created -To:</label>\
+														<input type="date" class="form-control" id="createdTo" >\
 														<label for="fileName">File Name:</label>\
 														<input type="text" class="form-control" id="fileName">\
 														<label for="photoType">Photo Type (JPG):</label>\
@@ -192,8 +194,10 @@
 													<legend class="lHeader">Origin Data</legend>\
 														<label for="author">Author:</label>\
 														<input type="text" class="form-control" id="author">\
-														<label for="dateTaken">Date Taken:</label>\
-														<input type="text" class="form-control" id="dateTaken">\
+														<label for="dateTakenFrom">Date Taken -From:</label>\
+														<input type="date" class="form-control" id="dateTakenFrom">\
+														<label for="dateTakenTo">Date Taken -To:</label>\
+														<input type="date" class="form-control" id="dateTakenTo">\
 														<label for="copyright">Copyright:</label>\
 														<input type="text" class="form-control" id="copyright">\
 													</fieldset>\

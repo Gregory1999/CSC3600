@@ -68,10 +68,14 @@
 			
 			var advanced_search_txt= [];
 			
-			advanced_search_txt["date_created"] = document.getElementById('created').value;
+			//advanced_search_txt["date_created"] = document.getElementById('created').value;
+			advanced_search_txt["from_date_created"] = document.getElementById('createdFrom').value;
+			advanced_search_txt["to_date_created"] = document.getElementById('createdTo').value;
 			advanced_search_txt["photo_name"] = document.getElementById('fileName').value;
 			advanced_search_txt["photo_type"] = document.getElementById('photoType').value;
-			advanced_search_txt["date_modified"] = document.getElementById('dateModified').value;
+			//advanced_search_txt["date_modified"] = document.getElementById('dateModified').value;
+			//advanced_search_txt["from_date_modified"] = document.getElementById('dateModifiedFrom').value;
+			//advanced_search_txt["to_date_modified"] = document.getElementById('dateModifiedTo').value;
 			advanced_search_txt["size"] = document.getElementById('fileSize').value;
 			advanced_search_txt["title"] = document.getElementById('photoTitle').value;
 			advanced_search_txt["comments"] = document.getElementById('photoComments').value;
@@ -79,7 +83,9 @@
 			advanced_search_txt["rating"] = document.getElementById('photoRating').value;
 			advanced_search_txt["tags"] = document.getElementById('photoTags').value;
 			advanced_search_txt["authors"] = document.getElementById('author').value;
-			advanced_search_txt["date_taken"] = document.getElementById('dateTaken').value;
+			// advanced_search_txt["date_taken"] = document.getElementById('dateTaken').value;
+			advanced_search_txt["from_date_taken"] = document.getElementById('dateTakenFrom').value;
+			advanced_search_txt["to_date_taken"] = document.getElementById('dateTakenTo').value;
 			advanced_search_txt["copyright"] = document.getElementById('copyright').value;
 			advanced_search_txt["width"] = document.getElementById('photoWidth').value;
 			advanced_search_txt["height"] = document.getElementById('photoHeight').value;
