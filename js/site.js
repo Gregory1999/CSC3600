@@ -74,8 +74,8 @@
 			advanced_search_txt["photo_name"] = document.getElementById('fileName').value;
 			advanced_search_txt["photo_type"] = document.getElementById('photoType').value;
 			//advanced_search_txt["date_modified"] = document.getElementById('dateModified').value;
-			//advanced_search_txt["from_date_modified"] = document.getElementById('dateModifiedFrom').value;
-			//advanced_search_txt["to_date_modified"] = document.getElementById('dateModifiedTo').value;
+			advanced_search_txt["from_date_modified"] = document.getElementById('dateModifiedFrom').value;
+			advanced_search_txt["to_date_modified"] = document.getElementById('dateModifiedTo').value;
 			advanced_search_txt["size"] = document.getElementById('fileSize').value;
 			advanced_search_txt["title"] = document.getElementById('photoTitle').value;
 			advanced_search_txt["comments"] = document.getElementById('photoComments').value;

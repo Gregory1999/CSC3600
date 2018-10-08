@@ -13,9 +13,9 @@
 	chdir('../');
 	require_once "file_scanner.php";
 	$value_set_flag = FALSE;
-	$todays_date = date("YYYY/mmm/dd");
-	$default_start_date = "1970/01/01";
-	$date_fields = array("to_date_taken"=>$todays_date, "from_date_taken"=>$default_start_date, "from_date_created"=>$default_start_date, "to_date_created"=>$todays_date, "from_date_modified"=>$default_start_date, "to_date_modified"=>$todays_date);
+	$default_end_date = "2070:01:01";
+	$default_start_date = "1970:01:01";
+	$date_fields = array("to_date_taken"=>$default_end_date, "from_date_taken"=>$default_start_date, "from_date_created"=>$default_start_date, "to_date_created"=>$default_end_date, "from_date_modified"=>$default_start_date, "to_date_modified"=>$default_end_date);
 	$date_fields_set = array("date_taken"=>false, "date_modified"=>false, "date_created"=>false);
 	
 	//Join all talbes and create the querry string
@@ -39,8 +39,10 @@
 	// if a date value was recieved then add to the sqlite querry string
 	foreach($date_fields_set as $key=>$value) {
 		if($value){
-			$to=$date_fields['to_' . $key];
-			$from = $date_fields['from_' . $key];
+			$to= preg_replace("(-)", ":" ,$date_fields['to_' . $key]);
+			//$to= $date_fields['to_' . $key];
+			$from = preg_replace("(-)", ":" ,$date_fields['from_' . $key]);
+			//$from = $date_fields['from_' . $key];
 			$field = $key;
 			$query .= $field .' between "' . $from . '" and "' . $to . '" AND';
 		}
@@ -69,8 +71,8 @@
 	$json = rtrim($json,",") . "]";
 
 	$json .=  "}";
+	
 	//add json header and send the data
-	//echo $query;
  	header("Content_type: text/json");
  	print $json;
 ?>

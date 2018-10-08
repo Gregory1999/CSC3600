@@ -27,6 +27,11 @@
 		}
 	}
 	
+	//$modified_date=date("d F Y H:i:s.", filemtime($image));
+	$modified_date=date("Y:m:d H:i:s", filemtime($image));
+	$file_data["FileDateTime"] =$modified_date;
+	
+	
 	//retrieve exif section data
 	foreach ( $exif_data as $key => $value ){
 		if (!empty($exif["EXIF"]["$key"])) {

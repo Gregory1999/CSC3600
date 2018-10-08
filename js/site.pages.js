@@ -172,8 +172,10 @@
 														<input type="text" class="form-control" id="fileName">\
 														<label for="photoType">Photo Type (JPG):</label>\
 														<input type="text" class="form-control" id="photoType">\
-														<label for="dateModified">Date Modified:</label>\
-														<input type="text" class="form-control" id="dateModified">\
+														<label for="dateModified">Date Modified -From:</label>\
+														<input type="date" class="form-control" id="dateModifiedFrom">\
+														<label for="dateModified">Date Modified -To:</label>\
+														<input type="date" class="form-control" id="dateModifiedTo">\
 														<label for="fileSize">File Size:</label>\
 														<input type="text" class="form-control" id="fileSize">\
 													</fieldset>\

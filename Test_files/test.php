@@ -3,6 +3,7 @@
 <body>
 
 <?php
+	/*
 	//include the pel library
 	set_include_path('scripts/pel-master' . PATH_SEPARATOR . get_include_path());
 	//require_once('PelJpeg.php');
@@ -10,8 +11,8 @@
 	use lsolesen\pel\PelJpeg;
 	use lsolesen\pel\PelTag;
 	use lsolesen\pel\PelIfd;
-	
-	$image = "Test_Images/dog.jpg";
+	*/
+	$image = "../Test_Images/dog.jpg";
     ini_set('display_errors', 1);
     ini_set('exif.encode_unicode', 'UTF-8');  // To see WINXP values
 	
