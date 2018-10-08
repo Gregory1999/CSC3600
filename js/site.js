@@ -10,6 +10,7 @@
 		xmlhr1.send();
 	}
 	
+
 	//this function will delete the selected root pathname from the db
 	//it is called from the nerd page and will return the results to the nerd page
 	function delete_folder(root_path){
@@ -36,8 +37,35 @@
 		xmlhr1.responseType = "json";
 		xmlhr1.send();
 	}
+
+	$(document).ready(function(){
+		isScan();
+	});
+
 	
+	function isScan(){
+		// Check if initial scan has been carried out
+		var xmlhr1 = new XMLHttpRequest();
+		var script= "get_images.php";
+		xmlhr1.addEventListener("load", findRoot);		
+		xmlhr1.open("GET", script, true);
+		xmlhr1.responseType = "json";
+		xmlhr1.send();
+	}
 	
+	function findRoot(){
+		if ((this.readyState == 4) && (this.status == 200)) {
+				var response = this.response;
+				
+				//if the root directory has not been loaded then call function to load directory
+				if (response.root == 'NULL') {					
+					
+					alert("No Root folder selected. You will be redirected to the Scan Images page");
+					scan_page();							
+					
+				}
+		}
+	}
 	
 	//This an XHR call back function that will display the returned db stats
 	function display_db_stats(){
@@ -204,7 +232,7 @@
 			var response = this.response;
 			
 			//if the root directory has not been loaded then call function to load directory
-			if (response.root == 'NULL') {			
+			if (response.root == 'NULL') {				
 					loadDirectory();					
 			}
 			//insert all photos and add event listeners to call function when image is clicked	
@@ -617,28 +645,28 @@
 	
 	//Detecting browser
 	function getBrowserName(){
-var navAgent = navigator.userAgent;
-var browserName;
-if ((versionOffset=navAgent.indexOf("Opera"))!=-1) {
-   browserName = "Opera";  
-}
-else if ((versionOffset=navAgent.indexOf("MSIE"))!=-1) {
-   browserName = "Microsoft Internet Explorer";
-}
-else if ((versionOffset=navAgent.indexOf("Chrome"))!=-1) {
-   browserName = "Chrome";
-}
-else if ((versionOffset=navAgent.indexOf("Safari"))!=-1) {
-   browserName = "Safari";
-}
-else if ((versionOffset=navAgent.indexOf("Firefox"))!=-1) {
-    browserName = "Firefox";
-}
-else if ( (nameOffset=navAgent.lastIndexOf(' ')+1) < (versionOffset=navAgent.lastIndexOf('/')) ) {
-    browserName = navAgent.substring(nameOffset,versionOffset);
-    if (browserName.toLowerCase()==browserName.toUpperCase()) {
-       browserName = navigator.appName;
-    }
-}
-return browserName;
-}
+		var navAgent = navigator.userAgent;
+		var browserName;
+		if ((versionOffset=navAgent.indexOf("Opera"))!=-1) {
+		   browserName = "Opera";  
+		}
+		else if ((versionOffset=navAgent.indexOf("MSIE"))!=-1) {
+		   browserName = "Microsoft Internet Explorer";
+		}
+		else if ((versionOffset=navAgent.indexOf("Chrome"))!=-1) {
+		   browserName = "Chrome";
+		}
+		else if ((versionOffset=navAgent.indexOf("Safari"))!=-1) {
+		   browserName = "Safari";
+		}
+		else if ((versionOffset=navAgent.indexOf("Firefox"))!=-1) {
+			browserName = "Firefox";
+		}
+		else if ( (nameOffset=navAgent.lastIndexOf(' ')+1) < (versionOffset=navAgent.lastIndexOf('/')) ) {
+			browserName = navAgent.substring(nameOffset,versionOffset);
+			if (browserName.toLowerCase()==browserName.toUpperCase()) {
+			   browserName = navigator.appName;
+			}
+		}
+		return browserName;
+	}
