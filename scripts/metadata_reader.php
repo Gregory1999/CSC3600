@@ -30,6 +30,7 @@
 	//$modified_date=date("d F Y H:i:s.", filemtime($image));
 	$modified_date=date("Y:m:d H:i:s", filemtime($image));
 	$file_data["FileDateTime"] =$modified_date;
+	$created_date = date("Y:m:d H:i:s", filectime( $image));
 	
 	
 	//retrieve exif section data
@@ -132,7 +133,8 @@
 	//insert or replace the db 
 	//photo_file table                       <----- might need to move date created
 	//$query="INSERT OR REPLACE INTO photo_file(photo_path, date_created, photo_name, photo_type, date_modified, size) VALUES ( '$imagePath', '" . $exif_data['DateTimeOriginal'] . "', '" . $file_data['FileName'] . "', '" . $file_data['MimeType'] . "', '" . date ("d-m-Y h:m:s", $file_data['FileDateTime']) . "', '" . $file_data['FileSize'] . "' ) ";
-	$query="INSERT OR REPLACE INTO photo_file(photo_path, date_created, photo_name, photo_type, date_modified, size) VALUES ( '$imagePath', '" . $exif_data['DateTimeOriginal'] . "', '" . $file_data['FileName'] . "', '" . $file_data['MimeType'] . "', '" . $file_data['FileDateTime'] . "', '" . $file_data['FileSize'] . "' ) ";
+	//$query="INSERT OR REPLACE INTO photo_file(photo_path, date_created, photo_name, photo_type, date_modified, size) VALUES ( '$imagePath', '" . $exif_data['DateTimeOriginal'] . "', '" . $file_data['FileName'] . "', '" . $file_data['MimeType'] . "', '" . $file_data['FileDateTime'] . "', '" . $file_data['FileSize'] . "' ) ";
+	$query="INSERT OR REPLACE INTO photo_file(photo_path, date_created, photo_name, photo_type, date_modified, size) VALUES ( '$imagePath', '" . $created_date  . "', '" . $file_data['FileName'] . "', '" . $file_data['MimeType'] . "', '" . $file_data['FileDateTime'] . "', '" . $file_data['FileSize'] . "' ) ";
 
 	$db->query($query);
 	//photo_description

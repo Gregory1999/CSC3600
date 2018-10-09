@@ -37,11 +37,11 @@
 		xmlhr1.responseType = "json";
 		xmlhr1.send();
 	}
-
+/*
 	$(document).ready(function(){
 		isScan();
 	});
-
+*/
 	
 	function isScan(){
 		// Check if initial scan has been carried out
