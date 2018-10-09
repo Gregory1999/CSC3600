@@ -44,10 +44,11 @@
 		}
 	}
 	
-	//if date_taken are to be edited
+	//if date_taken is to be edited
 	if (array_key_exists('date_taken', $_GET)) {
 		//$date_taken= DateTime::createFromFormat('Y-m-d H:i:s', strtotime($_GET['date_taken']));
-		$date_taken= strtotime($_GET['date_taken']);
+		$date_taken= strtotime($_GET['date_taken']) +  60*60*2;
+		//echo date("Y:m:d H:i:s", $date_taken);
 		$exif = $ifd0->getSubIfd(PelIfd::EXIF);
 
 		$entry = $exif->getEntry(PelTag::DATE_TIME_ORIGINAL);

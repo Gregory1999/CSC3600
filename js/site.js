@@ -354,7 +354,17 @@
 									}									
 								}																
 							}
-							output += "<br><div> <label for='" + key + "'></label>" + key + ": <input class='form-control' type='datetime-local' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "' /> </div> \n";
+							if(getBrowserName() == "Firefox"){
+								var time_taken = response[key].substr(11, 9);
+								var formatDate = response[key].replace(new RegExp(':', 'g'), "-");
+								var date_taken = formatDate.substr(0,10) ;
+								
+								output += "<br><div> <label for='date_taken'></label> Date Taken: <input class='form-control' type='date' id = 'date_taken' value= '" + date_taken + "' name='" + key + "' /> </div> \n\
+										   <br><div><label for='time_taken'></label>Time Taken: <input class='form-control' type='time' id = 'time_taken' value= '" + time_taken + "' name='" + key + "' /> </div> \n ";
+							}
+							else{
+								output += "<br><div> <label for='" + key + "'></label>" + key + ": <input class='form-control' type='datetime-local' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "' /> </div> \n";
+							}
 						}
 						else{
 							output += "<br><div> <label for='" + key + "'></label>" + key + ": <input type='text' class='form-control' id = '" + key + "' value= '" + response[key]  + "' name='" + key + "'  /> </div> \n";
@@ -390,6 +400,7 @@
 			metaArray["camera_model"] = document.getElementById('camera_model').value;
 			//metaArray["rating"] = document.getElementById('rating').value;
 			//store the image path
+			
 			var imagePath = document.getElementById('photo_path').value;
 			//script that will update metadata in image file 
 			
@@ -398,7 +409,20 @@
 			for (var key in metaArray) {
 				//if value is not empty add it to the querry string
 				if (metaArray[key] != '') {
-					script += '&' + key + '=' + metaArray[key];
+					if(key == 'date_taken' ){
+						var formatedDate = metaArray[key].replace(new RegExp('-', 'g'), ":");
+						if(getBrowserName() == "Firefox"){
+							var time_taken = document.getElementById('time_taken').value;
+							formatedDate += " " + time_taken;
+						}
+						else{
+							formatedDate= formatedDate.replace("T", " ");
+						}
+						script += '&' + key + '=' + formatedDate;
+					}
+					else{
+						script += '&' + key + '=' + metaArray[key];
+					}
 				}
 			}
 			loadSpinner();
