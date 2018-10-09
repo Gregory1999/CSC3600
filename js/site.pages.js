@@ -54,7 +54,7 @@
 													<h2>Nerdy Stuff</h2>\
 													<p>This page will allow you to delete the current database and also view database stats.</p>\
 													<hr>\
-													<button id ="deleteDB" type="button">Delete DB</button>\
+													<button id ="deleteDB" type="button" class="btn btn-primary btn-md">Delete DB</button>\
 												</div>';
 												
 				lower_container.innerHTML=		'<div class="jumbotron" id="photos">\
@@ -90,6 +90,23 @@
 			}
 			
 			//This function will display the browse page
+			function edit_page(){
+				navbar.innerHTML= 				'<li><a href="#" onclick="home_page()">Home</a></li>\
+												<li><a href="#" onclick="scan_page()" >Scan Images</a></li>\
+												<li><a href="#" onclick="browse_page()">Browse Images</a></li>\
+												<li><a href="#" onclick="nerd_page()">Nerdy Stuff</a></li>\
+												<li class="active"><a href="#" >Edit Metadata</a></li>\
+												<li><a href="#" onclick="advanced_search_page()">Advanced Search</a></li> ';
+				upper_container.innerHTML=		'<div class="well"> \
+													<h2>Edit Metadata</h2>\
+													<p>On this page all of editable metadata for the selected image is displayed. Selecting save will store any inputed data into the image</p>\
+												</div>';
+				lower_container.innerHTML=		'<div class="jumbotron" id="photos">\
+												</div>';
+				simple_search.innerHTML= "";
+			}
+			
+			//This function will display the browse page
 			function browse_page(){
 				navbar.innerHTML= '<li><a href="#" onclick="home_page()">Home</a></li>\
 									<li><a href="#" onclick="scan_page()">Scan Images</a></li>\
@@ -100,7 +117,7 @@
 												<button id= "simple_search_btn"type="button" class="btn btn-default btn-sm"> Search</button>';
 				upper_container.innerHTML=		'<div class="well"> \
 													<h2>Browse Library</h2>\
-													<p>On this page all of you photos (.jpg) that are currently in the root folder you have selected appear here.</p>\
+													<p>On this page all of you photos (.jpg) that are currently in the root folder you have selected appear here. Select an image to edit its metadata</p>\
 													<div class="dropdown">\
 														<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sort Images\
 															<span class="caret"></span></button>\

@@ -37,12 +37,10 @@
 		xmlhr1.responseType = "json";
 		xmlhr1.send();
 	}
-/*
-	$(document).ready(function(){
-		isScan();
-	});
-*/
-	
+
+	//used to deturmine if the root directory is loaded
+	//sets up XHR function that will check for root dir, 
+	//if not loaded will prompt user and redirect them to the scan page
 	function isScan(){
 		// Check if initial scan has been carried out
 		var xmlhr1 = new XMLHttpRequest();
@@ -52,7 +50,7 @@
 		xmlhr1.responseType = "json";
 		xmlhr1.send();
 	}
-	
+	//XHR callback funtion that will display an alert and redirect user to scan page if no root selected
 	function findRoot(){
 		if ((this.readyState == 4) && (this.status == 200)) {
 				var response = this.response;
@@ -79,7 +77,7 @@
 		}
 		else{
 			for (var root_path of response.root_path){
-			output += "\n<p><label>Root Path: </label> " + root_path + ' <button id = "' + root_path +'" type="button" onclick=\'delete_folder("' + encodeURI(root_path) +'")\' >Remove</button></p>';
+			output += '\n<p><label>Root Path: </label> ' + root_path + ' <button id ="' + root_path +'" type="button" class="btn btn-primary btn-md" onclick=\'delete_folder("' + encodeURI(root_path) +'")\' >Remove</button></p>';
 			}
 		}
 		output += "\n<p><label>Number of Images in Database: </label> " + numImage + "</p>";
@@ -126,8 +124,7 @@
 			var script1 = 'scripts/adv_search.php?';
 			xmlhr1.addEventListener("load", loadPhotos);
 		
-			var count = 0;
-			
+			var count = 0;	
 			for(var key in advanced_search_txt){
 				if(count > 0)
 					script1 += '&';
@@ -150,7 +147,7 @@
 			//loadSpinner();
 			xmlhr1.send();		
 	}
-	
+	// This function will delete the database and then promopt the user to enter new root directory
 	function deleteDatabase(event) {
 		event.preventDefault(); 
 		var xmlhr1 = new XMLHttpRequest();
@@ -290,6 +287,7 @@
 	function imageClicked() {
 		var script = "scripts/get_meta.php";
 		var imageRelPath = this.id;
+		edit_page();
 		loadSpinner();
 		
 		//retrieve and add metadata and then display image
@@ -311,9 +309,9 @@
 			var output = '<button id = "home_button" class="btn btn-primary btn-md" type="button">Show all Photos</button> <br><br><img src = "' + script1 + '?path=' + response['photo_path'] + '" class = "img-fluid" id = "' + response['photo_path'] + '" /> <div id = "metadata"></div><button id = "home_button1" class="btn btn-primary btn-md" type="button" >Show all Photos </button>' 
 			photos.innerHTML= output;
 			var home = document.getElementById('home_button');
-			home.addEventListener("click", allPhotos);
+			home.addEventListener("click", browse_page);
 			var home = document.getElementById('home_button1');
-			home.addEventListener("click", allPhotos);				
+			home.addEventListener("click", browse_page);				
 			var metadata = document.getElementById('metadata');
 				
 			//outputs JSON object (metadata) currently only displays limited data
@@ -417,7 +415,7 @@
 	function allPhotos() {
 		var xmlhr1 = new XMLHttpRequest();
 		var script= "get_images.php";
-		xmlhr1.addEventListener("load", loadPhotos);	
+		xmlhr1.addEventListener("load", loadPhotos);
 		loadSpinner(); 
 		xmlhr1.open("GET", script, true);
 		xmlhr1.responseType = "json";
@@ -425,6 +423,7 @@
 	}
 	
 	//this function will send the directory root
+	//the return images will then be displayed using loadphotos()
 	function sendRoot() {		
 		var xmlhr1 = new XMLHttpRequest();
 		//var root =  document.getElementById('root').value;
@@ -468,6 +467,7 @@
 	}
 	
 	//this function will display the subfolders as hyper links
+	//used to retrieve the users root directory of the image library
 	function displayPath() {
 		var script = "scripts/browse.php";
 		var response = this.response;
@@ -535,7 +535,8 @@
 		xmlhr1.responseType = "json";
 		xmlhr1.send();
 	}	
-
+	
+	//this function will recursively delete of options in a select statement except for the first option
 	function deleteOptions(selectElement){
 			var firstOption = selectElement.firstChild;
 			if( firstOption ) {
@@ -548,102 +549,94 @@
 		}
 				
 
-		//this function adds options to a select statement
-		function newOption(selectElement, value, textValue) { 
-			var newOption=document.createElement("option");
-			var textNode=document.createTextNode(textValue);
+	//this function adds options to a select statement
+	function newOption(selectElement, value, textValue) { 
+		var newOption=document.createElement("option");
+		var textNode=document.createTextNode(textValue);
 
-			newOption.setAttribute("value",value);
-			newOption.appendChild(textNode);
-			selectElement.appendChild(newOption);
+		newOption.setAttribute("value",value);
+		newOption.appendChild(textNode);
+		selectElement.appendChild(newOption);
+	}
+		
+	//this is an XHR callback function that will retreive the valid options and then calls newOption() to add the options into the select statement
+	function addOptions(){
+		if( this.status != 200 ) {
+			return;
+		}
+		var maker = document.getElementById('cameraMaker');	
+		var model = document.getElementById('cameraModel');
+		//remove previous child options 
+		deleteOptions(maker);
+		deleteOptions(model);
+		//deleteOptions(type);
+			//add new options
+		var makerArray = this.response.camera_maker;
+		var modelArray = this.response.camera_model;
+		//var typeArray = this.response.photo_type;
+		//get the valid models
+		if (modelArray.length != 0){
+			for (var key in modelArray){
+				newOption(model, modelArray[key], modelArray[key]);
+			}
+			//if only two child options then delete the placeholder
+			if (model.childElementCount == 2){
+				model.removeChild(model.firstChild);
+			}
 		}
 		
-		//this is an XHR callback function that will retreive the valid options and then calls newOption() to add the options into the select statement
-		function addOptions(){
-			if( this.status != 200 ) {
-				return;
+		//get the valid makers
+		if (makerArray.length != 0){
+			for (var key in makerArray){
+				newOption(maker, makerArray[key], makerArray[key]);
 			}
-			var maker = document.getElementById('cameraMaker');	
-			var model = document.getElementById('cameraModel');
-			//remove previous child options 
-			deleteOptions(maker);
-			deleteOptions(model);
-			//deleteOptions(type);
-				//add new options
-			var makerArray = this.response.camera_maker;
-			var modelArray = this.response.camera_model;
-			//var typeArray = this.response.photo_type;
-			//get the valid models
-			if (modelArray.length != 0){
-				for (var key in modelArray){
-					newOption(model, modelArray[key], modelArray[key]);
-				}
-				//if only two child options then delete the placeholder
-				if (model.childElementCount == 2){
-					model.removeChild(model.firstChild);
-				}
-			}
-			/*
-			//get the valid types
-			if (typeArray.length != 0){
-				for (var key in typeArray){
-					newOption(type, typeArray[key], typeArray[key]);
-				}
-				//if only two child options then delete the placeholder
-				if (type.childElementCount == 2){
-					type.removeChild(type.firstChild);
-				}
-			}
-			*/
-			//get the valid makers
-			if (makerArray.length != 0){
-				for (var key in makerArray){
-					newOption(maker, makerArray[key], makerArray[key]);
-				}
-				//if only two child options then delete the placeholder
-				if (maker.childElementCount == 2){
-					maker.removeChild(maker.firstChild);
-				}
+			//if only two child options then delete the placeholder
+			if (maker.childElementCount == 2){
+				maker.removeChild(maker.firstChild);
 			}
 		}
-		//this function sets up the XHR and sends the GET data to the php script
-		function getOptions(){
-			var maker = document.getElementById('cameraMaker');	
-			var model = document.getElementById('cameraModel');
-			var script = "scripts/advanced_fields.php";
-			//var photo_type = type.value;
-			var camera_maker = maker.value;
-			var camera_model = model.value;
-			
-			var xhr= new XMLHttpRequest();
-			xhr.addEventListener("load", addOptions);
-			
-			xhr.open("GET", script + '?camera_model=' + camera_model + '&photo_type=&camera_maker='  + camera_maker);
-			xhr.responseType = "json";
-			xhr.send();
-		}
-			function reset_selectors(){
-			var maker = document.getElementById('cameraMaker');	
-			var model = document.getElementById('cameraModel');
-			maker.innerHTML = '';
-			model.innerHTML = '';
-			var script = "scripts/advanced_fields.php";
-			newOption(maker, "", "Select a Camera Maker");
-			newOption(model, "", "Select a Camera Model");
-			var xhr= new XMLHttpRequest();
-			xhr.addEventListener("load", addOptions);
-			
-			xhr.open("GET", script + '?camera_model=&photo_type=&camera_maker=');
-			xhr.responseType = "json";
-			xhr.send();
-		}
+	}
+	
+	//used to dynamically add options to selectors in the search form
+	//this function sets up the XHR and sends the selector GET data to the php script
+	//the XHR function will then populate the returned options in the selectors
+	function getOptions(){
+		var maker = document.getElementById('cameraMaker');	
+		var model = document.getElementById('cameraModel');
+		var script = "scripts/advanced_fields.php";
+		var camera_maker = maker.value;
+		var camera_model = model.value;
+		var xhr= new XMLHttpRequest();
+		xhr.addEventListener("load", addOptions);
+		xhr.open("GET", script + '?camera_model=' + camera_model + '&photo_type=&camera_maker='  + camera_maker);
+		xhr.responseType = "json";
+		xhr.send();
+	}
+	
+	//function is called when reset selector button is pressed
+	//funtion will reset selectors to initial settings
+	function reset_selectors(){
+		var maker = document.getElementById('cameraMaker');	
+		var model = document.getElementById('cameraModel');
+		maker.innerHTML = '';
+		model.innerHTML = '';
+		var script = "scripts/advanced_fields.php";
+		newOption(maker, "", "Select a Camera Maker");
+		newOption(model, "", "Select a Camera Model");
+		var xhr= new XMLHttpRequest();
+		xhr.addEventListener("load", addOptions);
+		
+		xhr.open("GET", script + '?camera_model=&photo_type=&camera_maker=');
+		xhr.responseType = "json";
+		xhr.send();
+	}
 
 	// this function will display the loading spinner 	
  	function loadSpinner() {
  		photos.innerHTML = "<div class='preload'> <div class='loader-frame'> </div></div> ";
  	}
 	
-	//Detecting browser
+	//this function is used to Detect the users browser
 	function getBrowserName(){
 		var navAgent = navigator.userAgent;
 		var browserName;
