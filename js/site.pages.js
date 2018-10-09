@@ -94,8 +94,8 @@
 				navbar.innerHTML= 				'<li><a href="#" onclick="home_page()">Home</a></li>\
 												<li><a href="#" onclick="scan_page()" >Scan Images</a></li>\
 												<li><a href="#" onclick="browse_page()">Browse Images</a></li>\
-												<li><a href="#" onclick="nerd_page()">Nerdy Stuff</a></li>\
 												<li class="active"><a href="#" >Edit Metadata</a></li>\
+												<li><a href="#" onclick="nerd_page()">Nerdy Stuff</a></li>\
 												<li><a href="#" onclick="advanced_search_page()">Advanced Search</a></li> ';
 				upper_container.innerHTML=		'<div class="well"> \
 													<h2>Edit Metadata</h2>\
