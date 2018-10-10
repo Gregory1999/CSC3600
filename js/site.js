@@ -143,7 +143,7 @@
 			//Dynamically back New Search button
 			var addButton= $('<a href="#" class="btn btn-primary btn-md" onclick="advanced_search_page()">New Search</a>');
 			$("#advancedSearchForm").append(addButton);
-			
+			loadSpinner();
 			//loadSpinner();
 			xmlhr1.send();		
 	}

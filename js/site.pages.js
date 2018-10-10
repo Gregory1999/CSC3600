@@ -167,7 +167,7 @@
 										<li><a href="#" onclick="nerd_page()">Nerdy Stuff</a></li>   \
 										<li class="active"><a href="#" onclick="advanced_search_page()">Advanced Search</a></li> ';
 			simple_search.innerHTML= "";
-			lower_container.innerHTML="";
+			lower_container.innerHTML= "";
 			upper_container.innerHTML=	'<div class="well">\
 											<h2>Advanced Search</h2>\
 											<p>Use the fields below to search for photos based on metadata.</p>\
