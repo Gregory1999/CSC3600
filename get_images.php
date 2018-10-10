@@ -29,6 +29,7 @@
 				//insert the root path into the db
 				$query="INSERT OR REPLACE INTO root_directory(path, last_scan) VALUES ( '" . $root_path_supplied . "', '" . $last_scan->format('d-m-Y H:i:s') . "' ) ";
 				$db->query($query);	
+				array_push($root_path_array, $root_path_supplied);
 			}
 
 			//retrieve the root paths from the db

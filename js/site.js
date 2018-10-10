@@ -414,11 +414,12 @@
 						if(getBrowserName() == "Firefox"){
 							var time_taken = document.getElementById('time_taken').value;
 							formatedDate += " " + time_taken;
+							script += '&' + key + '=' + formatedDate;
 						}
 						else{
-							formatedDate= formatedDate.replace("T", " ");
+							script += '&' + key + '=' + metaArray[key];
 						}
-						script += '&' + key + '=' + formatedDate;
+						
 					}
 					else{
 						script += '&' + key + '=' + metaArray[key];
@@ -443,22 +444,6 @@
 		loadSpinner(); 
 		xmlhr1.open("GET", script, true);
 		xmlhr1.responseType = "json";
-		xmlhr1.send();
-	}
-	
-	//this function will send the directory root
-	//the return images will then be displayed using loadphotos()
-	function sendRoot() {		
-		var xmlhr1 = new XMLHttpRequest();
-		//var root =  document.getElementById('root').value;
-		var root = document.getElementById("current");
-		root = root.innerHTML;		
-		var script= "get_images.php";
-		
-		xmlhr1.addEventListener("load", loadPhotos);	
-    	xmlhr1.open("GET",script+'?root='+ root);
-		xmlhr1.responseType = "json";
-		loadSpinner();
 		xmlhr1.send();
 	}
 		
@@ -495,12 +480,14 @@
 	function displayPath() {
 		var script = "scripts/browse.php";
 		var response = this.response;
-		var output = '<div id="browsedirectory"> <div><button id = "drive" class="btn btn-primary btn-md" type="button" >Change Library Drive</button></div> <hr> <H3>Current Directory- <strong id="current">' + response.currentDirectory + '</strong> </H3> \n <button id = "selectBtn" type="button" class="btn btn-primary btn-md">Select As Root Folder</button> \n ';
+		var output = '<div id="browsedirectory"> <div><button id = "drive" class="btn btn-primary btn-md" type="button" >Change Library Drive</button></div> \
+		<H3>Current Directory- <strong id="current">' + response.currentDirectory + '</strong> </H3> \
+		<button id = "selectBtn" type="button" class="btn btn-primary btn-md">Select As Root Folder</button> \n ';
 		
 		if ( response.parentDirectory != response.currentDirectory ){
 			output += '&nbsp;&nbsp;<button class="btn btn-primary btn-md" id = "backBtn" name="' + response.parentDirectory + '" type="button" >Back</button> ';
 		}
-		
+		//adds the directories to the list
 		output += '<list>';
 		for (var i = 0; i < response.directoryArray.length; i++)  {
 			var directoryPath =  response.directoryArray[i]; 					
@@ -509,13 +496,13 @@
 		output += "</list> </div>";
 		//output the folders
 		folder_list.innerHTML= output;
-		
+		//prevents user from selecting a drive
 		if(response.currentDirectory.length <=2){
 			document.getElementById("selectBtn").style.display = "none";
 		}
 		
-		var selectBtn = document.getElementById('drive');
-		selectBtn.addEventListener("click", loadDirectory);
+		var selectDriveBtn = document.getElementById('drive');
+		selectDriveBtn.addEventListener("click", loadDirectory);
 		
 		var selectBtn = document.getElementById('selectBtn');
 		selectBtn.addEventListener("click", sendRoot);
@@ -531,6 +518,36 @@
 			var linkId = document.getElementById(directoryPath);
 			linkId.addEventListener("click", getSubDir);
 		}
+	}
+	
+	//this function will send the directory root
+	//the return images will then be displayed using loadphotos()
+	function sendRoot() {		
+		var xmlhr1 = new XMLHttpRequest();
+		//var root =  document.getElementById('root').value;
+		var root = document.getElementById("current");
+		root = root.innerHTML;		
+		var script= "get_images.php";
+		
+		//xmlhr1.addEventListener("load", loadPhotos);	
+		xmlhr1.addEventListener("load", confirmDirLoad);	
+
+    	xmlhr1.open("GET",script+'?root='+ root);
+		xmlhr1.responseType = "json";
+		loadSpinner();
+		xmlhr1.send();
+	}
+	
+	//
+	function confirmDirLoad(){
+/*
+		lower_container.innerHTML=		'<div class="jumbotron" id="photos">\
+											<h3> Folder Succefully Loaded</h3>\
+											<button onclick="loadDirectory()">Scan Another Folder</button>\
+												</div>';
+*/
+		alert("Folded succefully loaded. Select the browse button to view images");
+		scan_page();
 	}
 	
 	//this function will return the list of directories from the parent folder of the current directory
