@@ -9,7 +9,7 @@
 	
 	use lsolesen\pel\PelTiff;
 	use lsolesen\pel\PelExif;
-	
+	date_default_timezone_set('UTC');
 	ini_set('exif.encode_unicode', 'UTF-8');
 	$exif = exif_read_data($image, 'ANY_TAG', true);	
 	

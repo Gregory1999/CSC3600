@@ -16,7 +16,8 @@
 	use lsolesen\pel\PelIfd;
 	use lsolesen\pel\PelEntryAscii;
 	use lsolesen\pel\PelEntryTime;
-	
+	date_default_timezone_set('UTC');
+
 	$image = $_GET['path'];
 	
 	$db = new SQLite3('../site.db');
@@ -47,7 +48,7 @@
 	//if date_taken is to be edited
 	if (array_key_exists('date_taken', $_GET)) {
 		//$date_taken= DateTime::createFromFormat('Y-m-d H:i:s', strtotime($_GET['date_taken']));
-		$date_taken= strtotime($_GET['date_taken']) +  60*60*2;
+		$date_taken= strtotime($_GET['date_taken'] ) ;
 		//echo date("Y:m:d H:i:s", $date_taken);
 		$exif = $ifd0->getSubIfd(PelIfd::EXIF);
 
