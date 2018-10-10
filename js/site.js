@@ -253,10 +253,10 @@
 					if (previousImageYear != imageYear){
 						//if no year info provided, output 'no data heading'
 						if(imageYear == ""){
-							output += "<div class='col-sm-12' ><h2> No Date Metadata </h2> </div> \n";
+							output += "<div class='col-sm-12' style ='width: 100%'><h2> No Date Metadata </h2> </div> \n";
 						}
 						else{
-							output += "<div class='col-sm-12' ><h2> " + imageYear + " </h2> </div>\n";
+							output += "<div class='col-sm-12' style ='width: 100%' ><h2 > " + imageYear + " </h2> </div>\n";
 						}
 						previousImageYear= imageYear;
 					}
