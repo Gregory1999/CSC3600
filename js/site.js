@@ -412,7 +412,11 @@
 					if(key == 'date_taken' ){
 						var formatedDate = metaArray[key].replace(new RegExp('-', 'g'), ":");
 						if(getBrowserName() == "Firefox"){
-							var time_taken = document.getElementById('time_taken').value;
+							var time_taken = "00:00:00";
+							if (document.getElementById('time_taken').value != ""){
+								time_taken = document.getElementById('time_taken').value;
+							}
+							
 							formatedDate += " " + time_taken;
 							script += '&' + key + '=' + formatedDate;
 						}
@@ -540,12 +544,7 @@
 	
 	//
 	function confirmDirLoad(){
-/*
-		lower_container.innerHTML=		'<div class="jumbotron" id="photos">\
-											<h3> Folder Succefully Loaded</h3>\
-											<button onclick="loadDirectory()">Scan Another Folder</button>\
-												</div>';
-*/
+
 		alert("Folded succefully loaded. Select the browse button to view images");
 		scan_page();
 	}
