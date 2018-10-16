@@ -5,8 +5,10 @@
 
 	$json = "{";
 	$root_path_array = array();
-	include_once "db_setup.php";
-
+	$cwd= getcwd();
+	chdir("../");
+	include_once "scripts/db_setup.php";
+	chdir($cwd);
 	
 	//if a root folder has been selected to be deleted, remove it form the db and then rescan the db
 	if (isset($_GET['delete'])){
