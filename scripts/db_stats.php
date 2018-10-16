@@ -5,7 +5,8 @@
 
 	$json = "{";
 	$root_path_array = array();
-	$db = new SQLite3('../site.db');
+	include_once "db_setup.php";
+
 	
 	//if a root folder has been selected to be deleted, remove it form the db and then rescan the db
 	if (isset($_GET['delete'])){
