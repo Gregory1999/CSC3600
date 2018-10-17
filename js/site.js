@@ -545,7 +545,7 @@
 	//
 	function confirmDirLoad(){
 
-		alert("Folded succefully loaded. Select the browse button to view images");
+		alert("Folded successfully loaded. Select the browse button to view images");
 		scan_page();
 	}
 	
